@@ -18,7 +18,7 @@
             ")
         ?>
     </head>
-    <body>
+    <body id="body">
         <div id="anzahlFlaggen" data-test=1></div>
         <div id="Timer"></div>
         <div id="Spielfeld">

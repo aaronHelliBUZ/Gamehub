@@ -163,15 +163,21 @@ function script(hoehe, breite, anzahlStartBomben){
                     spielfeld[aktuellesElmY][aktuellesElmX] = 0;
                     anzahlFlaggenElm.textContent = `Anzahl Flaggen: ${verfuegbareFlaggen}`;
                 }else{
-                    alert('Game Over: Bombe erwischt');
-                    location.reload();
+                    explodeField();
                 }
             }
             spielzuege++;
             if(spielzuege == ((breite + 1) * (hoehe + 1)) - verfuegbareFlaggen){
                 beenden = true;
-                alert('Gewonnen!');
-                Weiterleiten(timer);
+                //Gewonnen nachricht
+                let winMessage = document.createElement("p");
+    
+                winMessage.innerHTML = "Gewonnen!";
+                winMessage.id = "win"
+                gameField.appendChild(winMessage);
+                setTimeout(function(){
+                    Weiterleiten(timer);
+                },6000);
             }
 
             if(aktuellesElmX == 0){
@@ -267,8 +273,15 @@ function script(hoehe, breite, anzahlStartBomben){
             anzahlFlaggenElm.textContent = `Anzahl Flaggen: ${verfuegbareFlaggen}`;
             if(spielzuege == ((hoehe + 1) * (breite + 1))){
                 beenden = true;
-                alert('Gewonnen!');
-                Weiterleiten(timer);
+                //Gewonnen nachricht
+                let winMessage = document.createElement("p");
+    
+                winMessage.innerHTML = "Gewonnen!";
+                winMessage.id = "win"
+                gameField.appendChild(winMessage);
+                setTimeout(function(){
+                    Weiterleiten(timer);
+                },6000);
             }
         }else if((regexFlagged.test(event.target.className))){
             event.target.classList.remove('flagged');
@@ -297,6 +310,118 @@ function script(hoehe, breite, anzahlStartBomben){
 
         document.body.appendChild(form);
         form.submit();
+    }
+
+    const gameField = document.getElementById('Spielfeld');
+    const body = document.getElementById('body');
+
+    //Für die Explosionsannimation
+    function explodeField(){
+        //Für die Höhe und Breite der Seite
+        let viewportWidth = window.innerWidth;
+        let viewportHeight = window.innerHeight;
+
+        //Für jegliche zufällige Zahlen
+        let ranNum;
+        body.style.backgroundColor = "rgb(253, 238, 154)";
+
+        //Sprengt die Felder
+        for (let x = 0; x < 8; x++){
+            for (let y = 0; y < 10; y++) {
+                let field = document.getElementById(y+"_"+x);
+
+                //Generiert zufällige Koordinaten
+                let randomX = Math.floor(Math.random() * (viewportWidth - field.clientWidth)/2);
+                let randomY = Math.floor(Math.random() * (viewportHeight - field.clientHeight)/2);
+                
+
+                anzahlFlaggenElm.innerHTML = "";
+
+                gameField.style.visibility = "hidden";
+
+                field.style.transitionDuration = "1s";
+                field.style.visibility = "visible";
+                field.innerHTML = "";
+
+                //Enscheidet in welche Richtung das Quadrat geht
+                ranNum = Math.floor(Math.random() * 4)+1;
+                if(ranNum == 1){
+                    field.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                }
+                else if(ranNum == 2) {
+                    field.style.transform = `translate(-${randomX}px, ${randomY}px)`;
+                }
+                else if(ranNum == 3) {
+                    field.style.transform = `translate(${randomX}px, -${randomY}px)`;
+                }
+                else if(ranNum == 4) {
+                    field.style.transform = `translate(-${randomX}px, -${randomY}px)`;
+                }
+
+                field.classList = "explodeFields" ;
+            }
+        }
+
+        //Erstellt die Flammen
+        for (let i = 0; i < 100; i++){
+            let fire = document.createElement("div");
+
+            let randomX = Math.floor(Math.random() * (viewportWidth - fire.clientWidth)/2);
+            let randomY = Math.floor(Math.random() * (viewportHeight - fire.clientHeight)/2);
+
+            fire.style.transitionDuration = "1s";
+            fire.style.visibility = "visible";
+            fire.innerHTML = ""
+            fire.classList = "fire";
+
+            gameField.appendChild(fire);
+            
+            //Enscheidet die Farbe der Flamme
+            ranNum = Math.floor(Math.random() * 3)+1;
+            if (ranNum == 1){
+                fire.style.backgroundColor = "red";
+            }
+            else if (ranNum == 2){
+                fire.style.backgroundColor = "orange";
+            }
+            else if (ranNum == 3){
+                fire.style.backgroundColor = "yellow";
+            }
+
+            setTimeout(function(){
+                //Enscheidet in welche Richtung die Flamme geht
+                ranNum = Math.floor(Math.random() * 4)+1;
+                console.log(ranNum)
+                if(ranNum == 1){
+                    fire.style.transform = `translate(${randomX}px, ${randomY}px)`;
+                }
+                else if(ranNum == 2) {
+                    fire.style.transform = `translate(-${randomX}px, ${randomY}px)`;
+                }
+                else if(ranNum == 3) {
+                    fire.style.transform = `translate(${randomX}px, -${randomY}px)`;
+                }
+                else if(ranNum == 4) {
+                    fire.style.transform = `translate(-${randomX}px, -${randomY}px)`;
+                }
+            },1);
+        }
+        looseMessage();
+    }
+
+    //Erstellt Verloren Nachricht
+    function looseMessage(){
+        let looseMessageElm = document.createElement("div");
+
+        looseMessageElm.innerHTML = "Verloren";
+        looseMessageElm.className = ("looseMessage");
+        looseMessageElm.style.fontSize = "0px";
+
+        gameField.appendChild(looseMessageElm);
+
+        setTimeout(function(){
+            location.reload();
+        },6500);
     }
 
     let timerElm = document.getElementById('Timer');

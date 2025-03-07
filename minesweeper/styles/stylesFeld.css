@@ -70,3 +70,97 @@ p{
 .checked{
     background-color: #e5c29f;
 }
+
+/*Für Quadrate von Explosion*/
+.explodeFields {
+    position: fixed;
+    align-self: center;
+    justify-self: center;
+    width: 2em ;
+    height: 2em;
+    border-radius: 2px;
+    background-color: #adff2f;
+    transition: transform 1s ease;
+}
+
+/*Für feuer Quadrate*/
+.fire {
+    position: fixed;
+    align-self: center;
+    justify-self: center;
+    width: 2em ;
+    height: 2em;
+    border-radius: 2px;
+    transition: transform 1s ease;
+}
+
+/*Message für verloren*/
+.looseMessage {
+    position: fixed;
+    font-family: sans-serif;
+    visibility: visible;
+    align-self: center;
+    justify-self: center;
+    animation-name:LooseMessage;
+    animation-duration: 30s;
+    border-radius: 10%;
+}
+
+/*Animation für die verloren Message*/
+@keyframes LooseMessage {
+    from{font-size: 0%;}
+    8% { background-color: none;}
+    8% {color: black;}
+    15% {font-size: 10em;}
+    25% {background-color: darkred;}
+    25% {color: darkred;}
+    to{font-size: 10000em;}
+    to{background-color: darkred;}
+    to {color: darkred;}
+}
+/*Win Message*/
+#win {
+    position: fixed;
+    align-self: center;
+    margin-left: -60%;
+    font-size: 8em;
+    border-radius: 15px;
+    animation-name: moveWon, changeColor, changeBackground;
+    animation-duration: 10s;
+}
+
+/*Animation Win*/
+@keyframes moveWon {
+    from {margin-left: -60%;}
+    to {margin-left: 90%;}
+}
+
+/*Farbwechseln Win*/
+@keyframes changeColor {
+    from {color: yellow;}
+    10% {color: orange;}
+    20% {color: orangered;}
+    30% {color: red;}
+    40% {color: purple;}
+    50% {color: blueviolet;}
+    60% {color: darkblue;}
+    70% {color: blue;}
+    80% {color: cyan;}
+    90% {color: rgb(2, 187, 187);}
+    to {color: greenyellow;}
+}
+
+/*Farbwechseln Win BG*/
+@keyframes changeBackground {
+    to {background-color: yellow;}
+    90% {background-color: orange;}
+    80% {background-color: orangered;}
+    70% {background-color: red;}
+    60% {background-color: purple;}
+    50% {background-color: blueviolet;}
+    40% {background-color: darkblue;}
+    30% {background-color: blue;}
+    20% {background-color: cyan;}
+    10% {background-color: rgb(2, 187, 187);}
+    from {background-color: greenyellow;}
+}
