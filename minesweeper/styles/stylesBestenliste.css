@@ -1,0 +1,13 @@
+body{
+    background-image: url("../img/wp12297046-minesweeper-wallpapers.jpg");
+}
+
+table{
+    border: 2px solid;
+    font-size: 20px;
+    color: rgb(23, 26, 219);
+}
+
+td{
+    border: 2px solid;
+}

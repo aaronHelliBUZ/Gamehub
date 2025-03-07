@@ -1,0 +1,19 @@
+body{
+    background-image: url("../img/wp12297046-minesweeper-wallpapers.jpg");
+}
+
+div{
+    position: relative;
+    margin: auto;
+    margin-top: 150px;
+    text-align: center;
+}
+
+form{
+    font-size: 50px;
+    color: red;
+}
+
+input{
+    font-size: 50px;
+}
