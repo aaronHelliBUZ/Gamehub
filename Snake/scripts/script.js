@@ -1,19 +1,20 @@
 let richtung = ['A', 'A', 'A'];
+let aktuelleRichtung = 'A';
 let laenge = 3;
 
 document.addEventListener('keydown', function(event){
     if(event.code === 'KeyW' || event.code === 'ArrowUp'){
         console.log('W');
-        richtung.push('W');
+        aktuelleRichtung = 'W';
     }else if(event.code === 'KeyD' || event.code === 'ArrowRight'){
         console.log('D');
-        richtung.push('D');
+        aktuelleRichtung = 'D';
     }else if(event.code === 'KeyS' || event.code === 'ArrowDown'){
         console.log('S');
-        richtung.push('S');
+        aktuelleRichtung = 'S';
     }else if(event.code === 'KeyA' || event.code === 'ArrowLeft'){
         console.log('A');
-        richtung.push('A');
+        aktuelleRichtung = 'A';
     }
 })
 
@@ -74,6 +75,8 @@ function bewegen(){
     let [y, x] = kopfElm.id.split('_')
     x = parseInt(x);
     y = parseInt(y);
+    
+    richtungLaenge = richtung.length;
 
     document.getElementById('Kopf').remove();
 
@@ -83,13 +86,57 @@ function bewegen(){
     schlangeElm.style.width = "100%";
 
     kopfElm.appendChild(schlangeElm);
-    if(x > 0){
-        neuerKopfElm = document.getElementById(`${y}_${x - 1}`);
-    }else{
+
+    if(x == 0 && aktuelleRichtung == 'A' || x == 9 && aktuelleRichtung == 'D' || y == 0 && aktuelleRichtung == 'W' || x == 8 && aktuelleRichtung == 'S'){
         sterben();
+    }else{
+        switch(aktuelleRichtung){
+            case 'W':
+                if(richtung[richtungLaenge - 1] == 'S'){
+                    neuerKopfElm = document.getElementById(`${y + 1}_${x}`);
+                    richtung.push('W');
+                    break;
+                }
+                neuerKopfElm = document.getElementById(`${y - 1}_${x}`);
+                richtung.push('W');
+                console.log(neuerKopfElm);
+                break;
+            case 'S':
+                if(richtung[richtungLaenge - 1] == 'W'){
+                    neuerKopfElm = document.getElementById(`${y - 1}_${x}`);
+                    richtung.push('S');
+                    break;
+                }
+                neuerKopfElm = document.getElementById(`${y + 1}_${x}`);
+                richtung.push('S');
+                console.log(neuerKopfElm);
+                break;
+            case 'A':
+                if(richtung[richtungLaenge - 1] == 'D'){
+                    neuerKopfElm = document.getElementById(`${y}_${x - 1}`);
+                    richtung.push('A');
+                    break;
+                }
+                neuerKopfElm = document.getElementById(`${y + 1}_${x - 1}`);
+                richtung.push('A');
+                console.log(neuerKopfElm);
+                break;
+            case 'D':
+                if(richtung[richtungLaenge - 1] == 'A'){
+                    neuerKopfElm = document.getElementById(`${y}_${x + 1}`);
+                    richtung.push('D');
+                    break;
+                }
+                neuerKopfElm = document.getElementById(`${y}_${x + 1}`);
+                richtung.push('D');
+                console.log(neuerKopfElm);
+                break;
+        }
     }
     if(neuerKopfElm.classList.contains('Apfel')){
         laenge++;
+    }else if(neuerKopfElm.classList.contains('Schlange')){
+        sterben();
     }else{
         schlangeElm = document.createElement('div');
         schlangeElm.id = 'Kopf';
@@ -109,8 +156,6 @@ function bewegen(){
         let [y, x] = schwanzElm.id.split('_')
         x = parseInt(x);
         y = parseInt(y);
-
-        richtungLaenge = richtung.length;
 
         switch(richtung[(richtungLaenge - 1) - (laenge - 1)]){
             case 'W':
@@ -135,7 +180,7 @@ function bewegen(){
     }
 }
 
-//setInterval(bewegen, 1000);
+setInterval(bewegen, 1000);
 
 function sterben(){
     alert('Ded');
