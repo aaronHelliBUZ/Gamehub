@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Sign-in</title>
+      <link rel="stylesheet" href="../Styles/LoginStyles.css" />
+      <script src="../Script/LoginScript.js" defer></script>
+   </head>
+   <body>
+      <main id="main">
+         <section id="content">
+            <nav id="myNav">
+               <a href="../php/login.php">Log-in</a>
+               <a href="../html/signin.html" class="selected">sign-in</a>
+               <a id="home" href="../php/index.php">Home</a>
+            </nav>
+            <section>
+               <img src="../gfx/bg.webp" alt="bg" id="bg" />
+            </section>
+            <section id="form">
+               <p>Sign-in</p>
+               <form action="../php/save.php" method="POST" id="fill">
+                  Vorname: <input type="text" name="vorname" /><br />
+                  Nachname: <input type="text" name="nachname" /><br />
+                  Benutzername: <input type="text" name="benutzername" onfocus="deleteFunction()" /><br />
+                  Passwort: <input type="password" name="passwort" /><br />
+                  <input id="submit" type="submit" value="Sign-in" />
+               </form>
+            </section>
+         </section>
+      </main>
+   </body>
+</html>
