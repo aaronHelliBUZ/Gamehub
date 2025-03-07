@@ -1,12 +1,21 @@
-function script(hoehe, breite, anzahlStartBomben){
+const content = document.getElementById("content");
 
+function script(hoehe, breite, anzahlStartBomben){
 
     let style = document.createElement('style');
 
+    let height = hoehe * 40;
+    let width = breite * 40;
+
+    content.style.height = `${(height*1.1)*1.5}px`;
+    content.style.width = `${width*1.1}px`;
+
+    content.style.marginTop = `${(window.innerHeight - content.offsetHeight)/2}px`;
+
     style.textContent = `
         #Spielfeld{
-            height: ${hoehe * 40}px;
-            width: ${breite * 40}px;
+            height: ${height}px;
+            width: ${width}px;
             grid-template-columns: repeat(${breite + 1}, 29px);
             grid-template-rows: repeat(${hoehe + 1}, 29px);
         }
