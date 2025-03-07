@@ -25,3 +25,11 @@ div > div{
     position: relative;
     display: inline-grid;
 }
+
+div > div > div{
+    background-color: greenyellow;
+}
+
+#Kopf{
+    background-color: red;
+}
