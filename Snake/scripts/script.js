@@ -1,19 +1,16 @@
 let richtung = ['A', 'A', 'A'];
+let aktuelleRichtung = 'A';
 let laenge = 3;
 
 document.addEventListener('keydown', function(event){
     if(event.code === 'KeyW' || event.code === 'ArrowUp'){
-        console.log('W');
-        richtung.push('W');
+        aktuelleRichtung = 'W';
     }else if(event.code === 'KeyD' || event.code === 'ArrowRight'){
-        console.log('D');
-        richtung.push('D');
+        aktuelleRichtung = 'D';
     }else if(event.code === 'KeyS' || event.code === 'ArrowDown'){
-        console.log('S');
-        richtung.push('S');
+        aktuelleRichtung = 'S';
     }else if(event.code === 'KeyA' || event.code === 'ArrowLeft'){
-        console.log('A');
-        richtung.push('A');
+        aktuelleRichtung = 'A';
     }
 })
 
@@ -63,6 +60,8 @@ function randomApfel(){
     }
 }
 
+randomApfel();
+
 
 function bewegen(){
     let kopfElms = document.getElementsByClassName('Kopf');
@@ -74,6 +73,9 @@ function bewegen(){
     let [y, x] = kopfElm.id.split('_')
     x = parseInt(x);
     y = parseInt(y);
+    
+    richtungLaenge = richtung.length;
+    console.log(richtungLaenge)
 
     document.getElementById('Kopf').remove();
 
@@ -83,13 +85,65 @@ function bewegen(){
     schlangeElm.style.width = "100%";
 
     kopfElm.appendChild(schlangeElm);
-    if(x > 0){
-        neuerKopfElm = document.getElementById(`${y}_${x - 1}`);
-    }else{
+
+    if(x == 0 && aktuelleRichtung == 'A' || x == 9 && aktuelleRichtung == 'D' || y == 0 && aktuelleRichtung == 'W' || y == 8 && aktuelleRichtung == 'S'){
         sterben();
+    }else{
+        switch(aktuelleRichtung){
+            case 'W':
+                console.log(richtung[richtungLaenge - 1])
+                if(richtung[richtungLaenge - 1] == 'S'){
+                    neuerKopfElm = document.getElementById(`${y + 1}_${x}`);
+                    richtung.push('S');
+                    console.log(richtung);
+                    break;
+                }
+                neuerKopfElm = document.getElementById(`${y - 1}_${x}`);
+                richtung.push('W');
+                console.log(richtung);
+                break;
+            case 'S':
+                console.log(richtung[richtungLaenge - 1])
+                if(richtung[richtungLaenge - 1] == 'W'){
+                    neuerKopfElm = document.getElementById(`${y - 1}_${x}`);
+                    richtung.push('W');
+                    console.log(richtung);
+                    break;
+                }
+                neuerKopfElm = document.getElementById(`${y + 1}_${x}`);
+                richtung.push('S');
+                console.log(richtung);
+                break;
+            case 'A':
+                console.log(richtung[richtungLaenge - 1])
+                if(richtung[richtungLaenge - 1] == 'D'){
+                    neuerKopfElm = document.getElementById(`${y}_${x + 1}`);
+                    richtung.push('D');
+                    console.log(richtung);
+                    break;
+                }
+                neuerKopfElm = document.getElementById(`${y}_${x - 1}`);
+                richtung.push('A');
+                console.log(richtung);
+                break;
+            case 'D':
+                console.log(richtung[richtungLaenge - 1])
+                if(richtung[richtungLaenge - 1] == 'A'){
+                    neuerKopfElm = document.getElementById(`${y}_${x - 1}`);
+                    richtung.push('A');
+                    console.log(richtung);
+                    break;
+                }
+                neuerKopfElm = document.getElementById(`${y}_${x + 1}`);
+                richtung.push('D');
+                console.log(richtung);
+                break;
+        }
     }
     if(neuerKopfElm.classList.contains('Apfel')){
         laenge++;
+    }else if(neuerKopfElm.classList.contains('Schlange')){
+        sterben();
     }else{
         schlangeElm = document.createElement('div');
         schlangeElm.id = 'Kopf';
@@ -104,15 +158,14 @@ function bewegen(){
         let schwanzElms = document.getElementsByClassName('Schwanz');
         let schwanzElm = schwanzElms.item(0)
         schwanzElm.classList.remove('Schwanz');
+        schwanzElm.classList.remove('Schlange');
         document.getElementById('Schwanz').remove();
 
         let [y, x] = schwanzElm.id.split('_')
         x = parseInt(x);
         y = parseInt(y);
 
-        richtungLaenge = richtung.length;
-
-        switch(richtung[(richtungLaenge - 1) - (laenge - 1)]){
+        switch(richtung[(richtungLaenge) - (laenge - 1)]){
             case 'W':
                 y--;
                 break;
@@ -135,7 +188,7 @@ function bewegen(){
     }
 }
 
-//setInterval(bewegen, 1000);
+setInterval(bewegen, 1000);
 
 function sterben(){
     alert('Ded');
