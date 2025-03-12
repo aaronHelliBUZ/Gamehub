@@ -36,10 +36,6 @@ body{
     justify-content: center;
 
     margin-top: 1%;
-    padding-top: 5dvh;
-    padding-bottom: 5dvh;
-    padding-left: 2dvw;
-    padding-right: 2dvw;
 
     align-self: center;
     justify-self: center;
@@ -57,6 +53,9 @@ body{
     text-align: center;
     height: 90%;
     width: 90%;
+
+    align-self: center;
+    justify-self: center;
 
     border-radius: 5%;
     background-color: #aad751;
