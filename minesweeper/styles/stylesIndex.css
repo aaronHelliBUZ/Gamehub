@@ -21,6 +21,9 @@ body{
     text-align: center;
     align-items: center;
 
+    height: 80vh;
+    width: 50vh;
+
     border-radius: 5%;
     background-color: var(--bgcolor);
 }

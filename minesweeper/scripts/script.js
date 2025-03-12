@@ -1,23 +1,41 @@
 const content = document.getElementById("content");
+let heightGame;
+let widthGame;
 
 function script(hoehe, breite, anzahlStartBomben){
 
+    heightGame = hoehe;
+    widthGame = breite;
     let style = document.createElement('style');
+    let height
+    let width
 
-    let height = hoehe * 40;
-    let width = breite * 40;
+    if(hoehe > breite){
+        let compare = breite / hoehe;
+        height = "90%";
+        width = "auto";
 
-    content.style.height = `${(height*1.1)*1.5}px`;
-    content.style.width = `${width*1.1}px`;
+    }
+    else if(breite > hoehe){
+        let compare = hoehe / breite;
+        console.log(compare);
+        height = "auto";
+        width = "90%";
+    }
+    else{
+        height = "90%";
+        width = "auto";
+    }
 
-    content.style.marginTop = `${(window.innerHeight - content.offsetHeight)/2}px`;
+    console.log(height+','+width);
+
 
     style.textContent = `
         #Spielfeld{
-            height: ${height}px;
-            width: ${width}px;
-            grid-template-columns: repeat(${breite + 1}, 29px);
-            grid-template-rows: repeat(${hoehe + 1}, 29px);
+            height:${height};
+            width: ${width};
+            grid-template-columns: repeat(${breite + 1}, ${100/breite}%);
+            grid-template-rows: repeat(${hoehe + 1}, ${100/hoehe}%);
         }
     `
 
@@ -335,8 +353,8 @@ function script(hoehe, breite, anzahlStartBomben){
         body.style.backgroundColor = "rgb(253, 238, 154)";
 
         //Sprengt die Felder
-        for (let x = 0; x < 8; x++){
-            for (let y = 0; y < 10; y++) {
+        for (let x = 0; x < widthGame; x++){
+            for (let y = 0; y < heightGame; y++) {
                 let field = document.getElementById(y+"_"+x);
 
                 //Generiert zufällige Koordinaten
@@ -421,6 +439,11 @@ function script(hoehe, breite, anzahlStartBomben){
     //Erstellt Verloren Nachricht
     function looseMessage(){
         let looseMessageElm = document.createElement("div");
+        let timerElm = document.getElementById('Timer');
+        let backElm = document.getElementById('back');
+
+        timerElm.style.opacity = 0;
+        backElm.style.opacity = 0;
 
         looseMessageElm.innerHTML = "Verloren";
         looseMessageElm.className = ("looseMessage");

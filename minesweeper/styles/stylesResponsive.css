@@ -1,0 +1,83 @@
+@media (max-width: 1500px){
+    #Spielfeld{
+        padding-top: 3dvh;
+        padding-bottom: 3dvh;
+    }
+}
+
+@media (max-width: 1000px){
+    #Spielfeld{
+        padding-top: 2dvh;
+        padding-bottom: 2dvh;
+    }
+}
+
+@media (max-width: 500px){
+    #Spielfeld{
+        padding-top: 1dvh;
+        padding-bottom: 1dvh;
+    }
+    #home {
+        font-size: 3.5vh
+    }
+}
+
+@media (max-width: 400px){
+    #home {
+        font-size: 3vh
+    }
+}
+
+@media (max-height: 650px){
+    #content{
+        grid-template-rows: 12% 75% 13%;
+    }
+
+    #Spielfeld{
+        padding-top: 4dvh;
+        padding-bottom: 4dvh;
+    }
+    #title{
+        display: flex;
+        justify-content: space-around;
+    }
+    #anzahlFlaggen{
+        display: inline;
+        font-size: 4.5dvh;
+    }
+    #Timer{
+        display: inline;
+        font-size: 6dvh;
+    }
+    #home{
+        font-size: 3.5vh;
+    }
+}
+
+@media (min-width: 1800px) and (min-height: 900px) {
+    #content{
+        grid-template-rows: 15% 70% 15%;
+    }
+    #title{
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-start;
+
+        margin-top: 1dvh;
+        align-self: flex-start;
+    }
+    #anzahlFlaggen{
+        display: inline;
+        font-size: 4dvh;
+        margin-top: 0px;
+    }
+    #Timer{
+        display: inline;
+        font-size: 4dvh;
+        margin-top: 0px;
+    }
+    #home{
+        font-size: 3.5vh;
+        margin-top: 1dvh;
+    }
+}

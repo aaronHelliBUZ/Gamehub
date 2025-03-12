@@ -5,7 +5,7 @@
     $anzahlBomben = $_POST['bomben'];
     $submitted = $_POST['submitted'];
     if($submitted == 1){
-        if($hoehe < 6 || $hoehe > 99 || $breite < 6 || $breite > 99){
+        if($hoehe < 6 || $hoehe > 26 || $breite < 6 || $breite > 26){
             $_POST['fehlerCode'] = 0;
         }elseif($anzahlBomben > ($hoehe * $breite / 3) || $anzahlBomben < ($hoehe * $breite) / 100 * 8){
             $_POST['fehlerCode'] = 1;
@@ -23,6 +23,7 @@
         <title>Startseite</title>
         <link rel="stylesheet" href="./styles/stylesIndex.css?v=<? echo $time; ?>">
         <script src="./scripts/scriptPlacement.js?v=<? echo $time; ?>" defer></script>
+        <link rel="stylesheet" href="./styles/stylesResponsive.css?v=<? echo $time; ?>">
     </head>
 
     <body>
@@ -39,7 +40,7 @@
                     $fehlerCode = $_POST['fehlerCode'];
 
                     if($fehlerCode === 0){
-                        echo "<div class='fehler'>Die Höhe/Breite muss zwischen 6 und 99 liegen</div>";
+                        echo "<div class='fehler'>Die Höhe/Breite muss zwischen 6 und 25 liegen</div>";
                     }elseif($fehlerCode === 1){
                         echo "<div class='fehler'>Die Anzahl Bomben muss zwischen 8 % und 33.33% des Spielfelds liegen</div>";
                     }

@@ -1,54 +1,96 @@
+:root {
+    --primary:rgb(0, 160, 125);
+    --secondary:rgb(70, 130, 180);
+    --bgcolor:rgb(4, 63, 50);
+    --text:rgb(200, 235, 225);
+}
+
+
 body{
     background-image: url("../img/wp12297046-minesweeper-wallpapers.jpg");
-
+    color: var(--text);
     font-family: sans-serif;
 }
 
 #content{
     display: grid;
-    grid-template-rows: 15% 85%;
+    grid-template-rows: 15% 75% 10%;
     grid-template-columns: 100%;
     align-items: center;
+    justify-content: center;
+
+    height: 98vh;
+    width: 80vw;
 
     align-self: center;
     margin: auto;
     text-align: center;
 
-
-    background-color: aqua;
+    border-radius: 5%;
+    background-color: var(--bgcolor);
 }
 
 #Spielfeld{
     display: grid;
-    align-content: space-evenly;
-    justify-content: space-evenly;
+    align-content: center;
+    justify-content: center;
 
+    margin-top: 1%;
+    padding-top: 5dvh;
+    padding-bottom: 5dvh;
+    padding-left: 2dvw;
+    padding-right: 2dvw;
+
+    align-self: center;
+    justify-self: center;
     grid-area: 2 / 1 / 3 / 2;
 
-    border: 5px black solid;
+    border: 1vh black solid;
+    border-radius: 3%;
     background-color: green;
 }
 
-div > div{
-    margin: 0px;
-    position: relative;
-    display: inline-grid;
+.close{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 90%;
+    width: 90%;
+
+    border-radius: 5%;
     background-color: #aad751;
 }
 
-a{
-    font-size: 40x;
+#anzahlFlaggen{
+    margin-top: 2dvh;
+    font-size: 5dvh;
 }
 
-#Titel{
-    position: relative;
-    left: 650px;
+#Timer{
+    font-size: 6dvh;
+    color: var(--secondary);
+}
+#home{
+    font-size: 4vh;
+
+    color: var(--text);
+
+    border:0.5dvh var(--primary) solid;
+    background-color: var(--primary);
+    border-radius: 8%;
+    text-decoration: none;
 }
 
-#Untertitel{
-    position: relative;
-    left: 610px;
+#back{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    height: 100%;
+    margin-bottom: 2%;
 }
+
 
 img{
     opacity: 0;
@@ -61,22 +103,10 @@ img{
 }
 
 p{
-    width: 100%;
     text-align: center;
+
     position: absolute;
-    margin: 0px;
-    color: black;
-    font-size: 23px;
-}
-
-#anzahlFlaggen{
-    margin-top: 90px;
-    font-size: 30px;
-}
-
-#Timer{
-    font-size: 40px;
-    color: Red;
+    font-size: 2.7dvh;
 }
 
 .checked{
