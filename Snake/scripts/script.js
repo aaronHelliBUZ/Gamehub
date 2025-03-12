@@ -60,8 +60,9 @@ function randomApfel(){
     }
 }
 
-randomApfel();
-
+for(let i = 1; i <= 3; i++){
+    randomApfel();
+}
 
 function bewegen(){
     let kopfElms = document.getElementsByClassName('Kopf');
@@ -86,63 +87,83 @@ function bewegen(){
 
     kopfElm.appendChild(schlangeElm);
 
-    if(x == 0 && aktuelleRichtung == 'A' || x == 9 && aktuelleRichtung == 'D' || y == 0 && aktuelleRichtung == 'W' || y == 8 && aktuelleRichtung == 'S'){
-        sterben();
-    }else{
-        switch(aktuelleRichtung){
-            case 'W':
-                console.log(richtung[richtungLaenge - 1])
-                if(richtung[richtungLaenge - 1] == 'S'){
-                    neuerKopfElm = document.getElementById(`${y + 1}_${x}`);
-                    richtung.push('S');
-                    console.log(richtung);
-                    break;
-                }
-                neuerKopfElm = document.getElementById(`${y - 1}_${x}`);
-                richtung.push('W');
-                console.log(richtung);
-                break;
-            case 'S':
-                console.log(richtung[richtungLaenge - 1])
-                if(richtung[richtungLaenge - 1] == 'W'){
-                    neuerKopfElm = document.getElementById(`${y - 1}_${x}`);
-                    richtung.push('W');
-                    console.log(richtung);
-                    break;
-                }
+    
+    switch(aktuelleRichtung){
+        case 'W':
+            console.log(richtung[richtungLaenge - 1])
+            if(richtung[richtungLaenge - 1] == 'S'){
                 neuerKopfElm = document.getElementById(`${y + 1}_${x}`);
                 richtung.push('S');
                 console.log(richtung);
                 break;
-            case 'A':
-                console.log(richtung[richtungLaenge - 1])
-                if(richtung[richtungLaenge - 1] == 'D'){
-                    neuerKopfElm = document.getElementById(`${y}_${x + 1}`);
-                    richtung.push('D');
-                    console.log(richtung);
-                    break;
-                }
-                neuerKopfElm = document.getElementById(`${y}_${x - 1}`);
-                richtung.push('A');
+            }
+            neuerKopfElm = document.getElementById(`${y - 1}_${x}`);
+            richtung.push('W');
+            console.log(richtung);
+            break;
+        case 'S':
+            console.log(richtung[richtungLaenge - 1])
+            if(richtung[richtungLaenge - 1] == 'W'){
+                neuerKopfElm = document.getElementById(`${y - 1}_${x}`);
+                richtung.push('W');
                 console.log(richtung);
                 break;
-            case 'D':
-                console.log(richtung[richtungLaenge - 1])
-                if(richtung[richtungLaenge - 1] == 'A'){
-                    neuerKopfElm = document.getElementById(`${y}_${x - 1}`);
-                    richtung.push('A');
-                    console.log(richtung);
-                    break;
-                }
+            }
+            neuerKopfElm = document.getElementById(`${y + 1}_${x}`);
+            richtung.push('S');
+            console.log(richtung);
+            break;
+        case 'A':
+            console.log(richtung[richtungLaenge - 1])
+            if(richtung[richtungLaenge - 1] == 'D'){
                 neuerKopfElm = document.getElementById(`${y}_${x + 1}`);
                 richtung.push('D');
                 console.log(richtung);
                 break;
-        }
+            }
+            neuerKopfElm = document.getElementById(`${y}_${x - 1}`);
+            richtung.push('A');
+            console.log(richtung);
+            break;
+        case 'D':
+            console.log(richtung[richtungLaenge - 1])
+            if(richtung[richtungLaenge - 1] == 'A'){
+                neuerKopfElm = document.getElementById(`${y}_${x - 1}`);
+                richtung.push('A');
+                console.log(richtung);
+                break;
+            }
+            neuerKopfElm = document.getElementById(`${y}_${x + 1}`);
+            richtung.push('D');
+            console.log(richtung);
+            break;
+    }
+    if(x == 0 && richtung[richtungLaenge] == 'A' || x == 9 && richtung[richtungLaenge] == 'D' || y == 0 && richtung[richtungLaenge] == 'W' || y == 8 && richtung[richtungLaenge] == 'S'){
+        sterben();
     }
     if(neuerKopfElm.classList.contains('Apfel')){
         laenge++;
-    }else if(neuerKopfElm.classList.contains('Schlange')){
+
+        if(laenge == 90){
+            alert('win');
+            location.reload;
+        }
+
+        schlangeElm = document.createElement('div');
+        schlangeElm.id = 'Kopf';
+        schlangeElm.style.position = "relative";
+        schlangeElm.style.height = "100%";
+        schlangeElm.style.width = "100%";
+        
+        neuerKopfElm.removeChild(neuerKopfElm.firstChild);
+        neuerKopfElm.classList.add('Kopf');
+        neuerKopfElm.classList.add('Schlange');
+        neuerKopfElm.classList.remove('Apfel');
+        if(laenge < 88){
+            randomApfel();
+        }
+        neuerKopfElm.appendChild(schlangeElm);
+    }else if(neuerKopfElm.classList.contains('Schlange') && !(neuerKopfElm.classList.contains('Schwanz'))){
         sterben();
     }else{
         schlangeElm = document.createElement('div');
@@ -184,11 +205,11 @@ function bewegen(){
         let neuerSchwanzElm = neuerSchwanzParent.firstChild;
         neuerSchwanzParent.classList.add('Schwanz');
         neuerKopfElm.classList.add('Schlange');
-        neuerSchwanzElm.id = 'Schwanz'
+        neuerSchwanzElm.id = 'Schwanz';
     }
 }
 
-setInterval(bewegen, 1000);
+setInterval(bewegen, 520);
 
 function sterben(){
     alert('Ded');
