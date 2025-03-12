@@ -1,25 +1,73 @@
+:root {
+    --primary:rgb(0, 160, 125);
+    --secondary:rgb(70, 130, 180);
+    --bgcolor:rgb(4, 63, 50);
+    --text:rgb(200, 235, 225);
+}
+
 body{
+    display: flex;
+    justify-content: center;
+    text-align-last: center;
+
+    font-family: sans-serif;
+    color: var(--text);
     background-image: url("../img/wp12297046-minesweeper-wallpapers.jpg");
 }
 
-form{
-    font-size: 20px;
+#content {
+    display: grid;
+    grid-template-rows: 20% 65%;
+    text-align: center;
+    align-items: center;
+
+    height: 80vh;
+    width: 50vh;
+
+    border-radius: 5%;
+    background-color: var(--bgcolor);
 }
 
-input{
-    display: block;
-    font-size: 20px;
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    height: 100%;
+}
+
+.quetionform{
+    display: grid;
+    grid-template-rows: 30% 70%;
+}
+
+form span p {
+    margin: 0;
+}
+
+[type="number"]{
+    text-align: start;
+    text-align-last: start;
+
+    background-color: var(--primary);
+    color: var(--text);
 }
 
 #submit{
-    position: relative;
-    top: 15px;
+    width: 30%;
+    align-self: center;
+    
+    color: var(--text);
+    background-color: var(--secondary);
 }
 
+#submit:hover{
+    width: 30%;
+    
+    background-color: rgb(51, 108, 155);
+}
 .fehler{
-    position: relative;
-    top: 20px;
     color: red;
     font-style: bold;
-    font-size: 20px;
+    font-size: 1.5em;
 }

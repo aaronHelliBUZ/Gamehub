@@ -6,9 +6,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
-        <link rel="stylesheet" href="./styles/stylesFeld.css?v=<? echo $time; ?>">
-        <script src="scripts/script.js?v=<? echo $time; ?>" defer></script>
-        <?
+        <link rel="stylesheet" href="./styles/stylesFeld.css?v=<?php echo $time; ?>">
+        <link rel="stylesheet" href="./styles/stylesResponsive.css?v=<?php echo $time; ?>">
+        <script src="scripts/script.js?v=<?php echo $time; ?>" defer></script>
+        <?php
             echo("
                 <script>
                     window.addEventListener('load', function () {
@@ -19,17 +20,22 @@
         ?>
     </head>
     <body id="body">
-        <div id="anzahlFlaggen" data-test=1></div>
-        <div id="Timer"></div>
-        <div id="Spielfeld">
-        <?
-            for($i = 0; $i < $hoehe; $i++){
-                for($j = 0; $j < $breite; $j++){
-                    echo "<div id='{$i}_{$j}div'><img src='img/Download__1_-removebg-preview.png' id='{$i}_{$j}' class='default'></div>";
+        <div id = content>
+            <div id="title">
+                <div id="anzahlFlaggen" data-test=1></div>
+                <div id="Timer"></div>
+            </div>
+            
+            <div id="Spielfeld">
+            <?
+                for($i = 0; $i < $hoehe; $i++){
+                    for($j = 0; $j < $breite; $j++){
+                        echo "<div id='{$i}_{$j}div' class='close'><img src='img/Download__1_-removebg-preview.png' id='{$i}_{$j}' class='default'></div>";
+                    }
                 }
-            }
-        ?>
+            ?>
+            </div>
+            <div id="back"><a id="home"href="../index.html">Zurück zur Startseite</a></div>
         </div>
-        <div><a href="index.php">Zurück zur Startseite</a></div>
     </body>
 </html>
