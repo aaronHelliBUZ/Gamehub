@@ -44,8 +44,8 @@ function script(aepfel){
     }
 
     function randomApfel(){
-        let randY = parseInt(Math.random() * 9);
-        let randX = parseInt(Math.random() * 10);
+        let randY = parseInt(Math.random() * 15);
+        let randX = parseInt(Math.random() * 20);
 
         let apfelElm = document.createElement('img');
         apfelElm.src = "img/google-search-snake.png";
