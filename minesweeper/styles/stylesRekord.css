@@ -61,6 +61,7 @@ form span p {
 #submit:hover{
     width: 16%;
     
+    cursor: pointer;
     background-color: rgb(51, 108, 155);
 }
 .fehler{

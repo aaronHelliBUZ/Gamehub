@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
-        <link rel="stylesheet" href="./styles/stylesIndex.css?v=<? echo $time; ?>">
+        <link rel="stylesheet" href="./styles/stylesSpiel.css?v=<? echo $time; ?>">
         <script src="scripts/script.js?v=<? echo $time; ?>" defer></script>
         <?
             echo("
