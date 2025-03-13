@@ -9,6 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Komplette Liste</title>
         <link rel="stylesheet" href="./styles/stylesBestenliste.css?v=<? echo $time; ?>">
+        <link rel="icon" href="./img/icon.jpg" />
     </head>
 
     <body>

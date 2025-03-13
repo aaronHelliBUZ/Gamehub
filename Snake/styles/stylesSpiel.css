@@ -1,0 +1,35 @@
+*{
+    font-family: sans-serif;
+}
+
+div{
+    margin: auto;
+}
+
+#Spielfeld{
+    position: relative;
+    display: grid;
+    border: 5px black solid;
+    margin-top: 5px;
+    background-color: green;
+    height: 600px;
+    width: 800px;
+    grid-template-columns: repeat(20, 40px);
+    grid-template-rows: repeat(15, 40px);
+}
+
+div > div{
+    margin: 0px;
+    height: 40px;
+    width: 40px;
+    position: relative;
+    display: inline-grid;
+}
+
+div > div > div{
+    background-color: greenyellow;
+}
+
+#Kopf{
+    background-color: red;
+}
