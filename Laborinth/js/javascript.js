@@ -1,14 +1,20 @@
 console.clear();
 
 const playingFieldElement = document.getElementById("playingField");
+const timerElm = document.getElementById("timer");
 
-const fieldsPerX = 15;
-const fieldsPerY = 15;
+let urlFieldsPerXYArray = getFieldsPerXAndY();
+
+const fieldsPerX = urlFieldsPerXYArray[0];
+const fieldsPerY = urlFieldsPerXYArray[1];
 
 let oldPlayerX = 0;
 let oldPlayerY = 0;
 let playerX = 0;
 let playerY = 0;
+
+let gameContinue = true;
+let timer = 0;
 
 generateLabyrinthFields();
 
@@ -16,7 +22,7 @@ let startElm = document.getElementById("X0Y0");
 
 startElm.classList.add("start");
 
-let endElm = document.getElementById("X" + ((fieldsPerX - 1) * 2) + "Y" + ((fieldsPerY - 1) * 2));
+let endElm = document.getElementById("X" + (fieldsPerX - 1) * 2 + "Y" + (fieldsPerY - 1) * 2);
 
 endElm.classList.add("end");
 
@@ -65,6 +71,8 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
+gameTimer();
+
 function movePlayer(playerY, playerX) {
     let oldPlayer = document.getElementById("X" + oldPlayerX + "Y" + oldPlayerY);
     let player = document.getElementById("X" + playerX + "Y" + playerY);
@@ -75,15 +83,17 @@ function movePlayer(playerY, playerX) {
     oldPlayer.classList.remove("player");
     player.classList.add("player");
 
-    if(player === endElm){
+    if (player === endElm) {
         window.alert("Du hast gewonnen!");
+        gameContinue = false;
+        redirectAndForm();
     }
 }
 
 function checkPlayerIsRightToMove(playerToCheckX, playerToCheckY) {
     let playerToCheck = document.getElementById("X" + playerToCheckX + "Y" + playerToCheckY);
 
-    if(playerToCheck.classList.contains("visited")){
+    if (playerToCheck.classList.contains("visited")) {
         return true;
     }
     return false;
@@ -274,4 +284,47 @@ function isNoWall(checkIfWallX, checkIfWallY) {
     } else {
         return false;
     }
+}
+
+function gameTimer() {
+    if (gameContinue) {
+        setTimeout(function () {
+            timer++;
+            timerElm.textContent = timer;
+            gameTimer();
+        }, 1000);
+    }
+}
+
+function redirectAndForm() {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "namen-angeben.php";
+
+    const timeToSafe = document.createElement("input");
+    timeToSafe.type = "hidden";
+    timeToSafe.name = "time";
+    timeToSafe.value = timerElm.innerHTML;
+    form.appendChild(timeToSafe);
+
+    const difficultyToSafe = document.createElement("input");
+    difficultyToSafe.type = "hidden";
+    difficultyToSafe.name = "difficulty";
+    difficultyToSafe.value = fieldsPerX * fieldsPerY;
+    form.appendChild(difficultyToSafe);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function getFieldsPerXAndY() {
+    const url = window.location.href;
+    const afterDotHTML = url.split(".html")[1];
+    console.log(afterDotHTML);
+    const urlFieldsPerX = afterDotHTML.split("Y=")[0].split("?X=")[1];
+    const urlFieldsPerY = afterDotHTML.split("Y=")[1];
+
+    console.log("X: " + urlFieldsPerX + " Y: " + urlFieldsPerY);
+
+    return [urlFieldsPerX, urlFieldsPerY];
 }
