@@ -97,3 +97,15 @@
 .fieldBlock {
     background-color: var(--block-color1);
 }
+
+.bColor2 {
+    background-color: var(--block-color2);
+}
+
+.bColor3 {
+    background-color: var(--block-color3);
+}
+
+.bColor4 {
+    background-color: var(--block-color4);
+}

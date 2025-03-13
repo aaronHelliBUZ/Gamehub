@@ -11,15 +11,18 @@ let mouseY = -3;
 let oldMouseX = -3;
 let oldMouseY = -3;
 
+let blockToPlaceColor = "";
+
 let blockIdCounter = 0;
 
 let mouseDown = false;
 
+let clickedBlockElm;
+let blocksLeft = 3;
+
 generateField();
 
-for (let i = 0; i < 3; i++) {
-    generateBlockInblockChoiceElm();
-}
+generateBlockInblockChoiceElm();
 
 document.addEventListener("mouseup", function (event) {
     event.preventDefault();
@@ -29,6 +32,13 @@ document.addEventListener("mouseup", function (event) {
 
     let mouseElm = document.getElementById("X" + mouseX + "Y" + mouseY);
     mouseElm.classList.add("setted");
+    clickedBlockElm.classList.remove("block");
+    blockToPlaceColor = clickedBlockElm.classList["value"];
+    blockChoiceElm.removeChild(clickedBlockElm);
+    blocksLeft--;
+    if (blocksLeft <= 0) {
+        generateBlockInblockChoiceElm();
+    }
 });
 
 //Zentriert das Speilfeld und stellt die grösse ein
@@ -65,29 +75,39 @@ function generateField() {
     }
 }
 
-/*document.addEventListener("mousemove", function (event) {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-    console.log("X: " + mouseX + " Y: " + mouseY);
-});*/
-
 function mouseClicked() {
     mouseDown = true;
+    clickedBlockElm.classList.remove("block");
+    blockToPlaceColor = clickedBlockElm.classList["value"];
     console.log("MOUSECLICKED");
-    console.log("OldX: " + oldMouseX + "\nOldY: " + oldMouseY);
 }
 
 function generateBlockInblockChoiceElm() {
-    let newBlock = document.createElement("div");
-    newBlock.id = "B" + blockIdCounter;
-    newBlock.classList.add("block");
-    blockChoiceElm.appendChild(newBlock);
-    blockIdCounter++;
+    blocksLeft = 3;
+    for (let i = 0; i < 3; i++) {
+        let colorNumber = Math.floor(Math.random() * 4);
 
-    newBlock.addEventListener("mousedown", function (event) {
-        event.preventDefault();
-        mouseClicked();
-    });
+        let newBlock = document.createElement("div");
+        newBlock.id = "B" + blockIdCounter;
+        newBlock.classList.add("block");
+
+        if (colorNumber === 1) {
+            newBlock.classList.add("bColor2");
+        } else if (colorNumber === 2) {
+            newBlock.classList.add("bColor3");
+        } else if (colorNumber === 3) {
+            newBlock.classList.add("bColor4");
+        }
+
+        blockChoiceElm.appendChild(newBlock);
+        blockIdCounter++;
+
+        newBlock.addEventListener("mousedown", function (event) {
+            event.preventDefault();
+            clickedBlockElm = this;
+            mouseClicked();
+        });
+    }
 }
 
 function mouseOver(mouseOverElm) {
@@ -103,12 +123,17 @@ function mouseOver(mouseOverElm) {
 }
 
 function setFieldToBlockWhileMouseOver() {
-    console.log("OldX2: " + oldMouseX + "\nOldY2: " + oldMouseY);
     let oldBlockElm = document.getElementById("X" + oldMouseX + "Y" + oldMouseY);
     if (oldBlockElm.classList.contains("setted") === false) {
         oldBlockElm.classList.remove("fieldBlock");
+        if (blockToPlaceColor !== "") {
+            oldBlockElm.classList.remove(blockToPlaceColor);
+        }
     }
 
     let newBlockElm = document.getElementById("X" + mouseX + "Y" + mouseY);
     newBlockElm.classList.add("fieldBlock");
+    if (blockToPlaceColor !== "") {
+        newBlockElm.classList.add(blockToPlaceColor);
+    }
 }
