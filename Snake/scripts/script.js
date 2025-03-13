@@ -2,6 +2,7 @@ function script(aepfel){
     let richtung = ['A', 'A', 'A'];
     let aktuelleRichtung = 'A';
     let laenge = 3;
+    let appleCount = 0;
 
     document.addEventListener('keydown', function(event){
         if(event.code === 'KeyW' || event.code === 'ArrowUp'){
@@ -160,6 +161,13 @@ function script(aepfel){
             neuerKopfElm.classList.add('Kopf');
             neuerKopfElm.classList.add('Schlange');
             neuerKopfElm.classList.remove('Apfel');
+
+            appleCount++;
+
+            let appleCountElm = document.getElementById("apple");
+            appleCountElm.innerHTML = appleCount;
+            
+
             if(laenge < 301 - aepfel){
                 randomApfel();
             }
@@ -213,7 +221,25 @@ function script(aepfel){
     setInterval(bewegen, 520);
 
     function sterben(){
-        alert('Ded');
-        location.reload();
+        let contentElm = document.getElementById("content");
+        let looseMessageElm = document.createElement("div");
+
+        let snake = document.querySelectorAll("div.Schlange");
+        snake.forEach(snake => {
+            snake.classList.add('lost');
+          });
+
+        setTimeout(function(){
+            contentElm.style.opacity = 0;
+            looseMessageElm.innerHTML = "Verloren";
+            looseMessageElm.className = ("looseMessage");
+            looseMessageElm.style.fontSize = "0px";
+
+            document.body.appendChild(looseMessageElm);
+
+            setTimeout(function(){
+                location.reload();
+            },6500);
+        },2000);
     }
 }
