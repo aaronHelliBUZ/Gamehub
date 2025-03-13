@@ -13,7 +13,7 @@ function script(aepfel){
         }else if(event.code === 'KeyA' || event.code === 'ArrowLeft'){
             aktuelleRichtung = 'A';
         }
-    })
+    });
 
     let = schlangeElm = document.createElement('div');
     schlangeElm.id = 'Kopf';
