@@ -19,7 +19,7 @@
                 <input type="number" name="y"></input><br>
                 <input type="submit"></input>
             </form>
-            <a href="insert.php">Bestenliste</a>
+            <a id="bl" href="insert.php">Bestenliste</a>
         </div>
     </body>
 </html>
