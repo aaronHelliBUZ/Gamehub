@@ -5,10 +5,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Minesweeper</title>
         <link rel="stylesheet" href="./styles/stylesFeld.css?v=<?php echo $time; ?>">
         <link rel="stylesheet" href="./styles/stylesResponsive.css?v=<?php echo $time; ?>">
         <script src="scripts/script.js?v=<?php echo $time; ?>" defer></script>
+        <link rel="icon" href="./img/icon.jpg" />
         <?php
             echo("
                 <script>

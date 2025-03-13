@@ -81,6 +81,11 @@ body{
     text-decoration: none;
 }
 
+#home:hover{
+    border:0.5dvh rgb(1, 112, 88) solid;
+    background-color: rgb(1, 112, 88);
+}
+
 #back{
     display: flex;
     justify-content: center;
