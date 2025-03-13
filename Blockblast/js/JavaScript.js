@@ -77,7 +77,7 @@ function generateField() {
 
 function mouseClicked() {
     mouseDown = true;
-    clickedBlockElm.classList.remove("block");
+    clickedBlockElm.classList.remove("blockFlex");
     blockToPlaceColor = clickedBlockElm.classList["value"];
     console.log("MOUSECLICKED");
 }
@@ -86,12 +86,17 @@ function generateBlockInblockChoiceElm() {
     blocksLeft = 3;
     for (let i = 0; i < 3; i++) {
         let colorNumber = Math.floor(Math.random() * 4);
+        let figureType = Math.floor(Math.random() * 4);
 
         let newBlock = document.createElement("div");
         newBlock.id = "B" + blockIdCounter;
-        newBlock.classList.add("block");
+        newBlock.classList.add("blockFlex");
 
-        if (colorNumber === 1) {
+        generateInBlockFlex(newBlock);
+
+        if (colorNumber === 0) {
+            newBlock.classList.add("bColor1");
+        }else if (colorNumber === 1) {
             newBlock.classList.add("bColor2");
         } else if (colorNumber === 2) {
             newBlock.classList.add("bColor3");
@@ -102,11 +107,28 @@ function generateBlockInblockChoiceElm() {
         blockChoiceElm.appendChild(newBlock);
         blockIdCounter++;
 
+        //drawFigure(figureType);
+
         newBlock.addEventListener("mousedown", function (event) {
             event.preventDefault();
             clickedBlockElm = this;
             mouseClicked();
         });
+    }
+}
+
+function generateInBlockFlex(newBlock) {
+    for (let x = 0; x < 5; x++){
+        let newFlex = document.createElement("div");
+        newFlex.id = "X" + x.toString();
+        newFlex.className = "blockFieldFlex";
+        newBlock.appendChild(newFlex);
+        for (let y = 0; y < 5; y++){
+            let newField = document.createElement("div");
+            newField.id = "X" + x.toString() + "Y" + y.toString();
+            newField.className = "block";
+            newFlex.appendChild(newField);
+        }
     }
 }
 
@@ -136,4 +158,33 @@ function setFieldToBlockWhileMouseOver() {
     if (blockToPlaceColor !== "") {
         newBlockElm.classList.add(blockToPlaceColor);
     }
+}
+
+function drawFigure(figureType, drawX, drawY) {
+    switch (figureType) {
+        case 1:
+            dreiUeberEcke(drawX, drawY);
+            break;
+        case 2:
+            vierUeberEcke(drawX, drawY);
+            break;
+    }
+}
+
+function dreiUeberEcke(drawX, drawY) {
+    drawAtPosition(drawX, drawY);
+    drawAtPosition(drawX, drawY + 1);
+    drawAtPosition(drawX - 1, drawY);
+}
+
+function vierUeberEcke(drawX, drawY) {
+    drawAtPosition(drawX, drawY);
+    drawAtPosition(drawX, drawY + 1);
+    drawAtPosition(drawX - 1, drawY);
+    drawAtPosition(drawX - 2, drawY);
+}
+
+function drawAtPosition(drawX, drawY) {
+    let elementToDraw = document.getElementById("X" + drawX + "Y" + drawY);
+    elementToDraw.classList.add(blockToPlaceColor);
 }

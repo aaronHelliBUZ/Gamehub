@@ -87,14 +87,26 @@
     display: flex;
 }
 
-.block {
-    width: var(--field-size);
-    height: var(--field-size);
-    background-color: var(--block-color1);
-    border: 0.1px solid white;
+.blockFlex {
+    display: flex;
+    flex-direction: column;
+}
+
+.blockFieldFlex {
+    display: flex;
 }
 
 .fieldBlock {
+    background-color: var(--block-color1);
+}
+
+.block {
+    width: var(--field-size);
+    height: var(--field-size);
+    border: 0.1px solid white;
+}
+
+.bColor1 {
     background-color: var(--block-color1);
 }
 
