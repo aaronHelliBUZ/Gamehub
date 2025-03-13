@@ -1,0 +1,45 @@
+:root {
+    --way-color: white;
+    --field-size: 25px;
+    --wall-color: black;
+}
+
+#playingField {
+    background-color: grey;
+    width: 90%;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.fieldFlex {
+    display: flex;
+    flex-direction: row;
+}
+
+.field {
+    width: var(--field-size);
+    height: var(--field-size);
+    background-color: var(--wall-color);
+}
+
+.visited {
+    background-color: chartreuse;
+}
+
+.finished {
+    /*background-color: white;*/
+}
+
+.start {
+    background-color: azure;
+}
+
+.end {
+    background-color: red;
+}
+
+.player {
+    background-color: darkblue;
+}
