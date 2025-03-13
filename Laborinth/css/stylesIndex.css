@@ -1,0 +1,70 @@
+:root {
+    --primary: rgb(0, 160, 125);
+    --secondary: rgb(70, 130, 180);
+    --bgcolor: rgb(4, 63, 50);
+    --text: rgb(200, 235, 225);
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    text-align-last: center;
+
+    font-family: sans-serif;
+    color: var(--text);
+}
+
+#content {
+    display: grid;
+    grid-template-rows: 20% 65%;
+    text-align: center;
+    align-items: center;
+
+    height: 80vh;
+    width: 50vh;
+
+    border-radius: 5%;
+    background-color: var(--bgcolor);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    height: 100%;
+    background-color: var(--bgcolor);
+}
+
+.quetionform {
+    display: grid;
+    grid-template-rows: 30% 70%;
+}
+
+[type="number"] {
+    text-align: start;
+    text-align-last: start;
+
+    background-color: var(--primary);
+    color: var(--text);
+}
+
+[type="submit"] {
+    width: 30%;
+    align-self: center;
+
+    color: var(--text);
+    background-color: var(--secondary);
+}
+
+[type="submit"]:hover {
+    width: 30%;
+
+    background-color: rgb(51, 108, 155);
+}
+
+.fehler {
+    color: red;
+    font-style: bold;
+    font-size: 1.5em;
+}

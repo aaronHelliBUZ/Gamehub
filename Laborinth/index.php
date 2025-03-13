@@ -8,16 +8,19 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
+        <link rel="stylesheet" href="css/stylesIndex.css">
     </head>
     <body>
-        <form action="index.php" method="post">
-            Höhe
-            <input type="number" name="x"></input><br>
-            Breite
-            <input type="number" name="y"></input><br>
-            <input type="submit"></input>
-        </form>
-        <a href="insert.php">Bestenliste</a>
+        <div id="content">
+            <form action="index.php" method="post">
+                Höhe
+                <input type="number" name="x"></input><br>
+                Breite
+                <input type="number" name="y"></input><br>
+                <input type="submit"></input>
+            </form>
+            <a href="insert.php">Bestenliste</a>
+        </div>
     </body>
 </html>
 <?php
