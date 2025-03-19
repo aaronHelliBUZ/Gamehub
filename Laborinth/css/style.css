@@ -1,0 +1,81 @@
+:root {    
+    --primary: rgb(0, 160, 125);
+    --secondary: rgb(70, 130, 180);
+    --bgcolor: rgb(4, 63, 50);
+    --text: rgb(200, 235, 225);
+    --wall-color: rgb(0, 29, 23);
+
+    --height:85%;
+    --width:90%;
+    --field-size: 25px;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+    height: 98vh;
+    width: 98vw;
+    margin: 0px;
+
+    font-family: sans-serif;
+    background-color: var(--bgcolor);
+}
+
+#playingField {
+    width: var(--width);
+    height: var(--height);
+    padding: 1%;
+
+    background-color: var(--wall-color);
+}
+
+.fieldFlex {
+    display: flex;
+}
+
+.field {
+    width: var(--field-size);
+    height: var(--field-size);
+    background-color: var(--wall-color);
+}
+
+a {
+    display:flex;
+    height: 5%;
+
+    text-justify: center;
+    text-align: center;
+
+    font-size: 3vh;
+    border: 1vh var(--secondary) solid;
+    border-radius: 5px;
+    background-color: var(--secondary);
+    color: var(--text);
+    text-decoration: none;
+}
+
+#timer {
+    height: 10%;
+
+    font-size: 8vh;
+    color: var(--text);
+}
+
+.visited {
+    background-color: var(--text);
+}
+
+.start {
+    background-color: rgb(144, 236, 209);
+}
+
+.end {
+    background-color: var(--secondary);
+}
+
+.player {
+    background-color: var(--primary);
+}

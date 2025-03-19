@@ -20,10 +20,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Startseite</title>
+        <title>Minesweeper</title>
         <link rel="stylesheet" href="./styles/stylesIndex.css?v=<? echo $time; ?>">
         <script src="./scripts/scriptPlacement.js?v=<? echo $time; ?>" defer></script>
         <link rel="stylesheet" href="./styles/stylesResponsive.css?v=<? echo $time; ?>">
+        <link rel="icon" href="./img/icon.jpg" />
     </head>
 
     <body>

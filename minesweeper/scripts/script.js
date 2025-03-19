@@ -34,8 +34,8 @@ function script(hoehe, breite, anzahlStartBomben){
         #Spielfeld{
             height:${height};
             width: ${width};
-            grid-template-columns: repeat(${breite + 1}, ${100/breite}%);
-            grid-template-rows: repeat(${hoehe + 1}, ${100/hoehe}%);
+            grid-template-columns: repeat(${breite + 1}, ${100/(breite+1)}%);
+            grid-template-rows: repeat(${hoehe + 1}, ${100/(hoehe+1)}%);
         }
     `
 
@@ -369,21 +369,6 @@ function script(hoehe, breite, anzahlStartBomben){
                 field.style.transitionDuration = "1s";
                 field.style.visibility = "visible";
                 field.innerHTML = "";
-
-                //Enscheidet in welche Richtung das Quadrat geht
-                ranNum = Math.floor(Math.random() * 4)+1;
-                if(ranNum == 1){
-                    field.style.transform = `translate(${randomX}px, ${randomY}px)`;
-                }
-                else if(ranNum == 2) {
-                    field.style.transform = `translate(-${randomX}px, ${randomY}px)`;
-                }
-                else if(ranNum == 3) {
-                    field.style.transform = `translate(${randomX}px, -${randomY}px)`;
-                }
-                else if(ranNum == 4) {
-                    field.style.transform = `translate(-${randomX}px, -${randomY}px)`;
-                }
 
                 field.classList = "explodeFields" ;
             }

@@ -1,35 +1,58 @@
-*{
+:root {
+    --primary:rgb(0, 160, 125);
+    --secondary:rgb(70, 130, 180);
+    --bgcolor:rgb(4, 63, 50);
+    --text:rgb(200, 235, 225);
+}
+
+body {
+    display: flex;
+    justify-content: center;
+
+    height: 98vh;
+    width: 98vw;
+
     font-family: sans-serif;
+    color: var(--text);
+    background-color: var(--bgcolor);
 }
 
-div{
-    margin: auto;
+
+#content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    align-self: center;
+    height: 10vh;
+    width: 40vw;
+
+    border-radius: 5%;
+    background-color: var(--primary);
 }
 
-#Spielfeld{
-    position: relative;
-    display: grid;
-    border: 5px black solid;
-    margin-top: 5px;
-    background-color: green;
-    height: 600px;
-    width: 800px;
-    grid-template-columns: repeat(20, 40px);
-    grid-template-rows: repeat(15, 40px);
+#AA {
+    font-size: 2.5vh;
 }
 
-div > div{
-    margin: 0px;
-    height: 40px;
-    width: 40px;
-    position: relative;
-    display: inline-grid;
+[type="number"]{
+    text-align: start;
+    text-align-last: start;
+
+    background-color: var(--secondary);
+    color: var(--text);
 }
 
-div > div > div{
-    background-color: greenyellow;
+#submit{
+    width: 8vw;
+    
+    color: var(--text);
+    background-color: var(--secondary);
 }
 
-#Kopf{
-    background-color: red;
+#submit:hover{
+    width: 8.5vw;
+    
+    cursor: pointer;
+    background-color: rgb(51, 108, 155);
 }
