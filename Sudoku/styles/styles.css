@@ -1,0 +1,28 @@
+div{
+    margin: auto;
+}
+
+#spielfeld{
+    height: 497px;
+    width: 497px;
+    border: solid black 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 160px);
+    grid-template-rows: repeat(3, 160px);
+}
+
+.innereFelder{
+    height: 160px;
+    width: 160px;
+    border: solid black 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 53px);
+    grid-template-rows: repeat(3, 53px);
+}
+
+.zahlen{
+    display: inline;
+    height: 40px;
+    width: 40px;
+    text-align: center;
+}

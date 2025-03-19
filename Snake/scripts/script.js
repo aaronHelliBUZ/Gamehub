@@ -14,7 +14,7 @@ function script(aepfel){
         }else if(event.code === 'KeyA' || event.code === 'ArrowLeft'){
             aktuelleRichtung = 'A';
         }
-    })
+    });
 
     let = schlangeElm = document.createElement('div');
     schlangeElm.id = 'Kopf';
@@ -218,7 +218,7 @@ function script(aepfel){
         }
     }
 
-    setInterval(bewegen, 520);
+    setInterval(bewegen, 500 / (Math.pow(1.005, laenge)));
 
     function sterben(){
         let contentElm = document.getElementById("content");

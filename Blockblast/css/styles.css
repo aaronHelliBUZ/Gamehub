@@ -1,18 +1,18 @@
 /*Gennerelle Styles*/
-/*body {
+body {
     display: flex;
     background-color: burlywood;
-}*/
+}
 
 /*Content Feld*/
-/*#content {
+#content {
     display: grid;
     grid-template-columns: 40% 60%;
     margin-top: 100px;
-}*/
+}
 
 /*Spielfeld*/
-/*#gameField {
+#gameField {
     display: grid;
     grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
     grid-template-rows: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
@@ -26,10 +26,10 @@
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
 
-}*/
+}
 
 /*Einzelne Quadrate normal*/
-/*#gameField > div:not(.explodeFields, .fire, .looseMessage) {
+#gameField > div:not(.explodeFields, .fire, .looseMessage) {
     background-color: rgb(0, 255, 200);
     align-self: center;
     justify-self: center;
@@ -46,10 +46,4 @@
     border-right: 0.1em solid rgb(0, 255, 200);
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
-}*/
-
-#block{
-    height: 40px;
-    width: 40px;
-    background-color: red;
 }
