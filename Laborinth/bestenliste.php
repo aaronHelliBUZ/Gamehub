@@ -11,8 +11,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Bestenliste</title>
+        <title>Laborinth</title>
         <link rel="stylesheet" href="css/stylesBestenliste.css">
+        <link rel="icon" href="../gfx/iconLaborinth.jpg">
     </head>
     <body>
         <?php
