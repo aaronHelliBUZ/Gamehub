@@ -47,16 +47,6 @@ form {
     grid-template-rows: 30% 70%;
 }
 
-[type="number"] {
-    text-align: start;
-    text-align-last: start;
-
-    width: 20%;
-
-    background-color: var(--secondary);
-    color: var(--text);
-}
-
 [type="submit"] {
     width: 30%;
     align-self: center;
@@ -75,24 +65,7 @@ form {
     text-align: start;
     text-align-last: start;
 
-    background-color: var(--primary);
-    color: var(--text);
-}
-
-#bl {
-    justify-self: center;
-
-    width: 50%;
-
     background-color: var(--secondary);
     color: var(--text);
-    border:1vh solid var(--secondary);
-    border-radius: 10px;
-    text-decoration: none;
 }
 
-.fehler {
-    color: red;
-    font-style: bold;
-    font-size: 1.5em;
-}

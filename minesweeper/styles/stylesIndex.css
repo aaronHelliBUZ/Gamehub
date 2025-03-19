@@ -8,7 +8,10 @@
 body{
     display: flex;
     justify-content: center;
-    text-align-last: center;
+    align-items: center;
+    text-align: center;
+
+    height: 98vh;
 
     font-family: sans-serif;
     color: var(--text);
@@ -45,9 +48,11 @@ form span p {
     margin: 0;
 }
 
-[type="number"]{
+[type="number"],[min]{
     text-align: start;
     text-align-last: start;
+
+    width: 40%;
 
     background-color: var(--primary);
     color: var(--text);

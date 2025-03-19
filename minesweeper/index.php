@@ -23,7 +23,7 @@
         <title>Minesweeper</title>
         <link rel="stylesheet" href="./styles/stylesIndex.css?v=<? echo $time; ?>">
         <script src="./scripts/scriptPlacement.js?v=<? echo $time; ?>" defer></script>
-        <link rel="stylesheet" href="./styles/stylesResponsive.css?v=<? echo $time; ?>">
+        <link rel="stylesheet" href="./styles/stylesResponsive.css?v=<?php echo $time; ?>">
         <link rel="icon" href="./img/icon.jpg" />
     </head>
 
@@ -31,18 +31,15 @@
         <div id="content">
                 <h2>Bitte wähle Höhe, Breite und Anzahl Bomben</h2>
                 <form method="POST" action="index.php">
-                    <span><p>Höhe:</p><input type="number" name="hoehe"></span>
-                    <span><p>Breite:</p><input type="number" name="breite"></span>
+                    <span><p>Höhe:</p><input type="number" min="6" max="25" name="hoehe"></span>
+                    <span><p>Breite:</p><input type="number" min="6" max="25" name="breite"></span>
                     <span><p>Anzahl Bomben:</p><input type="number" name="bomben"></span>
                     <input type="hidden" name="submitted" value=1>
                     <input id="submit" type="submit">
                 </form>
                 <?
                     $fehlerCode = $_POST['fehlerCode'];
-
-                    if($fehlerCode === 0){
-                        echo "<div class='fehler'>Die Höhe/Breite muss zwischen 6 und 25 liegen</div>";
-                    }elseif($fehlerCode === 1){
+                    if($fehlerCode === 1){
                         echo "<div class='fehler'>Die Anzahl Bomben muss zwischen 8 % und 33.33% des Spielfelds liegen</div>";
                     }
                 ?>
