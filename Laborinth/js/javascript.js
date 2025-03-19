@@ -16,6 +16,35 @@ let playerY = 0;
 let gameContinue = true;
 let timer = 0;
 
+let root = document.querySelector(':root');
+let playingFieldN = document.getElementById('playingField');
+
+let playingFieldHeight = playingFieldN.offsetHeight;
+let playingFieldWidth = playingFieldN.offsetWidth;
+
+playingFieldHeight *= 0.98;
+playingFieldWidth *= 0.98;
+
+let fieldSize;
+
+console.log(playingFieldHeight);
+console.log(playingFieldWidth);
+
+fieldHeight = playingFieldHeight/(fieldsPerX*2-1);
+fieldWidth = playingFieldWidth/(fieldsPerY*2-1);
+
+if(fieldHeight > fieldWidth){
+    fieldSize = fieldWidth;
+}
+else if(fieldHeight < fieldWidth){
+    fieldSize = fieldHeight;
+}
+
+
+root.style.setProperty('--field-size', fieldSize+'px');
+root.style.setProperty('--height', ((fieldSize*(fieldsPerX*2-1)))+'px');
+root.style.setProperty('--width', ((fieldSize*(fieldsPerY*2-1)))+'px');
+
 generateLabyrinthFields();
 
 let startElm = document.getElementById("X0Y0");
@@ -319,7 +348,7 @@ function redirectAndForm() {
 
 function getFieldsPerXAndY() {
     const url = window.location.href;
-    const afterDotHTML = url.split(".html")[1];
+    const afterDotHTML = url.split(".php")[1];
     console.log(afterDotHTML);
     const urlFieldsPerX = afterDotHTML.split("Y=")[0].split("?X=")[1];
     const urlFieldsPerY = afterDotHTML.split("Y=")[1];

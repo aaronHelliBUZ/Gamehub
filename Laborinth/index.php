@@ -7,7 +7,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Laborinth</title>
         <link rel="stylesheet" href="css/stylesIndex.css">
     </head>
     <body>
@@ -19,7 +19,7 @@
                 <input type="number" name="y"></input><br>
                 <input type="submit"></input>
             </form>
-            <a href="insert.php">Bestenliste</a>
+            <a id="bl" href="insert.php">Bestenliste</a>
         </div>
     </body>
 </html>
@@ -27,6 +27,6 @@
     }else{
         $x = $_POST["x"];
         $y = $_POST["y"];
-        header("Location: game.html?X=" . $x . "Y=$y");
+        header("Location: game.php?X=" . $x . "Y=$y");
     }
 ?>
