@@ -29,11 +29,6 @@
                 <input type="hidden" name="submitted" value=1>
                 <input id="submit" type="submit">
             </form>
-            <?
-                if($fehler == true){
-                    echo "<p style='color: red;'>Maximal 10 Äpfel<p>";
-                }
-            ?>
         </div>
     </body>
 </html>
