@@ -5,6 +5,7 @@
     --block-color2: rgb(70, 130, 180);
     --block-color3: rgb(4, 63, 50);
     --block-color4: rgb(200, 235, 225);
+    --body-color: white;
 }
 
 /*Gennerelle Styles*/
@@ -120,4 +121,8 @@
 
 .bColor4 {
     background-color: var(--block-color4);
+}
+
+.noBColor {
+    background-color: black;
 }

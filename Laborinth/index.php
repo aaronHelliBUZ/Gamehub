@@ -14,9 +14,9 @@
         <div id="content">
             <form action="index.php" method="post">
                 Höhe
-                <input type="number" min="6" max="20" name="x"></input><br>
+                <input type="number" min="6" max="25" name="x"></input><br>
                 Breite
-                <input type="number" min="6" max="20" name="y"></input><br>
+                <input type="number" min="6" max="25" name="y"></input><br>
                 <input type="submit"></input>
             </form>
             <a href="insert.php">Bestenliste</a>

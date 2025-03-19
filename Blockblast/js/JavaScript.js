@@ -20,6 +20,8 @@ let mouseDown = false;
 let clickedBlockElm;
 let blocksLeft = 3;
 
+let clickedFigureType = -3;
+
 generateField();
 
 generateBlockInblockChoiceElm();
@@ -30,9 +32,11 @@ document.addEventListener("mouseup", function (event) {
     oldMouseX = -3;
     oldMouseY = -3;
 
-    let mouseElm = document.getElementById("X" + mouseX + "Y" + mouseY);
-    mouseElm.classList.add("setted");
-    clickedBlockElm.classList.remove("block");
+    //let mouseElm = document.getElementById("X" + mouseX + "Y" + mouseY);
+    //clickedBlockElm.classList.remove("block");
+
+    drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "addSetted");
+
     blockToPlaceColor = clickedBlockElm.classList["value"];
     blockChoiceElm.removeChild(clickedBlockElm);
     blocksLeft--;
@@ -79,14 +83,15 @@ function mouseClicked() {
     mouseDown = true;
     clickedBlockElm.classList.remove("blockFlex");
     blockToPlaceColor = clickedBlockElm.classList["value"];
-    console.log("MOUSECLICKED");
+    clickedFigureType = clickedBlockElm.getAttribute("figureType");
+    console.log("MOUSECLICKED: FigureType: " + clickedFigureType);
 }
 
 function generateBlockInblockChoiceElm() {
     blocksLeft = 3;
     for (let i = 0; i < 3; i++) {
         let colorNumber = Math.floor(Math.random() * 4);
-        let figureType = Math.floor(Math.random() * 4);
+        let figureType = Math.floor(Math.random() * 5) + 1;
 
         let newBlock = document.createElement("div");
         newBlock.id = "B" + blockIdCounter;
@@ -96,7 +101,7 @@ function generateBlockInblockChoiceElm() {
 
         if (colorNumber === 0) {
             newBlock.classList.add("bColor1");
-        }else if (colorNumber === 1) {
+        } else if (colorNumber === 1) {
             newBlock.classList.add("bColor2");
         } else if (colorNumber === 2) {
             newBlock.classList.add("bColor3");
@@ -107,26 +112,29 @@ function generateBlockInblockChoiceElm() {
         blockChoiceElm.appendChild(newBlock);
         blockIdCounter++;
 
-        //drawFigure(figureType);
-
         newBlock.addEventListener("mousedown", function (event) {
             event.preventDefault();
             clickedBlockElm = this;
             mouseClicked();
         });
+
+        newBlock.setAttribute("startId", newBlock.id2 + "X" + 0 + "Y" + 0);
+        newBlock.setAttribute("figureType", figureType);
+
+        drawFigure(figureType, 0, 0, newBlock.id, "add");
     }
 }
 
 function generateInBlockFlex(newBlock) {
-    for (let x = 0; x < 5; x++){
+    for (let x = 0; x < 5; x++) {
         let newFlex = document.createElement("div");
-        newFlex.id = "X" + x.toString();
+        newFlex.id = newBlock.id + "X" + x.toString();
         newFlex.className = "blockFieldFlex";
         newBlock.appendChild(newFlex);
-        for (let y = 0; y < 5; y++){
+        for (let y = 0; y < 5; y++) {
             let newField = document.createElement("div");
-            newField.id = "X" + x.toString() + "Y" + y.toString();
-            newField.className = "block";
+            newField.id = newBlock.id + "X" + x.toString() + "Y" + y.toString();
+            newField.className = "block noBColor";
             newFlex.appendChild(newField);
         }
     }
@@ -139,52 +147,142 @@ function mouseOver(mouseOverElm) {
 
         mouseX = mouseOverElm.id.split("Y")[0].split("X")[1];
         mouseY = mouseOverElm.id.split("Y")[1];
-        console.log("X: " + mouseX + "\nY: " + mouseY);
         setFieldToBlockWhileMouseOver();
     }
 }
 
 function setFieldToBlockWhileMouseOver() {
-    let oldBlockElm = document.getElementById("X" + oldMouseX + "Y" + oldMouseY);
-    if (oldBlockElm.classList.contains("setted") === false) {
-        oldBlockElm.classList.remove("fieldBlock");
-        if (blockToPlaceColor !== "") {
-            oldBlockElm.classList.remove(blockToPlaceColor);
+    //oldBlockElm.classList.remove("fieldBlock");
+    if (blockToPlaceColor !== "") {
+        //oldBlockElm.classList.remove(blockToPlaceColor);
+
+        drawFigure(Number(clickedFigureType), oldMouseX, oldMouseY, "", "remove");
+    }
+
+    //let newBlockElm = document.getElementById("X" + mouseX + "Y" + mouseY);
+    //newBlockElm.classList.add("fieldBlock");
+    if (blockToPlaceColor !== "") {
+        //newBlockElm.classList.add(blockToPlaceColor);
+
+        drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "add");
+    }
+}
+
+function drawFigure(figureType, drawX, drawY, addition, removeOrAdd) {
+    switch (figureType) {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+            dreiUeberEcke(drawX, drawY, addition, removeOrAdd);
+            break;
+        case 2:
+            vierUeberEcke(drawX, drawY, addition, removeOrAdd);
+            break;
+        case 3:
+            vierUeberEckeInvertiert(drawX, drawY, addition, removeOrAdd);
+            break;
+        case 4:
+            kleinesT(drawX, drawY, addition, removeOrAdd);
+            break;
+        case 5:
+            grosserBalken(drawX, drawY, addition, removeOrAdd);
+            break;
+    }
+}
+
+function dreiUeberEcke(drawX, drawY, addition, removeOrAdd) {
+    if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
+        if (drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAdd) === false) {
+            if (drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAdd) === false) {
+                return false;
+            }
         }
     }
 
-    let newBlockElm = document.getElementById("X" + mouseX + "Y" + mouseY);
-    newBlockElm.classList.add("fieldBlock");
-    if (blockToPlaceColor !== "") {
-        newBlockElm.classList.add(blockToPlaceColor);
+    return true;
+}
+
+function vierUeberEcke(drawX, drawY, addition, removeOrAdd) {
+    if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
+        if (drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAdd) === false) {
+            if (drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAdd) === false) {
+                if (drawAtPosition(Number(drawX) + 2, drawY, addition, removeOrAdd) === false) {
+                    return false;
+                }
+            }
+        }
     }
+
+    return true;
 }
 
-function drawFigure(figureType, drawX, drawY) {
-    switch (figureType) {
-        case 1:
-            dreiUeberEcke(drawX, drawY);
-            break;
-        case 2:
-            vierUeberEcke(drawX, drawY);
-            break;
+function vierUeberEckeInvertiert(drawX, drawY, addition, removeOrAdd) {
+    if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
+        if (drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAdd) === false) {
+            if (drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAdd) === false) {
+                if (drawAtPosition(drawX, Number(drawY) + 2, addition, removeOrAdd) === false) {
+                    return false;
+                }
+            }
+        }
     }
+
+    return true;
 }
 
-function dreiUeberEcke(drawX, drawY) {
-    drawAtPosition(drawX, drawY);
-    drawAtPosition(drawX, drawY + 1);
-    drawAtPosition(drawX - 1, drawY);
+function kleinesT(drawX, drawY, addition, removeOrAdd) {
+    if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
+        if (drawAtPosition(Number(drawX) + 1, Number(drawY) + 1, addition, removeOrAdd) === false) {
+            if (drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAdd) === false) {
+                if (drawAtPosition(drawX, Number(drawY) + 2, addition, removeOrAdd) === false) {
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true;
 }
 
-function vierUeberEcke(drawX, drawY) {
-    drawAtPosition(drawX, drawY);
-    drawAtPosition(drawX, drawY + 1);
-    drawAtPosition(drawX - 1, drawY);
-    drawAtPosition(drawX - 2, drawY);
+function grosserBalken(drawX, drawY, addition, removeOrAdd) {
+    if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
+        if (drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAdd) === false) {
+            if (drawAtPosition(Number(drawX) + 2, drawY, addition, removeOrAdd) === false) {
+                if (drawAtPosition(Number(drawX) + 3, drawY, addition, removeOrAdd) === false) {
+                    if (drawAtPosition(Number(drawX) + 4, drawY, addition, removeOrAdd) === false) {
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+
+    return true;
 }
 
-function drawAtPosition(drawX, drawY) {
-    let elementToDraw = document.getElementById("X" + drawX + "Y" + drawY);
-    elementToDraw.classList.add(blockToPlaceColor);
+function drawAtPosition(drawX, drawY, addition, removeOrAdd) {
+    let elementToDraw = document.getElementById(addition + "X" + drawX + "Y" + drawY);
+    console.log(elementToDraw);
+    if (removeOrAdd === "add") {
+        if (blockToPlaceColor !== "") {
+            if (elementToDraw.classList.contains("setted") === false) {
+                elementToDraw.classList.add(blockToPlaceColor);
+            } else {
+                return false;
+            }
+        }
+    } else if (removeOrAdd === "remove") {
+        if (elementToDraw.classList.contains("setted") === false) {
+            elementToDraw.classList.remove(blockToPlaceColor);
+        }
+    } else if (removeOrAdd === "addSetted") {
+        if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
+            elementToDraw.classList.add(blockToPlaceColor);
+            elementToDraw.classList.add("setted");
+        }
+    }
+
+    return true;
 }
