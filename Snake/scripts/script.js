@@ -210,7 +210,7 @@ function script(aepfel){
         }
     }
 
-    setInterval(bewegen, 520);
+    setInterval(bewegen, 500 / (Math.pow(1.005, laenge)));
 
     function sterben(){
         alert('Ded');

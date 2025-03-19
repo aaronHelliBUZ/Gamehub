@@ -1,116 +1,155 @@
 <? $time = time() ?>
 <?
     session_start();
-    $loesung = array(
-        array(0, 0, 0, 0, 0, 0, 0, 0, 0),
-        array(0, 0, 0, 0, 0, 0, 0, 0, 0),
-        array(0, 0, 0, 0, 0, 0, 0, 0, 0),
-        array(0, 0, 0, 0, 0, 0, 0, 0, 0),
-        array(0, 0, 0, 0, 0, 0, 0, 0, 0),
-        array(0, 0, 0, 0, 0, 0, 0, 0, 0),
-        array(0, 0, 0, 0, 0, 0, 0, 0, 0),
-        array(0, 0, 0, 0, 0, 0, 0, 0, 0),
-        array(0, 0, 0, 0, 0, 0, 0, 0, 0)
-    );
-
-    for($i = 0; $i < 9; $i++){
-        $feld = array();
-        for($j = 0; $j < 9; $j++){
-            $randPosition = (int) random_int(1, 9);
-            if($loesung[$i][$randPosition] == 0){
-                if(reihe($i, $randPosition, $j)){
-                    if(spalte($i, $randPosition, $j)){
-                        $loesung[$i][$randPosition] = $j;
+    if($_POST['submitted'] == 0){
+        $loesung = array(
+            array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+            array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+            array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+            array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+            array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+            array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+            array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+            array(0, 0, 0, 0, 0, 0, 0, 0, 0),
+            array(0, 0, 0, 0, 0, 0, 0, 0, 0)
+        );
+    
+        for ($i = 0; $i < 9; $i++) {
+            if ($i % 3 == 0) {
+                $nummerFeld = array();
+            }
+            
+            switch ($i) {
+                case 0:
+                case 1:
+                case 2:
+                    $feld = 3;
+                    break;
+                case 3:
+                case 4:
+                case 5:
+                    $feld = 6;
+                    break;
+                case 6:
+                case 7:
+                case 8:
+                    $feld = 9;
+                    break;
+            }
+            
+            for ($j = 0; $j < 9; $j += 3) {
+                if ($i == $j || $i == $j+1 || $i == $j+2) {
+                    for ($k = $j; $k < ($j + 3); $k++) {
+                        $randNumb = random_int(1, 9);
+                        while (in_array($randNumb, $nummerFeld)) {
+                            $randNumb = random_int(1, 9);
+                        }
+                        $loesung[$i][$k] = $randNumb;
+                        array_push($nummerFeld, $randNumb);
                     }
-                }else{
+                }
+            }
+        }
+        
+        // Überprüfen, ob die Platzierung einer Zahl sicher ist
+        function isSafe($loesung, $row, $col, $num) {
+            // Überprüfe die Zeile
+            for ($x = 0; $x < 9; $x++) {
+                if ($loesung[$row][$x] == $num) {
+                    return false;
+                }
+            }
+            // Überprüfe die Spalte
+            for ($x = 0; $x < 9; $x++) {
+                if ($loesung[$x][$col] == $num) {
+                    return false;
+                }
+            }
+            // Überprüfe das 3x3 Feld
+            $startRow = $row - $row % 3;
+            $startCol = $col - $col % 3;
+            for ($i = 0; $i < 3; $i++) {
+                for ($j = 0; $j < 3; $j++) {
+                    if ($loesung[$i + $startRow][$j + $startCol] == $num) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        
+        // Der Hauptalgorithmus zum Lösen des Sudoku
+        function solveSudoku(&$loesung) {
+            for ($row = 0; $row < 9; $row++) {
+                for ($col = 0; $col < 9; $col++) {
+                    // Suche nach einer leeren Zelle
+                    if ($loesung[$row][$col] == 0) {
+                        // Probiere alle Zahlen von 1 bis 9
+                        for ($num = 1; $num <= 9; $num++) {
+                            if (isSafe($loesung, $row, $col, $num)) {
+                                // Setze die Zahl, wenn sie sicher ist
+                                $loesung[$row][$col] = $num;
+                                if (solveSudoku($loesung)) {
+                                    return true;
+                                }
+                                // Rückgängig machen
+                                $loesung[$row][$col] = 0;
+                            }
+                        }
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+    
+        solveSudoku($loesung);
+        
+        $feld = $GLOBALS['loesung'];
+
+        for($i = 0; $i < 9;$i++){
+            for($j = 1; $j <= 4; $j++){
+                $randX = random_int(0, 8);
+
+                if($feld[$i][$randX] == 0){
                     $j--;
                     continue;
+                }else{
+                    $feld[$i][$randX] = 0;
                 }
             }
         }
-    }
+    }else{
+        $feld = unserialize($_POST['feldString']);
+        $loesung = unserialize(($_POST['loesungString']));
+        $geschafft = true;
 
-    function reihe($spielfeldIndex, $feldIndex, $zahl){
-        $spielfeldReihe = null;
-        $feldReihe = null;
-        switch($spielfeldIndex){
-            case 0:
-            case 1:
-            case 2:
-                $spielfeldReihe = 3;
-                break;
-            case 3:
-            case 4:
-            case 5:
-                $spielfeldReihe = 6;
-                break;
-            case 6:
-            case 7:
-            case 8:
-                $spielfeldReihe = 9;
-                break;
-        }
-        switch($feldIndex){
-            case 0:
-            case 1:
-            case 2:
-                $feldReihe = 3;
-                break;
-            case 3:
-            case 4:
-            case 5:
-                $feldReihe = 6;
-                break;
-            case 6:
-            case 7:
-            case 8:
-                $feldReihe = 9;
-                break;
-        }
-
-        for($i = ($spielfeldReihe - 3); $i < $spielfeldReihe; $i++){
-            for($j = ($feldReihe - 3); $j < $feldReihe; $j++){
-                if($_SESSION['loesung'][$i][$j] == $zahl){
-                    return false;
+        for($i = 0; $i < 9; $i++){
+            for($j = 0; $j < 9; $j++){
+                if($feld[$i][$j] == 0){
+                    $zahl = $_POST["feld$i/$j"];
+                    if($zahl == null){
+                        $feld[$i][$j] = 0;
+                    }else{
+                        $feld[$i][$j] = $zahl;
+                    }
                 }
             }
         }
-        return true;
-    }
 
-    function spalte($spielfeldIndex, $feldIndex, $zahl){
-        $spielfeldReihe = null;
-        $feldReihe = null;
-        switch($spielfeldIndex % 3){
-            case 0:
-                $spielfeldReihe = 0;
-                break;
-            case 1:
-                $spielfeldReihe = 1;
-                break;
-            case 2:
-                $spielfeldReihe = 2;
-                break;
-        }
-        switch($feldIndex % 3){
-            case 0:
-                $feldReihe = 0;
-                break;
-            case 1:
-                $feldReihe = 1;
-                break;
-            case 2:
-                $feldReihe = 2;
-                break;
-        }
-        for($i = $spielfeldReihe; $i < 9; $i += 3){
-            for($j = $feldReihe; $j < 9; $j += 3){
-                if($_SESSION['loesung'][$i][$j] == $zahl){
-                    return false;
+        for($i = 0; $i < 9; $i++){
+            for($j = 0; $j <9; $j++){
+                if($feld[$i][$j] != $loesung[$i][$j]){
+                    $feld[$i][$j] = 0;
+                    $geschafft = false;
                 }
             }
         }
-        return true;
+
+        if($geschafft){
+            include("gewinn.php");
+            exit;
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -126,22 +165,63 @@
         <form method="POST" action="index.php">
             <div id="spielfeld">
                 <?
-
-                    $feld = $loesung;
+                    $feldString = serialize($feld);
+                    $loesungString = serialize($GLOBALS['loesung']);
                     for($i = 0; $i < 9; $i++){
                         echo "<div id='feld_$i' class='innereFelder'>";
-                        for($j = 0; $j < 9; $j++){
-                            if($feld[$i][$j] == 0){
-                                echo "<input class='zahlen' type='number' name='feld$i" . "/" . "$j' min='1' max='9'>";
-                            }else{
-                                $zahl = $feld[$i][$j];
-                                echo "<div class='zahlen'>$zahl</div>";
+                        $spalte = 0;
+                        $reihe = 0;
+
+                        switch($i){
+                            case 0:
+                            case 1:
+                            case 2:
+                                $reihe = 3;
+                                break;
+                            case 3:
+                            case 4:
+                            case 5:
+                                $reihe = 6;
+                                break;
+                            case 6:
+                            case 7:
+                            case 8:
+                                $reihe = 9;
+                                break;
+                        }
+
+                        switch($i){
+                            case 0:
+                            case 3:
+                            case 6:
+                                $spalte = 3;
+                                break;
+                            case 1:
+                            case 4:
+                            case 7:
+                                $spalte = 6;
+                                break;
+                            case 2:
+                            case 5:
+                            case 8:
+                                $spalte = 9;
+                                break;
+                        }
+
+                        for($j = $reihe - 3; $j < $reihe; $j++){
+                            for($k = $spalte - 3; $k < $spalte; $k++){
+                                if($feld[$j][$k] !== 0){
+                                    $zahl = $feld[$j][$k];
+                                    echo "<div class='zahlen'>$zahl</div>";
+                                }else{
+                                    echo "<input class='zahlen' type='number' name='feld$j" . "/" . "$k' min='1' max='9'>";
+                                }
                             }
                         }
                         echo "</div>";
                     }
-                    $feldString = serialize($feld);
                     echo "<input type='hidden' name='feldString' value=$feldString>";
+                    echo "<input type='hidden' name='loesungString' value=$loesungString>";
                     echo "<input type='hidden' name='submitted' value=1>";
                 ?>
             </div>
