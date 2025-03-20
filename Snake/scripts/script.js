@@ -239,7 +239,7 @@ function script(aepfel){
             document.body.appendChild(looseMessageElm);
 
             setTimeout(function(){
-                location.reload();
+                window.location.href = '../index.php'
             },6500);
         },2000);
     }
