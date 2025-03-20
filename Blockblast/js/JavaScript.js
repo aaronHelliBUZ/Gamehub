@@ -37,7 +37,9 @@ document.addEventListener("mouseup", function (event) {
 
     drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "addSetted");
 
-    blockToPlaceColor = clickedBlockElm.classList["value"];
+    clickedFigureType = -3;
+    blockToPlaceColor = "";
+
     blockChoiceElm.removeChild(clickedBlockElm);
     blocksLeft--;
     if (blocksLeft <= 0) {
@@ -121,7 +123,9 @@ function generateBlockInblockChoiceElm() {
         newBlock.setAttribute("startId", newBlock.id2 + "X" + 0 + "Y" + 0);
         newBlock.setAttribute("figureType", figureType);
 
-        drawFigure(figureType, 0, 0, newBlock.id, "add");
+        blockToPlaceColor = "noBColor";
+
+        drawFigure(figureType, 0, 0, newBlock.id, "remove");
     }
 }
 
@@ -141,7 +145,7 @@ function generateInBlockFlex(newBlock) {
 }
 
 function mouseOver(mouseOverElm) {
-    if (mouseDown === true) {
+    if (mouseDown === true && mouseOverElm.classList.contains("setted") === false) {
         oldMouseX = mouseX;
         oldMouseY = mouseY;
 
@@ -177,7 +181,7 @@ function drawFigure(figureType, drawX, drawY, addition, removeOrAdd) {
         case 5:
             dreiUeberEcke(drawX, drawY, addition, removeOrAdd);
             break;
-        case 2:
+        /*case 2:
             vierUeberEcke(drawX, drawY, addition, removeOrAdd);
             break;
         case 3:
@@ -188,16 +192,26 @@ function drawFigure(figureType, drawX, drawY, addition, removeOrAdd) {
             break;
         case 5:
             grosserBalken(drawX, drawY, addition, removeOrAdd);
-            break;
+            break;*/
     }
 }
 
 function dreiUeberEcke(drawX, drawY, addition, removeOrAdd) {
+    let removeOrAddInverted;
+
+    if (removeOrAdd === "add") {
+        removeOrAddInverted = "remove";
+    }
+
     if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
         if (drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAdd) === false) {
             if (drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAdd) === false) {
                 return false;
+            } else {
+                drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAddInverted);
             }
+        } else {
+            drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
         }
     }
 
@@ -264,23 +278,21 @@ function grosserBalken(drawX, drawY, addition, removeOrAdd) {
 
 function drawAtPosition(drawX, drawY, addition, removeOrAdd) {
     let elementToDraw = document.getElementById(addition + "X" + drawX + "Y" + drawY);
-    console.log(elementToDraw);
     if (removeOrAdd === "add") {
-        if (blockToPlaceColor !== "") {
-            if (elementToDraw.classList.contains("setted") === false) {
-                elementToDraw.classList.add(blockToPlaceColor);
-            } else {
-                return false;
-            }
+        if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
+            elementToDraw.classList.add(blockToPlaceColor);
+            return false;
         }
     } else if (removeOrAdd === "remove") {
-        if (elementToDraw.classList.contains("setted") === false) {
+        if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
             elementToDraw.classList.remove(blockToPlaceColor);
+            return false;
         }
     } else if (removeOrAdd === "addSetted") {
         if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
             elementToDraw.classList.add(blockToPlaceColor);
             elementToDraw.classList.add("setted");
+            return false;
         }
     }
 
