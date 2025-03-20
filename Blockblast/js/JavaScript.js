@@ -156,7 +156,7 @@ function generateInBlockFlex(newBlock) {
 }
 
 function mouseOver(mouseOverElm) {
-    if (mouseDown === true/* && mouseOverElm.classList.contains("setted") === false*/) {
+    if (mouseDown === true /* && mouseOverElm.classList.contains("setted") === false*/) {
         oldMouseX = mouseX;
         oldMouseY = mouseY;
 
@@ -168,38 +168,32 @@ function mouseOver(mouseOverElm) {
 
 function setFieldToBlockWhileMouseOver() {
     if (blockToPlaceColor !== "") {
-        drawFigure(Number(clickedFigureType), oldMouseX, oldMouseY, "", "remove", Number(direction));
-        console.log("OldX: " + oldMouseX + " OldY: " + oldMouseY);
+        if (drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "remove", Number(direction)) === false) {
+            drawFigure(Number(clickedFigureType), oldMouseX, oldMouseY, "", "remove", Number(direction));
+            drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "add", Number(direction));
+        }
     }
 
     if (blockToPlaceColor !== "") {
-        drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "add", Number(direction));
     }
 }
 
 function drawFigure(figureType, drawX, drawY, addition, removeOrAdd, direction) {
     switch (figureType) {
         case 1:
-            dreiUeberEcke(drawX, drawY, addition, removeOrAdd, Number(direction));
-            break;
+            return dreiUeberEcke(drawX, drawY, addition, removeOrAdd, Number(direction));
         case 2:
-            vierUeberEcke(drawX, drawY, addition, removeOrAdd, direction);
-            break;
+            return vierUeberEcke(drawX, drawY, addition, removeOrAdd, direction);
         case 3:
-            vierUeberEckeInvertiert(drawX, drawY, addition, removeOrAdd, direction);
-            break;
+            return vierUeberEckeInvertiert(drawX, drawY, addition, removeOrAdd, direction);
         case 4:
-            kleinesT(drawX, drawY, addition, removeOrAdd, direction);
-            break;
+            return kleinesT(drawX, drawY, addition, removeOrAdd, direction);
         case 5:
-            grosserBalken(drawX, drawY, addition, removeOrAdd, direction);
-            break;
+            return grosserBalken(drawX, drawY, addition, removeOrAdd, direction);
         case 6:
-            zweiMalEins(drawX, drawY, addition, removeOrAdd, direction);
-            break;
+            return zweiMalEins(drawX, drawY, addition, removeOrAdd, direction);
         case 7:
-            zweiMalZwei(drawX, drawY, addition, removeOrAdd, direction);
-            break;
+            return zweiMalZwei(drawX, drawY, addition, removeOrAdd, direction);
     }
 }
 
@@ -627,8 +621,6 @@ function drawAtPosition(drawX, drawY, addition, removeOrAdd) {
                 return false;
             }
         }
-    } else {
-        console.log("TRUE");
     }
 
     return true;
