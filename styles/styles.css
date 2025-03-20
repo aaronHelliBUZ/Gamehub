@@ -12,6 +12,8 @@ body {
     text-align-last: center;
     text-align: center;
 
+    width: 98vw;
+    height: 98vh;
     margin: 0px;
 
     background-color: var(--bgcolor);
