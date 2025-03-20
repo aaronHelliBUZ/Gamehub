@@ -216,9 +216,10 @@ function script(aepfel){
             neuerKopfElm.classList.add('Schlange');
             neuerSchwanzElm.id = 'Schwanz';
         }
+        setTimeout(bewegen, (500 / Math.pow(1.002, laenge)))
     }
 
-    setInterval(bewegen, 500 / (Math.pow(1.005, laenge)));
+    bewegen();
 
     function sterben(){
         let contentElm = document.getElementById("content");
@@ -238,7 +239,7 @@ function script(aepfel){
             document.body.appendChild(looseMessageElm);
 
             setTimeout(function(){
-                location.reload();
+                window.location.href = '../index.php'
             },6500);
         },2000);
     }

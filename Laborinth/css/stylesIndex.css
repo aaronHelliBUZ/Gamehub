@@ -63,11 +63,11 @@ form {
 
     color: var(--text);
     background-color: var(--secondary);
+    border-radius: 0.2em;
 }
 
 [type="submit"]:hover {
-    width: 30%;
-
+    cursor: pointer;
     background-color: rgb(51, 108, 155);
 }
 
@@ -89,6 +89,11 @@ form {
     border:1vh solid var(--secondary);
     border-radius: 10px;
     text-decoration: none;
+}
+
+#bl:hover {
+    background-color: rgb(51, 108, 155);
+    border-color: rgb(51, 108, 155);
 }
 
 .fehler {

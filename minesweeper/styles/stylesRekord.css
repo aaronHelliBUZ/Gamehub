@@ -25,7 +25,7 @@ body{
     height: 10vh;
     width: 40vw;
 
-    border-radius: 5%;
+    border-radius: 1em;
     background-color: var(--bgcolor);
 }
 

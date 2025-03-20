@@ -1,28 +1,122 @@
-div{
-    margin: auto;
+:root {
+    --primary:rgb(0, 160, 125);
+    --secondary:rgb(70, 130, 180);
+    --bgcolor:rgb(4, 63, 50);
+    --text:rgb(200, 235, 225);
+
+    --size:1px;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 98vh;
+    width: 98vw;
+
+    background-color: var(--bgcolor);
+    font-family: sans-serif;
+    color: var(--text);
+}
+
+#content{
+    width: calc(var(--size)*0.9);
+    height: 80%;
+
+    background-color: var(--primary);
+    border: 0.5rem var(--primary) solid;
+    border-radius: 2%;
+}
+
+form {
+    display: grid;
+    grid-template-rows: 90% 10%;
+
+    height: 100%;
+    width: 100%;
 }
 
 #spielfeld{
-    height: 497px;
-    width: 497px;
-    border: solid black 10px;
     display: grid;
-    grid-template-columns: repeat(3, 160px);
-    grid-template-rows: repeat(3, 160px);
+    grid-template-rows: repeat(3, 33.3333333%);
+    grid-template-columns: repeat(3, 33.3333333%);
+
+    height: 98%;
+    width: 98%;
+
+    border-radius: 2%;
+    border: calc(var(--size)*0.01) black solid;
 }
 
 .innereFelder{
-    height: 160px;
-    width: 160px;
-    border: solid black 10px;
     display: grid;
-    grid-template-columns: repeat(3, 53px);
-    grid-template-rows: repeat(3, 53px);
+    grid-template-columns: repeat(3, 33.3333333%);
+    grid-template-rows: repeat(3, 33.3333333%);
+
+    justify-self: center;
+    align-self: center;
+
+    height: 98%;
+    width: 98%;
+
+    border: calc(calc(calc(var(--size)*0.9)*0.98)*0.01) black solid;
+    border-radius: 2%;
 }
 
 .zahlen{
-    display: inline;
-    height: 40px;
-    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    justify-self: center;
+    align-self: center;
+
+    height: 90%;
+    width: 90%;
+    font-size: 2rem;
+
+    border: calc(calc(calc(calc(var(--size)*0.9)*0.98)*0.01)*0.5) black solid;
+    border-radius: 5%;
+    background-color: var(--secondary);
+
+}
+
+[type="number"]{
     text-align: center;
+    padding: 0px;
+
+    color: var(--text);
+    background-color: rgb(86, 150, 202);
+}
+
+#submit{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 100%;
+}
+
+[type="submit"],a{
+    text-decoration: none;
+    font-size: 4vh;
+
+    color: var(--text);
+    background-color: var(--secondary);
+    border: 1vh var(--secondary) solid;
+    border-radius: 5px;
+}
+
+[type="submit"]:hover, a:hover{
+    cursor: pointer;
+
+    border-color: rgb(51, 108, 155);
+    background-color: rgb(51, 108, 155);
 }

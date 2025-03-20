@@ -27,7 +27,7 @@
                 ?>
             </section>
             <div id="links">
-                <a href="../index.html">Startseite</a>
+                <a href="../index.php">Startseite</a>
             </div>
         </div>
     </body>

@@ -77,7 +77,7 @@ body{
 
     border:0.5dvh var(--primary) solid;
     background-color: var(--primary);
-    border-radius: 8%;
+    border-radius: 0.1em;
     text-decoration: none;
 }
 
@@ -124,7 +124,7 @@ p{
     justify-self: center;
     width: 2em ;
     height: 2em;
-    border-radius: 2px;
+    border-radius: 1em;
     background-color: #adff2f;
     transition: transform 1s ease;
 }
@@ -136,7 +136,7 @@ p{
     justify-self: center;
     width: 2em ;
     height: 2em;
-    border-radius: 2px;
+    border-radius: 5%;
     transition: transform 1s ease;
 }
 
@@ -170,7 +170,7 @@ p{
     align-self: center;
     margin-left: -60%;
     font-size: 8em;
-    border-radius: 15px;
+    border-radius: 1em;
     animation-name: moveWon, changeColor, changeBackground;
     animation-duration: 10s;
 }
