@@ -161,6 +161,7 @@ function setFieldToBlockWhileMouseOver() {
         //oldBlockElm.classList.remove(blockToPlaceColor);
 
         drawFigure(Number(clickedFigureType), oldMouseX, oldMouseY, "", "remove");
+        console.log("OldX: " + oldMouseX + " OldY: " + oldMouseY);
     }
 
     //let newBlockElm = document.getElementById("X" + mouseX + "Y" + mouseY);
@@ -179,8 +180,7 @@ function drawFigure(figureType, drawX, drawY, addition, removeOrAdd) {
         case 3:
         case 4:
         case 5:
-            dreiUeberEcke(drawX, drawY, addition, removeOrAdd);
-            break;
+            return dreiUeberEcke(drawX, drawY, addition, removeOrAdd);
         /*case 2:
             vierUeberEcke(drawX, drawY, addition, removeOrAdd);
             break;
