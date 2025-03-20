@@ -68,5 +68,5 @@ a {
     color: var(--text);
     background-color: var(--secondary);
     border: 1vh var(--secondary) solid;
-    border-radius: 5px;
+    border-radius: 0.4em;
 }

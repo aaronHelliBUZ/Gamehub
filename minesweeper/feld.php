@@ -36,7 +36,7 @@
                 }
             ?>
             </div>
-            <div id="back"><a id="home"href="../index.html">Zurück zur Startseite</a></div>
+            <div id="back"><a id="home"href="../php.html">Zurück zur Startseite</a></div>
         </div>
     </body>
 </html>

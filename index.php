@@ -1,3 +1,4 @@
+<?php $time = time() ?>
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -5,15 +6,13 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Gamehub</title>
       <link rel="icon" href="./gfx/iconHub.png" />
-      <link rel="stylesheet" href="./styles/styles.css" />
-      <link rel="stylesheet" href="./styles/stylesResponsive.css" />
-      <script src="./script/script.js" defer></script>
+      <link rel="stylesheet" href="./styles/styles.css?v=<?php  echo $time; ?>" />
+      <script src="./script/script.js?v=<?php echo $time; ?>" defer></script>
    </head>
    <body>
       <div id="content">
          <header>
             <h1>Gamehub</h1>
-            <h2>Saudi job</h2>
          </header>
          <section id="games">
             <section class="gameOption">

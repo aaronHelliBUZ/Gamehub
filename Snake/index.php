@@ -1,4 +1,5 @@
-<?
+<? $time = time() ?>
+<?php
     $submitted = $_POST["submitted"];
     $fehler = false;
     $aepfel = (int) $_POST["aepfel"];
@@ -18,7 +19,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="./img/icon.png" />
-        <link rel="stylesheet" href="./styles/stylesIndex.css?v=<? echo $time; ?>">
+        <link rel="stylesheet" href="./styles/stylesIndex.css?v=<?php echo $time; ?>">
         <title>Snake</title>
     </head>
 
