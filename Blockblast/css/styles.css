@@ -1,3 +1,13 @@
+:root {
+    --field-size: 50px;
+    --field-color: black;
+    --block-color1: rgb(0, 160, 125);
+    --block-color2: rgb(70, 130, 180);
+    --block-color3: rgb(4, 63, 50);
+    --block-color4: rgb(200, 235, 225);
+    --body-color: white;
+}
+
 /*Gennerelle Styles*/
 body {
     display: flex;
@@ -46,4 +56,73 @@ body {
     border-right: 0.1em solid rgb(0, 255, 200);
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
+}
+
+/* NICO */
+
+#content {
+    width: auto;
+    height: auto;
+}
+
+.fieldFlex {
+    display: flex;
+    flex-direction: row;
+}
+
+.field {
+    width: var(--field-size);
+    height: var(--field-size);
+    background-color: var(--field-color);
+    border: 0.1px solid white;
+}
+
+#gameField {
+    width: auto;
+    height: auto;
+}
+
+#blockChoice {
+    width: calc(var(--field-size) * 6);
+    height: auto;
+    display: flex;
+}
+
+.blockFlex {
+    display: flex;
+    flex-direction: column;
+}
+
+.blockFieldFlex {
+    display: flex;
+}
+
+.fieldBlock {
+    background-color: var(--block-color1);
+}
+
+.block {
+    width: var(--field-size);
+    height: var(--field-size);
+    border: 0.1px solid white;
+}
+
+.bColor1 {
+    background-color: var(--block-color1);
+}
+
+.bColor2 {
+    background-color: var(--block-color2);
+}
+
+.bColor3 {
+    background-color: var(--block-color3);
+}
+
+.bColor4 {
+    background-color: var(--block-color4);
+}
+
+.noBColor {
+    background-color: black;
 }
