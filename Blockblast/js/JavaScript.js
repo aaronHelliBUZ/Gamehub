@@ -236,7 +236,7 @@ function vierUeberEcke(drawX, drawY, addition, removeOrAdd) {
                 if (drawAtPosition(Number(drawX) + 2, drawY, addition, removeOrAdd) === false) {
                     return false;
                 } else {
-                    drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAdd);
+                    drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAddInverted);
                     drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAddInverted);
                     drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
                 }

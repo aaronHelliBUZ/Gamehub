@@ -1,3 +1,5 @@
+<?php $time = time() ?>
+
 <?
     $submitted = $_POST["submitted"];
     $fehler = false;

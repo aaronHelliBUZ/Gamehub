@@ -72,5 +72,5 @@
 }
 
 .noBColor {
-    background-color: black;
+    background-color: var(--body-color);
 }
