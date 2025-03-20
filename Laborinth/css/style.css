@@ -1,21 +1,39 @@
-:root {
-    --way-color: white;
+:root {    
+    --primary: rgb(0, 160, 125);
+    --secondary: rgb(70, 130, 180);
+    --bgcolor: rgb(4, 63, 50);
+    --text: rgb(200, 235, 225);
+    --wall-color: rgb(0, 29, 23);
+
+    --height:85%;
+    --width:90%;
     --field-size: 25px;
-    --wall-color: black;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+    height: 98vh;
+    width: 98vw;
+    margin: 0px;
+
+    font-family: sans-serif;
+    background-color: var(--bgcolor);
 }
 
 #playingField {
-    background-color: grey;
-    width: 90%;
-    height: 700px;
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
+    width: var(--width);
+    height: var(--height);
+    padding: 1%;
+
+    background-color: var(--wall-color);
 }
 
 .fieldFlex {
     display: flex;
-    flex-direction: row;
 }
 
 .field {
@@ -24,22 +42,40 @@
     background-color: var(--wall-color);
 }
 
-.visited {
-    background-color: chartreuse;
+a {
+    display:flex;
+    height: 5%;
+
+    text-justify: center;
+    text-align: center;
+
+    font-size: 3vh;
+    border: 1vh var(--secondary) solid;
+    border-radius: 5px;
+    background-color: var(--secondary);
+    color: var(--text);
+    text-decoration: none;
 }
 
-.finished {
-    /*background-color: white;*/
+#timer {
+    height: 10%;
+
+    font-size: 8vh;
+    color: var(--text);
+}
+
+.visited {
+    background-color: var(--text);
 }
 
 .start {
-    background-color: azure;
+    background-color: rgb(144, 236, 209);
 }
 
 .end {
-    background-color: red;
+    background-color: var(--secondary);
 }
 
 .player {
-    background-color: darkblue;
+    background-color: var(--primary);
 }

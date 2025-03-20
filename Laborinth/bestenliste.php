@@ -1,3 +1,4 @@
+<?php $time = time() ?>
 <?php
     $servername = "localhost";
     $username = "root";
@@ -11,16 +12,24 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Bestenliste</title>
-        <link rel="stylesheet" href="css/stylesBestenliste.css">
+        <title>Laborinth</title>
+        <link rel="stylesheet" href="css/stylesBestenliste.css?v=<? echo $time; ?>">
+        <link rel="icon" href="../gfx/iconLaborinth.jpg">
     </head>
-    <body>
-        <?php
-            useDatabase();
+    <body id="body">
+        <div id="content">
+            <section>
+                <h1>Bestenliste</h1>
+                <?php
+                    useDatabase();
 
-            selectAndPrintAsHTMLTable();
-        ?>
-        <a href=".">Nochmals spielen</a>
+                    selectAndPrintAsHTMLTable();
+                ?>
+            </section>
+            <div id="links">
+                <a href="../index.html">Startseite</a>
+            </div>
+        </div>
     </body>
 </html>
 
@@ -68,7 +77,7 @@
         // ===========================================================
         $conn = tryConnection($dbname);
 
-        echo "<table style='border: solid 1px black;'>";
+        echo "<table>";
         echo "<tr><th>Name</th><th>Schwierigkeit</th><th>Zeit</th></tr>";
 
         class TableRows extends RecursiveIteratorIterator {
@@ -77,7 +86,7 @@
             }
 
             function current() {
-                return "<td style='width:150px;border:1px solid black;'>" . parent::current(). "</td>";
+                return "<td>" . parent::current(). "</td>";
             }
 
             function beginChildren() {
