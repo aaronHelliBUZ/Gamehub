@@ -8,58 +8,6 @@
     --body-color: white;
 }
 
-/*Gennerelle Styles*/
-body {
-    display: flex;
-    background-color: burlywood;
-}
-
-/*Content Feld*/
-#content {
-    display: grid;
-    grid-template-columns: 40% 60%;
-    margin-top: 100px;
-}
-
-/*Spielfeld*/
-#gameField {
-    display: grid;
-    grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
-    grid-template-rows: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
-    
-    grid-area: 1/2/2/3;
-    height: 90%;
-    width: 90%;
-
-    background-color: rgb(1, 14, 72);
-    border: 0.2em solid rgb(1, 14, 72);
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-
-}
-
-/*Einzelne Quadrate normal*/
-#gameField > div:not(.explodeFields, .fire, .looseMessage) {
-    background-color: rgb(0, 255, 200);
-    align-self: center;
-    justify-self: center;
-    width: 95%;
-    height: 95%;
-    border-radius: 5%;
-}
-
-#blocks {
-    height: 90%;
-
-    background-color: rgb(1, 14, 72);
-    border: 0.2em solid rgb(1, 14, 72);
-    border-right: 0.1em solid rgb(0, 255, 200);
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-}
-
-/* NICO */
-
 #content {
     width: auto;
     height: auto;
@@ -124,5 +72,5 @@ body {
 }
 
 .noBColor {
-    background-color: black;
+    background-color: var(--body-color);
 }

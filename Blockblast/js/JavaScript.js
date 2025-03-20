@@ -6,6 +6,8 @@ const pointCounterElm = document.getElementById("pointCounter");
 const fieldsPerX = 10;
 const fieldsPerY = 10;
 
+const countFigures = 7;
+
 let mouseX = -3;
 let mouseY = -3;
 
@@ -22,6 +24,7 @@ let clickedBlockElm;
 let blocksLeft = 3;
 
 let clickedFigureType = -3;
+let direction = -3;
 
 let pointCounter = 0;
 
@@ -35,9 +38,10 @@ document.addEventListener("mouseup", function (event) {
     oldMouseX = -3;
     oldMouseY = -3;
 
-    drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "addSetted");
+    drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "addSetted", Number(direction));
 
     clickedFigureType = -3;
+    direction = -3;
     blockToPlaceColor = "";
 
     blockChoiceElm.removeChild(clickedBlockElm);
@@ -90,13 +94,16 @@ function mouseClicked() {
     blockToPlaceColor = clickedBlockElm.classList["value"];
     clickedFigureType = clickedBlockElm.getAttribute("figureType");
     console.log("MOUSECLICKED: FigureType: " + clickedFigureType);
+    direction = clickedBlockElm.getAttribute("direction");
+    console.log("MOUSECLICKED: Direction: " + direction);
 }
 
 function generateBlockInblockChoiceElm() {
     blocksLeft = 3;
     for (let i = 0; i < 3; i++) {
         let colorNumber = Math.floor(Math.random() * 4);
-        let figureType = Math.floor(Math.random() * 5) + 1;
+        let figureType = Math.floor(Math.random() * countFigures) + 1;
+        let direction = Math.floor(Math.random() * 4) + 1;
 
         let newBlock = document.createElement("div");
         newBlock.id = "B" + blockIdCounter;
@@ -125,10 +132,11 @@ function generateBlockInblockChoiceElm() {
 
         newBlock.setAttribute("startId", newBlock.id2 + "X" + 0 + "Y" + 0);
         newBlock.setAttribute("figureType", figureType);
+        newBlock.setAttribute("direction", direction);
 
         blockToPlaceColor = "noBColor";
 
-        drawFigure(figureType, 0, 0, newBlock.id, "remove");
+        drawFigure(figureType, 0, 0, newBlock.id, "remove", direction);
     }
 }
 
@@ -148,7 +156,7 @@ function generateInBlockFlex(newBlock) {
 }
 
 function mouseOver(mouseOverElm) {
-    if (mouseDown === true && mouseOverElm.classList.contains("setted") === false) {
+    if (mouseDown === true/* && mouseOverElm.classList.contains("setted") === false*/) {
         oldMouseX = mouseX;
         oldMouseY = mouseY;
 
@@ -160,36 +168,73 @@ function mouseOver(mouseOverElm) {
 
 function setFieldToBlockWhileMouseOver() {
     if (blockToPlaceColor !== "") {
-        drawFigure(Number(clickedFigureType), oldMouseX, oldMouseY, "", "remove");
+        drawFigure(Number(clickedFigureType), oldMouseX, oldMouseY, "", "remove", Number(direction));
         console.log("OldX: " + oldMouseX + " OldY: " + oldMouseY);
     }
 
     if (blockToPlaceColor !== "") {
-        drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "add");
+        drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "add", Number(direction));
     }
 }
 
-function drawFigure(figureType, drawX, drawY, addition, removeOrAdd) {
+function drawFigure(figureType, drawX, drawY, addition, removeOrAdd, direction) {
     switch (figureType) {
         case 1:
-            return dreiUeberEcke(drawX, drawY, addition, removeOrAdd);
+            dreiUeberEcke(drawX, drawY, addition, removeOrAdd, Number(direction));
+            break;
         case 2:
-            vierUeberEcke(drawX, drawY, addition, removeOrAdd);
+            vierUeberEcke(drawX, drawY, addition, removeOrAdd, direction);
             break;
         case 3:
-            vierUeberEckeInvertiert(drawX, drawY, addition, removeOrAdd);
+            vierUeberEckeInvertiert(drawX, drawY, addition, removeOrAdd, direction);
             break;
         case 4:
-            kleinesT(drawX, drawY, addition, removeOrAdd);
+            kleinesT(drawX, drawY, addition, removeOrAdd, direction);
             break;
         case 5:
-            grosserBalken(drawX, drawY, addition, removeOrAdd);
+            grosserBalken(drawX, drawY, addition, removeOrAdd, direction);
+            break;
+        case 6:
+            zweiMalEins(drawX, drawY, addition, removeOrAdd, direction);
+            break;
+        case 7:
+            zweiMalZwei(drawX, drawY, addition, removeOrAdd, direction);
             break;
     }
 }
 
-function dreiUeberEcke(drawX, drawY, addition, removeOrAdd) {
+function dreiUeberEcke(drawX, drawY, addition, removeOrAdd, direction) {
     let removeOrAddInverted;
+
+    let calcedDrawXBlock1 = Number(drawX);
+    let calcedDrawYBlock1 = Number(drawY);
+    let calcedDrawXBlock2 = Number(drawX);
+    let calcedDrawYBlock2 = Number(drawY);
+    let calcedDrawXBlock3 = Number(drawX);
+    let calcedDrawYBlock3 = Number(drawY);
+
+    switch (direction) {
+        case 1:
+            calcedDrawYBlock2 = Number(drawY) + 1;
+            calcedDrawXBlock3 = Number(drawX) + 1;
+            break;
+        case 2:
+            calcedDrawYBlock2 = Number(drawY) + 1;
+            calcedDrawXBlock3 = Number(drawX) + 1;
+            calcedDrawYBlock3 = Number(drawY) + 1;
+            break;
+        case 3:
+            calcedDrawXBlock2 = Number(drawX) + 1;
+            calcedDrawYBlock2 = Number(drawY) + 1;
+            calcedDrawXBlock3 = Number(drawX) + 1;
+            break;
+        case 4:
+            calcedDrawXBlock1 = Number(drawX) + 1;
+            calcedDrawYBlock1 = Number(drawY) + 1;
+            calcedDrawYBlock2 = Number(drawY) + 1;
+            calcedDrawXBlock3 = Number(drawX) + 1;
+            break;
+    }
 
     if (removeOrAdd === "add") {
         removeOrAddInverted = "remove";
@@ -197,24 +242,62 @@ function dreiUeberEcke(drawX, drawY, addition, removeOrAdd) {
         removeOrAddInverted = "removeSetted";
     }
 
-    if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
-        if (drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAdd) === false) {
-            if (drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAdd) === false) {
+    if (drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAdd) === false) {
+        if (drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAdd) === false) {
+            if (drawAtPosition(calcedDrawXBlock3, calcedDrawYBlock3, addition, removeOrAdd) === false) {
                 return false;
             } else {
-                drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAddInverted);
-                drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+                drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAddInverted);
+                drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
             }
         } else {
-            drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+            drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
         }
     }
 
     return true;
 }
 
-function vierUeberEcke(drawX, drawY, addition, removeOrAdd) {
+function vierUeberEcke(drawX, drawY, addition, removeOrAdd, direction) {
     let removeOrAddInverted;
+
+    let calcedDrawXBlock1 = Number(drawX);
+    let calcedDrawYBlock1 = Number(drawY);
+    let calcedDrawXBlock2 = Number(drawX);
+    let calcedDrawYBlock2 = Number(drawY);
+    let calcedDrawXBlock3 = Number(drawX);
+    let calcedDrawYBlock3 = Number(drawY);
+    let calcedDrawXBlock4 = Number(drawX);
+    let calcedDrawYBlock4 = Number(drawY);
+
+    switch (direction) {
+        case 1:
+            calcedDrawYBlock2 = Number(drawY) + 1;
+            calcedDrawXBlock3 = Number(drawX) + 1;
+            calcedDrawXBlock4 = Number(drawX) + 2;
+            break;
+        case 2:
+            calcedDrawYBlock2 = Number(drawY) + 1;
+            calcedDrawXBlock3 = Number(drawX) + 1;
+            calcedDrawYBlock3 = Number(drawY) + 2;
+            calcedDrawYBlock4 = Number(drawY) + 2;
+            break;
+        case 3:
+            calcedDrawYBlock1 = Number(drawY) + 1;
+            calcedDrawXBlock2 = Number(drawX) + 1;
+            calcedDrawYBlock2 = Number(drawY) + 1;
+            calcedDrawXBlock3 = Number(drawX) + 2;
+            calcedDrawYBlock3 = Number(drawY) + 1;
+            calcedDrawXBlock4 = Number(drawX) + 2;
+            break;
+        case 4:
+            calcedDrawXBlock2 = Number(drawX) + 1;
+            calcedDrawXBlock3 = Number(drawX) + 1;
+            calcedDrawYBlock3 = Number(drawY) + 1;
+            calcedDrawXBlock4 = Number(drawX) + 1;
+            calcedDrawYBlock4 = Number(drawY) + 2;
+            break;
+    }
 
     if (removeOrAdd === "add") {
         removeOrAddInverted = "remove";
@@ -222,30 +305,68 @@ function vierUeberEcke(drawX, drawY, addition, removeOrAdd) {
         removeOrAddInverted = "removeSetted";
     }
 
-    if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
-        if (drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAdd) === false) {
-            if (drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAdd) === false) {
-                if (drawAtPosition(Number(drawX) + 2, drawY, addition, removeOrAdd) === false) {
+    if (drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAdd) === false) {
+        if (drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAdd) === false) {
+            if (drawAtPosition(calcedDrawXBlock3, calcedDrawYBlock3, addition, removeOrAdd) === false) {
+                if (drawAtPosition(calcedDrawXBlock4, calcedDrawYBlock4, addition, removeOrAdd) === false) {
                     return false;
                 } else {
-                    drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAdd);
-                    drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAddInverted);
-                    drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock3, calcedDrawYBlock3, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
                 }
             } else {
-                drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAddInverted);
-                drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+                drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAddInverted);
+                drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
             }
         } else {
-            drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+            drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
         }
     }
 
     return true;
 }
 
-function vierUeberEckeInvertiert(drawX, drawY, addition, removeOrAdd) {
+function vierUeberEckeInvertiert(drawX, drawY, addition, removeOrAdd, direction) {
     let removeOrAddInverted;
+
+    let calcedDrawXBlock1 = Number(drawX);
+    let calcedDrawYBlock1 = Number(drawY);
+    let calcedDrawXBlock2 = Number(drawX);
+    let calcedDrawYBlock2 = Number(drawY);
+    let calcedDrawXBlock3 = Number(drawX);
+    let calcedDrawYBlock3 = Number(drawY);
+    let calcedDrawXBlock4 = Number(drawX);
+    let calcedDrawYBlock4 = Number(drawY);
+
+    switch (direction) {
+        case 1:
+            calcedDrawYBlock2 = Number(drawY) + 1;
+            calcedDrawYBlock3 = Number(drawY) + 2;
+            calcedDrawXBlock4 = Number(drawX) + 1;
+            break;
+        case 2:
+            calcedDrawYBlock2 = Number(drawY) + 1;
+            calcedDrawXBlock3 = Number(drawX) + 1;
+            calcedDrawYBlock3 = Number(drawY) + 1;
+            calcedDrawXBlock4 = Number(drawX) + 2;
+            calcedDrawYBlock4 = Number(drawY) + 1;
+            break;
+        case 3:
+            calcedDrawXBlock1 = Number(drawX) + 1;
+            calcedDrawXBlock2 = Number(drawX) + 1;
+            calcedDrawYBlock2 = Number(drawY) + 1;
+            calcedDrawXBlock3 = Number(drawX) + 1;
+            calcedDrawYBlock3 = Number(drawY) + 2;
+            calcedDrawYBlock4 = Number(drawY) + 2;
+            break;
+        case 4:
+            calcedDrawXBlock2 = Number(drawX) + 1;
+            calcedDrawXBlock3 = Number(drawX) + 2;
+            calcedDrawXBlock4 = Number(drawX) + 2;
+            calcedDrawYBlock4 = Number(drawY) + 1;
+            break;
+    }
 
     if (removeOrAdd === "add") {
         removeOrAddInverted = "remove";
@@ -253,30 +374,70 @@ function vierUeberEckeInvertiert(drawX, drawY, addition, removeOrAdd) {
         removeOrAddInverted = "removeSetted";
     }
 
-    if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
-        if (drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAdd) === false) {
-            if (drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAdd) === false) {
-                if (drawAtPosition(drawX, Number(drawY) + 2, addition, removeOrAdd) === false) {
+    if (drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAdd) === false) {
+        if (drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAdd) === false) {
+            if (drawAtPosition(calcedDrawXBlock3, calcedDrawYBlock3, addition, removeOrAdd) === false) {
+                if (drawAtPosition(calcedDrawXBlock4, calcedDrawYBlock4, addition, removeOrAdd) === false) {
                     return false;
                 } else {
-                    drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAddInverted);
-                    drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAddInverted);
-                    drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock3, calcedDrawYBlock3, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
                 }
             } else {
-                drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAddInverted);
-                drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+                drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAddInverted);
+                drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
             }
         } else {
-            drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+            drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
         }
     }
 
     return true;
 }
 
-function kleinesT(drawX, drawY, addition, removeOrAdd) {
+function kleinesT(drawX, drawY, addition, removeOrAdd, direction) {
     let removeOrAddInverted;
+
+    let calcedDrawXBlock1 = Number(drawX);
+    let calcedDrawYBlock1 = Number(drawY);
+    let calcedDrawXBlock2 = Number(drawX);
+    let calcedDrawYBlock2 = Number(drawY);
+    let calcedDrawXBlock3 = Number(drawX);
+    let calcedDrawYBlock3 = Number(drawY);
+    let calcedDrawXBlock4 = Number(drawX);
+    let calcedDrawYBlock4 = Number(drawY);
+
+    switch (direction) {
+        case 1:
+            calcedDrawYBlock2 = Number(drawY) + 1;
+            calcedDrawYBlock3 = Number(drawY) + 2;
+            calcedDrawXBlock4 = Number(drawX) + 1;
+            calcedDrawYBlock4 = Number(drawY) + 1;
+            break;
+        case 2:
+            calcedDrawXBlock1 = Number(drawX) + 1;
+            calcedDrawYBlock2 = Number(drawY) + 1;
+            calcedDrawXBlock3 = Number(drawX) + 1;
+            calcedDrawYBlock3 = Number(drawY) + 1;
+            calcedDrawXBlock4 = Number(drawX) + 2;
+            calcedDrawYBlock4 = Number(drawY) + 1;
+            break;
+        case 3:
+            calcedDrawXBlock1 = Number(drawX) + 1;
+            calcedDrawXBlock2 = Number(drawX) + 1;
+            calcedDrawYBlock2 = Number(drawY) + 1;
+            calcedDrawXBlock3 = Number(drawX) + 1;
+            calcedDrawYBlock3 = Number(drawY) + 2;
+            calcedDrawYBlock4 = Number(drawY) + 1;
+            break;
+        case 4:
+            calcedDrawXBlock2 = Number(drawX) + 1;
+            calcedDrawXBlock3 = Number(drawX) + 2;
+            calcedDrawXBlock4 = Number(drawX) + 1;
+            calcedDrawYBlock4 = Number(drawY) + 1;
+            break;
+    }
 
     if (removeOrAdd === "add") {
         removeOrAddInverted = "remove";
@@ -284,30 +445,58 @@ function kleinesT(drawX, drawY, addition, removeOrAdd) {
         removeOrAddInverted = "removeSetted";
     }
 
-    if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
-        if (drawAtPosition(Number(drawX) + 1, Number(drawY) + 1, addition, removeOrAdd) === false) {
-            if (drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAdd) === false) {
-                if (drawAtPosition(drawX, Number(drawY) + 2, addition, removeOrAdd) === false) {
+    if (drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAdd) === false) {
+        if (drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAdd) === false) {
+            if (drawAtPosition(calcedDrawXBlock3, calcedDrawYBlock3, addition, removeOrAdd) === false) {
+                if (drawAtPosition(calcedDrawXBlock4, calcedDrawYBlock4, addition, removeOrAdd) === false) {
                     return false;
                 } else {
-                    drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAddInverted);
-                    drawAtPosition(Number(drawX) + 1, Number(drawY) + 1, addition, removeOrAddInverted);
-                    drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock3, calcedDrawYBlock3, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
                 }
             } else {
-                drawAtPosition(Number(drawX) + 1, Number(drawY) + 1, addition, removeOrAddInverted);
-                drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+                drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAddInverted);
+                drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
             }
         } else {
-            drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+            drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
         }
     }
 
     return true;
 }
 
-function grosserBalken(drawX, drawY, addition, removeOrAdd) {
+function grosserBalken(drawX, drawY, addition, removeOrAdd, direction) {
     let removeOrAddInverted;
+
+    let calcedDrawXBlock1 = Number(drawX);
+    let calcedDrawYBlock1 = Number(drawY);
+    let calcedDrawXBlock2 = Number(drawX);
+    let calcedDrawYBlock2 = Number(drawY);
+    let calcedDrawXBlock3 = Number(drawX);
+    let calcedDrawYBlock3 = Number(drawY);
+    let calcedDrawXBlock4 = Number(drawX);
+    let calcedDrawYBlock4 = Number(drawY);
+    let calcedDrawXBlock5 = Number(drawX);
+    let calcedDrawYBlock5 = Number(drawY);
+
+    switch (direction) {
+        case 1:
+        case 3:
+            calcedDrawYBlock2 = Number(drawY) + 1;
+            calcedDrawYBlock3 = Number(drawY) + 2;
+            calcedDrawYBlock4 = Number(drawY) + 3;
+            calcedDrawYBlock5 = Number(drawY) + 4;
+            break;
+        case 2:
+        case 4:
+            calcedDrawXBlock2 = Number(drawX) + 1;
+            calcedDrawXBlock3 = Number(drawX) + 2;
+            calcedDrawXBlock4 = Number(drawX) + 3;
+            calcedDrawXBlock5 = Number(drawX) + 4;
+            break;
+    }
 
     if (removeOrAdd === "add") {
         removeOrAddInverted = "remove";
@@ -315,20 +504,87 @@ function grosserBalken(drawX, drawY, addition, removeOrAdd) {
         removeOrAddInverted = "removeSetted";
     }
 
-    if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
-        if (drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAdd) === false) {
-            if (drawAtPosition(Number(drawX) + 2, drawY, addition, removeOrAdd) === false) {
-                if (drawAtPosition(Number(drawX) + 3, drawY, addition, removeOrAdd) === false) {
-                    if (drawAtPosition(Number(drawX) + 4, drawY, addition, removeOrAdd) === false) {
+    if (drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAdd) === false) {
+        if (drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAdd) === false) {
+            if (drawAtPosition(calcedDrawXBlock3, calcedDrawYBlock3, addition, removeOrAdd) === false) {
+                if (drawAtPosition(calcedDrawXBlock4, calcedDrawYBlock4, addition, removeOrAdd) === false) {
+                    if (drawAtPosition(calcedDrawXBlock5, calcedDrawYBlock5, addition, removeOrAdd) === false) {
                         return false;
                     } else {
-                        drawAtPosition(Number(drawX) + 3, drawY, addition, removeOrAddInverted);
-                        drawAtPosition(Number(drawX) + 2, drawY, addition, removeOrAddInverted);
-                        drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAddInverted);
-                        drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+                        drawAtPosition(calcedDrawXBlock4, calcedDrawYBlock4, addition, removeOrAddInverted);
+                        drawAtPosition(calcedDrawXBlock3, calcedDrawYBlock3, addition, removeOrAddInverted);
+                        drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAddInverted);
+                        drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
                     }
                 } else {
-                    drawAtPosition(Number(drawX) + 2, drawY, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock3, calcedDrawYBlock3, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
+                }
+            } else {
+                drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAddInverted);
+                drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
+            }
+        } else {
+            drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
+        }
+    }
+
+    return true;
+}
+
+function zweiMalEins(drawX, drawY, addition, removeOrAdd, direction) {
+    let removeOrAddInverted;
+
+    let calcedDrawXBlock1 = Number(drawX);
+    let calcedDrawYBlock1 = Number(drawY);
+    let calcedDrawXBlock2 = Number(drawX);
+    let calcedDrawYBlock2 = Number(drawY);
+
+    switch (direction) {
+        case 1:
+        case 3:
+            calcedDrawYBlock2 = Number(drawY) + 1;
+            break;
+        case 2:
+        case 4:
+            calcedDrawXBlock2 = Number(drawX) + 1;
+            break;
+    }
+
+    if (removeOrAdd === "add") {
+        removeOrAddInverted = "remove";
+    } else if (removeOrAdd === "addSetted") {
+        removeOrAddInverted = "removeSetted";
+    }
+
+    if (drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAdd) === false) {
+        if (drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAdd) === false) {
+            return false;
+        } else {
+            drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
+        }
+    }
+
+    return true;
+}
+
+function zweiMalZwei(drawX, drawY, addition, removeOrAdd, direction) {
+    let removeOrAddInverted;
+
+    if (removeOrAdd === "add") {
+        removeOrAddInverted = "remove";
+    } else if (removeOrAdd === "addSetted") {
+        removeOrAddInverted = "removeSetted";
+    }
+
+    if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
+        if (drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAdd) === false) {
+            if (drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAdd) === false) {
+                if (drawAtPosition(Number(drawX) + 1, Number(drawY) + 1, addition, removeOrAdd) === false) {
+                    return false;
+                } else {
+                    drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAddInverted);
                     drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAddInverted);
                     drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
                 }
@@ -346,28 +602,33 @@ function grosserBalken(drawX, drawY, addition, removeOrAdd) {
 
 function drawAtPosition(drawX, drawY, addition, removeOrAdd) {
     let elementToDraw = document.getElementById(addition + "X" + drawX + "Y" + drawY);
-    if (removeOrAdd === "add") {
-        if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
-            elementToDraw.classList.add(blockToPlaceColor);
-            return false;
+
+    if (elementToDraw !== null) {
+        if (removeOrAdd === "add") {
+            if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
+                elementToDraw.classList.add(blockToPlaceColor);
+                return false;
+            }
+        } else if (removeOrAdd === "remove") {
+            if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
+                elementToDraw.classList.remove(blockToPlaceColor);
+                return false;
+            }
+        } else if (removeOrAdd === "addSetted") {
+            if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
+                elementToDraw.classList.add(blockToPlaceColor);
+                elementToDraw.classList.add("setted");
+                return false;
+            }
+        } else if (removeOrAdd === "removeSetted") {
+            if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === true) {
+                elementToDraw.classList.remove(blockToPlaceColor);
+                elementToDraw.classList.remove("setted");
+                return false;
+            }
         }
-    } else if (removeOrAdd === "remove") {
-        if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
-            elementToDraw.classList.remove(blockToPlaceColor);
-            return false;
-        }
-    } else if (removeOrAdd === "addSetted") {
-        if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
-            elementToDraw.classList.add(blockToPlaceColor);
-            elementToDraw.classList.add("setted");
-            return false;
-        }
-    } else if (removeOrAdd === "removeSetted") {
-        if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === true) {
-            elementToDraw.classList.remove(blockToPlaceColor);
-            elementToDraw.classList.remove("setted");
-            return false;
-        }
+    } else {
+        console.log("TRUE");
     }
 
     return true;

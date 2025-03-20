@@ -7,7 +7,7 @@
 
     $usernameToSafe = $_POST["username"];
     $difficultyToSafe = $_POST["difficulty"];
-    $timeToSafe = $_POST["time"];
+    $timeToSafe = (int)$_POST["time"];
 
     insert();
 
