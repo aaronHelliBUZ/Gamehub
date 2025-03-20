@@ -405,27 +405,30 @@ function zweiMalZwei(drawX, drawY, addition, removeOrAdd) {
 
 function drawAtPosition(drawX, drawY, addition, removeOrAdd) {
     let elementToDraw = document.getElementById(addition + "X" + drawX + "Y" + drawY);
-    if (removeOrAdd === "add") {
-        if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
-            elementToDraw.classList.add(blockToPlaceColor);
-            return false;
-        }
-    } else if (removeOrAdd === "remove") {
-        if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
-            elementToDraw.classList.remove(blockToPlaceColor);
-            return false;
-        }
-    } else if (removeOrAdd === "addSetted") {
-        if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
-            elementToDraw.classList.add(blockToPlaceColor);
-            elementToDraw.classList.add("setted");
-            return false;
-        }
-    } else if (removeOrAdd === "removeSetted") {
-        if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === true) {
-            elementToDraw.classList.remove(blockToPlaceColor);
-            elementToDraw.classList.remove("setted");
-            return false;
+
+    if (elementToDraw !== null) {
+        if (removeOrAdd === "add") {
+            if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
+                elementToDraw.classList.add(blockToPlaceColor);
+                return false;
+            }
+        } else if (removeOrAdd === "remove") {
+            if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
+                elementToDraw.classList.remove(blockToPlaceColor);
+                return false;
+            }
+        } else if (removeOrAdd === "addSetted") {
+            if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
+                elementToDraw.classList.add(blockToPlaceColor);
+                elementToDraw.classList.add("setted");
+                return false;
+            }
+        } else if (removeOrAdd === "removeSetted") {
+            if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === true) {
+                elementToDraw.classList.remove(blockToPlaceColor);
+                elementToDraw.classList.remove("setted");
+                return false;
+            }
         }
     }
 
