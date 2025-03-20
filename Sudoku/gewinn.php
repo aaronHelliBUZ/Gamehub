@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sudoku</title>
         <link rel="stylesheet" href="./styles/stylesGewonnen.css?v=<? echo $time; ?>">
+        <link rel="icon" href="../gfx/iconSudoku.png">
     </head>
 
     <body>
