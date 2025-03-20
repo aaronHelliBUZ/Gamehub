@@ -11,6 +11,7 @@
     </head>
     <body>
         <div id="content">
+            <div id="pointCounter">0</div>
             <div id="gameField"></div>
             <br /><br />
             <div id="blockChoice"></div>

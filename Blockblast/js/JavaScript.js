@@ -1,6 +1,7 @@
 //Häufig benutzte Elemente
 const gameField = document.getElementById("gameField");
 const blockChoiceElm = document.getElementById("blockChoice");
+const pointCounterElm = document.getElementById("pointCounter");
 
 const fieldsPerX = 10;
 const fieldsPerY = 10;
@@ -22,6 +23,8 @@ let blocksLeft = 3;
 
 let clickedFigureType = -3;
 
+let pointCounter = 0;
+
 generateField();
 
 generateBlockInblockChoiceElm();
@@ -31,9 +34,6 @@ document.addEventListener("mouseup", function (event) {
     mouseDown = false;
     oldMouseX = -3;
     oldMouseY = -3;
-
-    //let mouseElm = document.getElementById("X" + mouseX + "Y" + mouseY);
-    //clickedBlockElm.classList.remove("block");
 
     drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "addSetted");
 
@@ -45,6 +45,9 @@ document.addEventListener("mouseup", function (event) {
     if (blocksLeft <= 0) {
         generateBlockInblockChoiceElm();
     }
+
+    checkForARow();
+    checkForAColumn();
 });
 
 //Zentriert das Speilfeld und stellt die grösse ein
@@ -156,19 +159,12 @@ function mouseOver(mouseOverElm) {
 }
 
 function setFieldToBlockWhileMouseOver() {
-    //oldBlockElm.classList.remove("fieldBlock");
     if (blockToPlaceColor !== "") {
-        //oldBlockElm.classList.remove(blockToPlaceColor);
-
         drawFigure(Number(clickedFigureType), oldMouseX, oldMouseY, "", "remove");
         console.log("OldX: " + oldMouseX + " OldY: " + oldMouseY);
     }
 
-    //let newBlockElm = document.getElementById("X" + mouseX + "Y" + mouseY);
-    //newBlockElm.classList.add("fieldBlock");
     if (blockToPlaceColor !== "") {
-        //newBlockElm.classList.add(blockToPlaceColor);
-
         drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "add");
     }
 }
@@ -375,4 +371,62 @@ function drawAtPosition(drawX, drawY, addition, removeOrAdd) {
     }
 
     return true;
+}
+
+function checkForARow() {
+    let continueRows;
+    for (let x = 0; x < fieldsPerX; x++) {
+        continueRows = true;
+        for (let y = 0; y < fieldsPerY && continueRows === true; y++) {
+            let elementToCheck = document.getElementById("X" + x + "Y" + y);
+            if (elementToCheck.classList.contains("setted") === false) {
+                continueRows = false;
+            }
+        }
+
+        if (continueRows === true) {
+            console.log("ROW FOUND");
+            for (let y = 0; y < fieldsPerY; y++) {
+                let elementToReset = document.getElementById("X" + x + "Y" + y);
+                resetElement(elementToReset);
+            }
+            pointCounter += fieldsPerY;
+            updatePointCounterElm();
+        }
+    }
+}
+
+function checkForAColumn() {
+    let continueColumns;
+    for (let y = 0; y < fieldsPerY; y++) {
+        continueColumns = true;
+        for (let x = 0; x < fieldsPerX && continueColumns === true; x++) {
+            let elementToCheck = document.getElementById("X" + x + "Y" + y);
+            if (elementToCheck.classList.contains("setted") === false) {
+                continueColumns = false;
+            }
+        }
+
+        if (continueColumns === true) {
+            console.log("COLUMN FOUND");
+            for (let x = 0; x < fieldsPerX; x++) {
+                let elementToReset = document.getElementById("X" + x + "Y" + y);
+                resetElement(elementToReset);
+            }
+            pointCounter += fieldsPerX;
+            updatePointCounterElm();
+        }
+    }
+}
+
+function resetElement(elementToReset) {
+    elementToReset.classList.remove("setted");
+    elementToReset.classList.remove("bColor1");
+    elementToReset.classList.remove("bColor2");
+    elementToReset.classList.remove("bColor3");
+    elementToReset.classList.remove("bColor4");
+}
+
+function updatePointCounterElm() {
+    pointCounterElm.innerHTML = pointCounter;
 }
