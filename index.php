@@ -7,7 +7,6 @@
       <title>Gamehub</title>
       <link rel="icon" href="./gfx/iconHub.png" />
       <link rel="stylesheet" href="./styles/styles.css?v=<?php  echo $time; ?>" />
-      <!--<link rel="stylesheet" href="./styles/stylesResponsive.css?v=<?php //echo $time; ?>" />-->
       <script src="./script/script.js?v=<?php echo $time; ?>" defer></script>
    </head>
    <body>
