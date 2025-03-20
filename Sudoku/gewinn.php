@@ -13,7 +13,7 @@
             <div id="winMsg">Gewonnen</div>
             <div id="submit">
                 <a href="./index.php">Nochmal</a>
-                <a href="../index.html">Zurück</a>
+                <a href="../index.php">Zurück</a>
             </div>
         </div>
     </body>

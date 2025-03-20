@@ -229,7 +229,7 @@
                 </div>
                 <div id="submit">
                     <input type="submit" value="Überprüfen">
-                    <a href="../index.html">Zurück</a>
+                    <a href="../index.php">Zurück</a>
                 </div>
             </form>
         </div>
