@@ -201,6 +201,8 @@ function dreiUeberEcke(drawX, drawY, addition, removeOrAdd) {
 
     if (removeOrAdd === "add") {
         removeOrAddInverted = "remove";
+    } else if (removeOrAdd === "addSetted") {
+        removeOrAddInverted = "removeSetted";
     }
 
     if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
@@ -209,6 +211,7 @@ function dreiUeberEcke(drawX, drawY, addition, removeOrAdd) {
                 return false;
             } else {
                 drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAddInverted);
+                drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
             }
         } else {
             drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
@@ -292,6 +295,12 @@ function drawAtPosition(drawX, drawY, addition, removeOrAdd) {
         if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
             elementToDraw.classList.add(blockToPlaceColor);
             elementToDraw.classList.add("setted");
+            return false;
+        }
+    } else if (removeOrAdd === "removeSetted") {
+        if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === true) {
+            elementToDraw.classList.remove(blockToPlaceColor);
+            elementToDraw.classList.remove("setted");
             return false;
         }
     }
