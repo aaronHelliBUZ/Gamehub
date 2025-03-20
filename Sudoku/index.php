@@ -159,6 +159,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="styles/styles.css?v=<? echo $time; ?>">
         <script src="./script/script.js?v=<? echo $time; ?>" defer></script>
+        <link rel="icon" href="../gfx/iconSudoku.png">
         <title>Sudoku</title>
     </head>
 
