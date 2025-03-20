@@ -6,6 +6,8 @@ const pointCounterElm = document.getElementById("pointCounter");
 const fieldsPerX = 10;
 const fieldsPerY = 10;
 
+const countFigures = 7;
+
 let mouseX = -3;
 let mouseY = -3;
 
@@ -96,7 +98,7 @@ function generateBlockInblockChoiceElm() {
     blocksLeft = 3;
     for (let i = 0; i < 3; i++) {
         let colorNumber = Math.floor(Math.random() * 4);
-        let figureType = Math.floor(Math.random() * 5) + 1;
+        let figureType = Math.floor(Math.random() * countFigures) + 1;
 
         let newBlock = document.createElement("div");
         newBlock.id = "B" + blockIdCounter;
@@ -184,6 +186,12 @@ function drawFigure(figureType, drawX, drawY, addition, removeOrAdd) {
             break;
         case 5:
             grosserBalken(drawX, drawY, addition, removeOrAdd);
+            break;
+        case 6:
+            zweiMalEins(drawX, drawY, addition, removeOrAdd);
+            break;
+        case 7:
+            zweiMalZwei(drawX, drawY, addition, removeOrAdd);
             break;
     }
 }
@@ -329,6 +337,57 @@ function grosserBalken(drawX, drawY, addition, removeOrAdd) {
                     }
                 } else {
                     drawAtPosition(Number(drawX) + 2, drawY, addition, removeOrAddInverted);
+                    drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAddInverted);
+                    drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+                }
+            } else {
+                drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAddInverted);
+                drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+            }
+        } else {
+            drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+        }
+    }
+
+    return true;
+}
+
+function zweiMalEins(drawX, drawY, addition, removeOrAdd) {
+    let removeOrAddInverted;
+
+    if (removeOrAdd === "add") {
+        removeOrAddInverted = "remove";
+    } else if (removeOrAdd === "addSetted") {
+        removeOrAddInverted = "removeSetted";
+    }
+
+    if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
+        if (drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAdd) === false) {
+            return false;
+        } else {
+            drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+        }
+    }
+
+    return true;
+}
+
+function zweiMalZwei(drawX, drawY, addition, removeOrAdd) {
+    let removeOrAddInverted;
+
+    if (removeOrAdd === "add") {
+        removeOrAddInverted = "remove";
+    } else if (removeOrAdd === "addSetted") {
+        removeOrAddInverted = "removeSetted";
+    }
+
+    if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
+        if (drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAdd) === false) {
+            if (drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAdd) === false) {
+                if (drawAtPosition(Number(drawX) + 1, Number(drawY) + 1, addition, removeOrAdd) === false) {
+                    return false;
+                } else {
+                    drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAddInverted);
                     drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAddInverted);
                     drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
                 }
