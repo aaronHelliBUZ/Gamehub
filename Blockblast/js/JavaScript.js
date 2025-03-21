@@ -19,6 +19,7 @@ let blockToPlaceColor = "";
 let blockIdCounter = 0;
 
 let mouseDown = false;
+let isMouseOver = false;
 
 let clickedBlockElm;
 let blocksLeft = 3;
@@ -34,24 +35,35 @@ generateBlockInblockChoiceElm();
 
 document.addEventListener("mouseup", function (event) {
     event.preventDefault();
-    mouseDown = false;
-    oldMouseX = -3;
-    oldMouseY = -3;
 
-    drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "addSetted", Number(direction));
+    if (isMouseOver === true) {
+        mouseDown = false;
+        oldMouseX = -3;
+        oldMouseY = -3;
 
-    clickedFigureType = -3;
-    direction = -3;
-    blockToPlaceColor = "";
+        drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "addSetted", Number(direction));
 
-    blockChoiceElm.removeChild(clickedBlockElm);
-    blocksLeft--;
-    if (blocksLeft <= 0) {
-        generateBlockInblockChoiceElm();
+        mouseX = -3;
+        mouseY = -3;
+
+        clickedFigureType = -3;
+        direction = -3;
+        blockToPlaceColor = "";
+
+        blockChoiceElm.removeChild(clickedBlockElm);
+        blocksLeft--;
+
+        if (blocksLeft <= 0) {
+            generateBlockInblockChoiceElm();
+        }
+
+        checkForARow();
+        checkForAColumn();
+
+        checkForDeath();
+
+        isMouseOver = false;
     }
-
-    checkForARow();
-    checkForAColumn();
 });
 
 //Zentriert das Speilfeld und stellt die grösse ein
@@ -100,6 +112,8 @@ function mouseClicked() {
 
 function generateBlockInblockChoiceElm() {
     blocksLeft = 3;
+    blockIdCounter = 0;
+
     for (let i = 0; i < 3; i++) {
         let colorNumber = Math.floor(Math.random() * 4);
         let figureType = Math.floor(Math.random() * countFigures) + 1;
@@ -156,50 +170,47 @@ function generateInBlockFlex(newBlock) {
 }
 
 function mouseOver(mouseOverElm) {
-    if (mouseDown === true/* && mouseOverElm.classList.contains("setted") === false*/) {
-        oldMouseX = mouseX;
-        oldMouseY = mouseY;
+    if (mouseDown === true /*&& mouseOverElm.classList.contains("setted") === false*/) {
+        if (isValidToRenewMouse(mouseOverElm.id.split("Y")[0].split("X")[1], mouseOverElm.id.split("Y")[1]) === true) {
+            isMouseOver = true;
 
-        mouseX = mouseOverElm.id.split("Y")[0].split("X")[1];
-        mouseY = mouseOverElm.id.split("Y")[1];
-        setFieldToBlockWhileMouseOver();
-    }
-}
+            oldMouseX = mouseX;
+            oldMouseY = mouseY;
 
-function setFieldToBlockWhileMouseOver() {
-    if (blockToPlaceColor !== "") {
-        drawFigure(Number(clickedFigureType), oldMouseX, oldMouseY, "", "remove", Number(direction));
-        console.log("OldX: " + oldMouseX + " OldY: " + oldMouseY);
-    }
+            console.log("OX: " + oldMouseX + " OY: " + oldMouseY);
+            console.log("MX: " + mouseX + " MY: " + mouseY);
 
-    if (blockToPlaceColor !== "") {
-        drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "add", Number(direction));
+            mouseX = mouseOverElm.id.split("Y")[0].split("X")[1];
+            mouseY = mouseOverElm.id.split("Y")[1];
+        }
+
+        if (blockToPlaceColor !== "") {
+            if (drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "remove", Number(direction)) === false) {
+                drawFigure(Number(clickedFigureType), oldMouseX, oldMouseY, "", "remove", Number(direction));
+                drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "add", Number(direction));
+            }
+        }
     }
 }
 
 function drawFigure(figureType, drawX, drawY, addition, removeOrAdd, direction) {
+    //console.log("dFigure fT:" + figureType + " rOA: " + removeOrAdd);
+
     switch (figureType) {
         case 1:
-            dreiUeberEcke(drawX, drawY, addition, removeOrAdd, Number(direction));
-            break;
+            return dreiUeberEcke(drawX, drawY, addition, removeOrAdd, direction);
         case 2:
-            vierUeberEcke(drawX, drawY, addition, removeOrAdd, direction);
-            break;
+            return vierUeberEcke(drawX, drawY, addition, removeOrAdd, direction);
         case 3:
-            vierUeberEckeInvertiert(drawX, drawY, addition, removeOrAdd, direction);
-            break;
+            return vierUeberEckeInvertiert(drawX, drawY, addition, removeOrAdd, direction);
         case 4:
-            kleinesT(drawX, drawY, addition, removeOrAdd, direction);
-            break;
+            return kleinesT(drawX, drawY, addition, removeOrAdd, direction);
         case 5:
-            grosserBalken(drawX, drawY, addition, removeOrAdd, direction);
-            break;
+            return grosserBalken(drawX, drawY, addition, removeOrAdd, direction);
         case 6:
-            zweiMalEins(drawX, drawY, addition, removeOrAdd, direction);
-            break;
+            return zweiMalEins(drawX, drawY, addition, removeOrAdd, direction);
         case 7:
-            zweiMalZwei(drawX, drawY, addition, removeOrAdd, direction);
-            break;
+            return zweiMalZwei(drawX, drawY, addition, removeOrAdd, direction);
     }
 }
 
@@ -470,6 +481,8 @@ function kleinesT(drawX, drawY, addition, removeOrAdd, direction) {
 function grosserBalken(drawX, drawY, addition, removeOrAdd, direction) {
     let removeOrAddInverted;
 
+    //console.log("gBalken rOA: " + removeOrAdd);
+
     let calcedDrawXBlock1 = Number(drawX);
     let calcedDrawYBlock1 = Number(drawY);
     let calcedDrawXBlock2 = Number(drawX);
@@ -572,28 +585,37 @@ function zweiMalEins(drawX, drawY, addition, removeOrAdd, direction) {
 function zweiMalZwei(drawX, drawY, addition, removeOrAdd, direction) {
     let removeOrAddInverted;
 
+    let calcedDrawXBlock1 = Number(drawX);
+    let calcedDrawYBlock1 = Number(drawY);
+    let calcedDrawXBlock2 = Number(drawX) + 1;
+    let calcedDrawYBlock2 = Number(drawY);
+    let calcedDrawXBlock3 = Number(drawX);
+    let calcedDrawYBlock3 = Number(drawY) + 1;
+    let calcedDrawXBlock4 = Number(drawX) + 1;
+    let calcedDrawYBlock4 = Number(drawY) + 1;
+
     if (removeOrAdd === "add") {
         removeOrAddInverted = "remove";
     } else if (removeOrAdd === "addSetted") {
         removeOrAddInverted = "removeSetted";
     }
 
-    if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
-        if (drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAdd) === false) {
-            if (drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAdd) === false) {
-                if (drawAtPosition(Number(drawX) + 1, Number(drawY) + 1, addition, removeOrAdd) === false) {
+    if (drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAdd) === false) {
+        if (drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAdd) === false) {
+            if (drawAtPosition(calcedDrawXBlock3, calcedDrawYBlock3, addition, removeOrAdd) === false) {
+                if (drawAtPosition(calcedDrawXBlock4, calcedDrawYBlock4, addition, removeOrAdd) === false) {
                     return false;
                 } else {
-                    drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAddInverted);
-                    drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAddInverted);
-                    drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock3, calcedDrawYBlock4, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
                 }
             } else {
-                drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAddInverted);
-                drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+                drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAddInverted);
+                drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
             }
         } else {
-            drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+            drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
         }
     }
 
@@ -603,32 +625,36 @@ function zweiMalZwei(drawX, drawY, addition, removeOrAdd, direction) {
 function drawAtPosition(drawX, drawY, addition, removeOrAdd) {
     let elementToDraw = document.getElementById(addition + "X" + drawX + "Y" + drawY);
 
+    //console.log("rOA: " + removeOrAdd);
+
     if (elementToDraw !== null) {
-        if (removeOrAdd === "add") {
-            if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
-                elementToDraw.classList.add(blockToPlaceColor);
-                return false;
-            }
-        } else if (removeOrAdd === "remove") {
-            if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
-                elementToDraw.classList.remove(blockToPlaceColor);
-                return false;
-            }
-        } else if (removeOrAdd === "addSetted") {
-            if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
-                elementToDraw.classList.add(blockToPlaceColor);
-                elementToDraw.classList.add("setted");
-                return false;
-            }
-        } else if (removeOrAdd === "removeSetted") {
-            if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === true) {
-                elementToDraw.classList.remove(blockToPlaceColor);
-                elementToDraw.classList.remove("setted");
+        if (elementToDraw.classList.contains("setted") === false) {
+            if (removeOrAdd === "add") {
+                if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
+                    elementToDraw.classList.add(blockToPlaceColor);
+                    return false;
+                }
+            } else if (removeOrAdd === "remove") {
+                if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
+                    elementToDraw.classList.remove(blockToPlaceColor);
+                    return false;
+                }
+            } else if (removeOrAdd === "addSetted") {
+                if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
+                    elementToDraw.classList.add(blockToPlaceColor);
+                    elementToDraw.classList.add("setted");
+                    return false;
+                }
+            } else if (removeOrAdd === "removeSetted") {
+                if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === true) {
+                    elementToDraw.classList.remove(blockToPlaceColor);
+                    elementToDraw.classList.remove("setted");
+                    return false;
+                }
+            } else if (removeOrAdd === "check") {
                 return false;
             }
         }
-    } else {
-        console.log("TRUE");
     }
 
     return true;
@@ -690,4 +716,78 @@ function resetElement(elementToReset) {
 
 function updatePointCounterElm() {
     pointCounterElm.innerHTML = pointCounter;
+}
+
+function isValidToRenewMouse(checkX, checkY) {
+    if (drawFigure(Number(clickedFigureType), checkX, checkY, "", "remove", Number(direction)) === false) {
+        return true;
+    }
+
+    return false;
+}
+
+function checkForDeath() {
+    console.log("CHECK FOR DEATH");
+    for (let i = 0; i < 3; i++) {
+        let figureGetElm = document.getElementById("B" + i);
+        if (figureGetElm !== null) {
+            let figureGetElmFigureType = figureGetElm.getAttribute("figuretype");
+            let figureGetElmDirection = figureGetElm.getAttribute("direction");
+            if (checkForDeathWithFigure(figureGetElmFigureType, figureGetElmDirection) === false) {
+                return;
+            } else {
+                deathDedected();
+            }
+        }
+    }
+}
+
+function checkForDeathWithFigure(figureType, direction) {
+    for (let x = 0; x < fieldsPerX; x++) {
+        for (let y = 0; y < fieldsPerY; y++) {
+            if (checkForDeathDirection(figureType, x, y, direction) === false) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+function checkForDeathDirection(figureType, x, y, direction) {
+    console.log("cFDED: fT:" + figureType + " d: " + direction);
+
+    if (drawFigure(Number(figureType), Number(x), Number(y), "", "check", Number(direction)) === false) {
+        console.log("cFDED1: FALSE (gepasst) X: " + x + " Y:" + y);
+        return false;
+    }
+
+    console.log("cFDED: TRUE (NICHT gepasst)");
+    return true;
+}
+
+function deathDedected() {
+    console.log("DEATH DEDECTED");
+    redirectAndForm();
+}
+
+function redirectAndForm() {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "../namen-angeben.php";
+
+    const pointsToSafe = document.createElement("input");
+    pointsToSafe.type = "hidden";
+    pointsToSafe.name = "points";
+    pointsToSafe.value = pointCounter;
+    form.appendChild(pointsToSafe);
+
+    const difficultyToSafe = document.createElement("input");
+    difficultyToSafe.type = "hidden";
+    difficultyToSafe.name = "difficulty";
+    difficultyToSafe.value = fieldsPerX * fieldsPerY;
+    form.appendChild(difficultyToSafe);
+
+    document.body.appendChild(form);
+    form.submit();
 }

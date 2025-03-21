@@ -1,0 +1,71 @@
+:root {
+    --primary: rgb(0, 160, 125);
+    --secondary: rgb(70, 130, 180);
+    --bgcolor: rgb(4, 63, 50);
+    --text: rgb(200, 235, 225);
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align-last: center;
+
+    height: 98vh;
+
+    background-color: var(--bgcolor);
+    font-family: sans-serif;
+    color: var(--text);
+}
+
+#content {
+    display: grid;
+    grid-template-rows: 80% 20%;
+    text-align: center;
+    align-items: center;
+
+    height: 30vh;
+    width: 50vh;
+
+    border-radius: 10px;
+    background-color: var(--primary);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+
+    height: 100%;
+    border-radius: 10px;
+    background-color: var(--primary);
+}
+
+.quetionform {
+    display: grid;
+    grid-template-rows: 30% 70%;
+}
+
+[type="submit"] {
+    width: 30%;
+    align-self: center;
+
+    color: var(--text);
+    background-color: var(--secondary);
+}
+
+[type="submit"]:hover {
+    width: 30%;
+
+    background-color: rgb(51, 108, 155);
+}
+
+[type="text"]{
+    text-align: start;
+    text-align-last: start;
+
+    background-color: var(--secondary);
+    color: var(--text);
+}
+
