@@ -3,6 +3,7 @@ let modus = 'scatter';
 let scatterZyklus = 1;
 let pellets = 188;
 let richtungen = [];
+let alterModus;
 
 document.addEventListener('keydown', function(event){
     if(event.code === 'KeyW' || event.code === 'ArrowUp'){
@@ -22,23 +23,7 @@ let blinky = document.createElement('div');
 blinky.id = 'blinky';
 blinkyParent.appendChild(blinky);
 
-let clydeParent = document.getElementById('10/10');
-clydeParent.classList.add('clyde');
-let clyde = document.createElement('div');
-clyde.id = 'clyde';
-clydeParent.appendChild(clyde);
 
-let pinkyParent = document.getElementById('10/10');
-pinkyParent.classList.add('pinky');
-let pinky = document.createElement('div');
-pinky.id = 'pinky';
-pinkyParent.appendChild(pinky);
-
-let inkyParent = document.getElementById('10/10');
-inkyParent.classList.add('inky');
-let inky = document.createElement('div');
-inky.id = 'inky';
-inkyParent.appendChild(inky);
 
 function bewegen(){
     let spielerElms = document.getElementsByClassName('spieler');
@@ -109,6 +94,12 @@ function bewegen(){
     if(neuerSpielerParent.classList.contains('superPelletParent')){
         neuerSpielerParent.classList.remove('superPelletParent');
         neuerSpielerParent.removeChild(neuerSpielerParent.firstChild);
+        alterModus = modus;
+        modus = 'frightened'
+
+        setTimeout(function(){
+            modus = alterModus;
+        }, 6000)
     }
 
     neuerSpielerParent.classList.add('spieler')
@@ -251,6 +242,10 @@ function blinkyBewegen(istStuck){
 
     neuerBlinkyParent.appendChild(neuerBlinkyElm);
 
+    setTimeout(function(){
+        blinkyStuck = blinkyBewegen(blinkyStuck);
+    }, 500);
+
     return blinkyStuck;
 }
 
@@ -383,6 +378,14 @@ function clydeBewegen(istStuck){
 
     neuerclydeParent.appendChild(neuerclydeElm);
 
+    setTimeout(function(){
+        if(clydeModus == 'scatter'){
+            clydeStuck = clydeScatter(clydeStuck);
+        }else{
+            clydeStuck = clydeBewegen(clydeStuck);
+        }
+    }, 500);
+
     return clydeStuck;
 }
 
@@ -420,6 +423,14 @@ function clydeScatter(istStuck){
     neuerclydeElm.id = 'clyde';
 
     neuerclydeParent.appendChild(neuerclydeElm);
+    
+    setTimeout(function(){
+        if(clydeModus == 'scatter'){
+            clydeStuck = clydeScatter(clydeStuck);
+        }else{
+            clydeStuck = clydeBewegen(clydeStuck);
+        }
+    }, 500);
 
     return clydeStuck;
 }
@@ -569,6 +580,10 @@ function pinkyBewegen(istStuck){
     neuerPinkyElm.id = 'pinky';
 
     neuerPinkyParent.appendChild(neuerPinkyElm);
+
+    setTimeout(function(){
+    pinkyStuck = pinkyBewegen(pinkyStuck);
+    }, 500);
 
     return pinkyStuck;
 }
@@ -737,6 +752,10 @@ function inkyBewegen(istStuck){
 
     neuerInkyParent.appendChild(neuerInkyElm);
 
+    setTimeout(function(){
+        inkyStuck = inkyBewegen(pinkyStuck);
+    }, 500);
+
     return inkyStuck;
 }
 
@@ -785,22 +804,34 @@ modusWechseln();
 
 setInterval(bewegen, 500);
 
-setInterval(function(){
-    blinkyStuck = blinkyBewegen(blinkyStuck);
-}, 500);
+blinkyBewegen(blinkyStuck);
 
-setInterval(function(){
-    pinkyStuck = pinkyBewegen(pinkyStuck);
-}, 500);
+setTimeout(function(){
+    let clydeParent = document.getElementById('10/10');
+    clydeParent.classList.add('clyde');
+    let clyde = document.createElement('div');
+    clyde.id = 'clyde';
+    clydeParent.appendChild(clyde);
+    
+    clydeBewegen(clydeStuck);
 
-setInterval(function(){
-    inkyStuck = inkyBewegen(pinkyStuck);
-}, 500);
+    setTimeout(function(){
+        let pinkyParent = document.getElementById('10/10');
+        pinkyParent.classList.add('pinky');
+        let pinky = document.createElement('div');
+        pinky.id = 'pinky';
+        pinkyParent.appendChild(pinky);
+        
+        pinkyBewegen(pinkyStuck);
 
-setInterval(function(){
-    if(clydeModus == 'scatter'){
-        clydeStuck = clydeScatter(clydeStuck);
-    }else{
-        clydeStuck = clydeBewegen(clydeStuck);
-    }
-}, 500);
+        setTimeout(function(){
+            let inkyParent = document.getElementById('10/10');
+            inkyParent.classList.add('inky');
+            let inky = document.createElement('div');
+            inky.id = 'inky';
+            inkyParent.appendChild(inky);
+
+            inkyBewegen(inkyStuck);
+        }, 8000);
+    }, 8000);
+}, 8000);
