@@ -1,16 +1,71 @@
 :root {
-    --field-size: 50px;
-    --field-color: black;
-    --block-color1: rgb(0, 160, 125);
-    --block-color2: rgb(70, 130, 180);
-    --block-color3: rgb(4, 63, 50);
-    --block-color4: rgb(200, 235, 225);
-    --body-color: white;
+    --primary:rgb(0, 160, 125);
+    --secondary:rgb(70, 130, 180);
+    --bgcolor:rgb(4, 63, 50);
+    --text:rgb(200, 235, 225);
+
+    --size: 1px;
+    --field-size: calc(calc(var(--size)*0.60)/10);
+    --field-color: var(--text);
+    --block-color1: rgb(101, 179, 162);
+    --block-color2: rgb(0, 65, 117);
+    --block-color3: rgb(94, 181, 252);
+    --block-color4: rgb(0, 145, 96);
+    --body-color: var(--bgcolor);
+}
+
+body {
+    display: flex;
+    align-items: center;
+
+    height: 98vh;
+    width: 98vw;
+    margin: 0px;
+
+    font-family: sans-serif;
+    background-color: var(--bgcolor);
+}
+
+#home {
+    position: fixed;
+    align-self: flex-start;
+
+    margin-top: 2vh;
+    margin-left: 2vw;
+
+    font-size: 3vh;
+    border: 1vh var(--secondary) solid;
+    border-radius: 5px;
+    background-color: var(--secondary);
+    color: var(--text);
+    text-decoration: none;
+}
+
+#home:hover {
+    border-color: rgb(51, 108, 155);
+    background-color: rgb(51, 108, 155);
 }
 
 #content {
-    width: auto;
-    height: auto;
+    display: grid;
+    grid-template-rows: 5% 63% 32%;
+
+    height: 95%;
+    width: calc(calc(var(--field-size))*17);
+
+    margin: auto;
+
+    border-radius: 1em;
+    background-color: var(--primary);
+}
+
+#pointCounter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    font-size: 6vh;
+    color: var(--text);
 }
 
 .fieldFlex {
@@ -21,19 +76,27 @@
 .field {
     width: var(--field-size);
     height: var(--field-size);
+
     background-color: var(--field-color);
-    border: 0.1px solid white;
+    border: 0.1px solid var(--bgcolor);
+    border-radius: 0.3em;
+    box-shadow: 0 0 1em rgba(0,0,0,0.5);
 }
 
 #gameField {
-    width: auto;
-    height: auto;
+    justify-self: center;
+    align-self: center;
 }
 
 #blockChoice {
-    width: calc(var(--field-size) * 6);
-    height: auto;
     display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    width: 100% !important;
+    height: auto;
+
+    width: calc(var(--field-size) * 6);
 }
 
 .blockFlex {
@@ -52,7 +115,14 @@
 .block {
     width: var(--field-size);
     height: var(--field-size);
-    border: 0.1px solid white;
+
+    border: 0.1px solid var(--primary);
+    border-radius: 0em;
+}
+
+.block:not(.noBColor){
+    border-radius: 0.3em;
+    box-shadow: 0 0 1em rgba(0,0,0,0.5)
 }
 
 .bColor1 {
@@ -72,5 +142,100 @@
 }
 
 .noBColor {
-    background-color: var(--body-color);
+    background-color: var(--primary);
+}
+
+.breaks {
+    position: absolute;
+    visibility: hidden;
+    height: calc(var(--field-size)/2);
+    width: calc(var(--field-size)/2);
+}
+
+.numb1{
+    border-top-left-radius: 0.3em;
+    animation: ani1 11s;
+}
+
+@keyframes ani1 {
+    from{
+        visibility: visible;
+    }
+    5%{
+        visibility: hidden;
+    }
+    10%{
+        height: 0px;
+        width: 0px;
+    }
+    to {
+        top: 0px;
+        left: 0px;
+    }
+}
+
+.numb2{
+    border-bottom-left-radius: 0.3em;
+    animation: ani2 11s;
+}
+
+@keyframes ani2 {
+    from{
+        visibility: visible;
+    }
+    5%{
+        visibility: hidden;
+    }
+    10%{
+        height: 0px;
+        width: 0px;
+    }
+    to {
+        top: 100%;
+        left: 0px;
+    }
+}
+
+.numb3{
+    border-top-right-radius: 0.3em;
+    animation: ani3 11s;
+}
+
+@keyframes ani3 {
+    from{
+        visibility: visible;
+    }
+    5%{
+        visibility: hidden;
+    }
+    10%{
+        height: 0px;
+        width: 0px;
+    }
+    to {
+        top: 0px;
+        left: 100%;
+    }
+}
+
+.numb4{
+    border-bottom-right-radius: 0.3em;
+    animation: ani4 11s;
+}
+
+@keyframes ani4 {
+    from{
+        visibility: visible;
+    }
+    5%{
+        visibility: hidden;
+    }
+    10%{
+        height: 0px;
+        width: 0px;
+    }
+    to {
+        top: 100%;
+        left: 100%;
+    }
 }

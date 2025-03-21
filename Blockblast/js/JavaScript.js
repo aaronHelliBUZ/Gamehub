@@ -1,3 +1,10 @@
+let root = document.querySelector(':root');
+let content = document.getElementById("content");
+
+root.style.setProperty('--size', (content.offsetHeight)+'px');
+
+console.log(content.offsetHeight)
+
 //Häufig benutzte Elemente
 const gameField = document.getElementById("gameField");
 const blockChoiceElm = document.getElementById("blockChoice");
@@ -634,7 +641,7 @@ function drawAtPosition(drawX, drawY, addition, removeOrAdd) {
     return true;
 }
 
-function checkForARow() {
+async function checkForARow() {
     let continueRows;
     for (let x = 0; x < fieldsPerX; x++) {
         continueRows = true;
@@ -649,15 +656,19 @@ function checkForARow() {
             console.log("ROW FOUND");
             for (let y = 0; y < fieldsPerY; y++) {
                 let elementToReset = document.getElementById("X" + x + "Y" + y);
+                animation(elementToReset);
                 resetElement(elementToReset);
+                await sleep(200);
             }
+            await sleep(500);
+            deleteBreaks();
             pointCounter += fieldsPerY;
             updatePointCounterElm();
         }
     }
 }
 
-function checkForAColumn() {
+async function checkForAColumn() {
     let continueColumns;
     for (let y = 0; y < fieldsPerY; y++) {
         continueColumns = true;
@@ -672,20 +683,91 @@ function checkForAColumn() {
             console.log("COLUMN FOUND");
             for (let x = 0; x < fieldsPerX; x++) {
                 let elementToReset = document.getElementById("X" + x + "Y" + y);
+                animation(elementToReset);
                 resetElement(elementToReset);
+                await sleep(200);  
             }
+            await sleep(500);
+            deleteBreaks();
             pointCounter += fieldsPerX;
             updatePointCounterElm();
         }
     }
 }
 
+async function animation(elementToReset) {
+    for(let i = 1; i <= 4; i++){
+        addBreak(i,elementToReset);
+    }
+    
+}
+
+function addBreak(numb, elementToReset){
+    
+    console.log(elementToReset.offsetLeft);
+    console.log(elementToReset.offsetTop);
+
+    console.log(elementToReset.offsetHeight+"hh");
+
+    let sizef = (elementToReset.offsetHeight)/2;
+    let breakElm = document.createElement("div");
+    breakElm.classList.add("breaks");
+
+    if(elementToReset.classList.contains("bColor1")){
+        breakElm.classList.add("bColor1");
+    }
+    else if(elementToReset.classList.contains("bColor2")){
+        breakElm.classList.add("bColor2");
+    }
+    else if(elementToReset.classList.contains("bColor3")){
+        breakElm.classList.add("bColor3");
+    }
+    else if(elementToReset.classList.contains("bColor4")){
+        breakElm.classList.add("bColor4");
+    }
+    if(numb == 1){
+        breakElm.style.top = elementToReset.offsetTop+"px";
+        breakElm.style.left = elementToReset.offsetLeft+"px";
+        breakElm.classList.add("numb1");
+    }
+    else if (numb == 2){
+        breakElm.style.top = ((elementToReset.offsetTop)+sizef)+"px";
+        breakElm.style.left = elementToReset.offsetLeft+"px";
+        breakElm.classList.add("numb2");
+    }
+    else if (numb == 3){
+        breakElm.style.top = elementToReset.offsetTop+"px";
+        breakElm.style.left = ((elementToReset.offsetLeft)+sizef)+"px";
+        breakElm.classList.add("numb3");
+    }
+    else if (numb == 4){
+        breakElm.style.top = ((elementToReset.offsetTop)+sizef)+"px";
+        breakElm.style.left = ((elementToReset.offsetLeft)+sizef)+"px";
+        breakElm.classList.add("numb4");
+    }
+    console.log(sizef+"h");
+
+    content.appendChild(breakElm);
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function deleteBreaks(){
+    let breaks = document.querySelectorAll('.breaks');
+    breaks.forEach(element => {
+        element.remove();
+    });
+}
+  
+
 function resetElement(elementToReset) {
-    elementToReset.classList.remove("setted");
-    elementToReset.classList.remove("bColor1");
-    elementToReset.classList.remove("bColor2");
-    elementToReset.classList.remove("bColor3");
-    elementToReset.classList.remove("bColor4");
+        elementToReset.classList.remove("setted");
+        elementToReset.classList.remove("bColor1");
+        elementToReset.classList.remove("bColor2");
+        elementToReset.classList.remove("bColor3");
+        elementToReset.classList.remove("bColor4");
 }
 
 function updatePointCounterElm() {
