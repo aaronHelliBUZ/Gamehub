@@ -29,6 +29,18 @@
     background-color: red;
 }
 
+#clyde{
+    height: 26px;
+    width: 26px;
+    background-color: orange;
+}
+
+#pinky{
+    height: 26px;
+    width: 26px;
+    background-color: pink;
+}
+
 .pellet{
     height: 10px;
     width: 10px;
