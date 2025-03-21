@@ -19,11 +19,10 @@
                <a href="Minesweeper/index.php"><img class="game" src="./gfx/minesweeper.webp" alt="Minesweeper" /></a>
                <p class="description">Minesweeper</p>
             </section>
-            <!--<section class="gameOption">
             <section class="gameOption">
                <a href="Blockblast/html/index.php"><img class="game" src="./gfx/blockblast.png" alt="Blockblast" /></a>
                <p class="description">Blockblast</p>
-            </section>-->
+            </section>
             <section class="gameOption">
                <a href="Snake/index.php"><img class="game" src="./gfx/snake.jpg" alt="Blockblast" /></a>
                <p class="description">Snake</p>
