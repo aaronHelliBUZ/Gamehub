@@ -1,0 +1,72 @@
+:root {
+    --primary:rgb(0, 160, 125);
+    --secondary:rgb(70, 130, 180);
+    --bgcolor:rgb(4, 63, 50);
+    --text:rgb(200, 235, 225); 
+}
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 98vh;
+    width: 100vw;
+
+    background-color: var(--primary);
+    font-family: sans-serif;
+    color: var(--text);
+}
+
+#content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+
+    height: 80%;
+    width: 60%;
+
+    border-radius: 5%;
+    background-color: var(--bgcolor);
+}
+
+section {
+    text-align: center;
+}
+
+h1{
+    font-size: 3vh;
+}
+
+table{
+    text-align: center;
+
+    font-size: 2.5vh;
+
+    border: 2px solid;
+    border-collapse: collapse;
+    color: var(--text);
+}
+
+td, th{
+    padding: 0.5vh 2vw 0.5vh 2vw;
+
+    border: 2px solid;
+}
+
+#links{
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+}
+
+a {
+    font-size: 2.5vh;
+
+    text-decoration: none;
+    color: var(--text);
+    background-color: var(--secondary);
+    border: 1vh var(--secondary) solid;
+    border-radius: 5px;
+}

@@ -9,7 +9,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Blockblast</title>
-        <link rel="stylesheet" href="css/styleName.css?v=<? echo $time; ?>">
+        <link rel="stylesheet" href="css/stylesName.css?v=<? echo $time; ?>">
         <link rel="icon" href="../gfx/!!!!@NICOLA!!!!.jpg"><!-- <============================= -->
     </head>
     <body>
