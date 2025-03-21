@@ -52,6 +52,7 @@ document.addEventListener("mouseup", function (event) {
 
         blockChoiceElm.removeChild(clickedBlockElm);
         blocksLeft--;
+
         if (blocksLeft <= 0) {
             generateBlockInblockChoiceElm();
         }
@@ -111,6 +112,8 @@ function mouseClicked() {
 
 function generateBlockInblockChoiceElm() {
     blocksLeft = 3;
+    blockIdCounter = 0;
+
     for (let i = 0; i < 3; i++) {
         let colorNumber = Math.floor(Math.random() * 4);
         let figureType = Math.floor(Math.random() * countFigures) + 1;
@@ -195,7 +198,7 @@ function drawFigure(figureType, drawX, drawY, addition, removeOrAdd, direction) 
 
     switch (figureType) {
         case 1:
-            return dreiUeberEcke(drawX, drawY, addition, removeOrAdd, Number(direction));
+            return dreiUeberEcke(drawX, drawY, addition, removeOrAdd, direction);
         case 2:
             return vierUeberEcke(drawX, drawY, addition, removeOrAdd, direction);
         case 3:
@@ -639,6 +642,10 @@ function drawAtPosition(drawX, drawY, addition, removeOrAdd) {
                     elementToDraw.classList.remove("setted");
                     return false;
                 }
+            } else if (removeOrAdd === "check") {
+                if (elementToDraw.classList.contains("setted") === false) {
+                    return false;
+                }
             }
         }
     }
@@ -713,11 +720,14 @@ function isValidToRenewMouse(checkX, checkY) {
 }
 
 function checkForDeath() {
+    console.log("CHECK FOR DEATH");
     for (let i = 0; i < 3; i++) {
         let figureGetElm = document.getElementById("B" + i);
         if (figureGetElm !== null) {
             let figureGetElmFigureType = figureGetElm.getAttribute("figuretype");
-            checkForDeathWithFigure(figureGetElmFigureType);
+            if (checkForDeathWithFigure(figureGetElmFigureType)) {
+                console.log("DEATH fT: " + figureGetElmFigureType);
+            }
         }
     }
 }
@@ -725,40 +735,38 @@ function checkForDeath() {
 function checkForDeathWithFigure(figureType) {
     for (let x = 0; x < fieldsPerX; x++) {
         for (let y = 0; y < fieldsPerY; y++) {
-            if (checkForDeathEachDirection(figureType, x, y) === true) {
-                //console.log("DEATH DEDECTED");
+            if (checkForDeathEachDirection(figureType, x, y) === false) {
+                return false;
             }
         }
     }
+
+    return true;
 }
 
 function checkForDeathEachDirection(figureType, x, y) {
-    //console.log("fT: " + figureType + " X: " + x + " Y: " + y);
+    console.log("cFDED: fT:" + figureType);
 
-    if (drawFigure(Number(figureType), Number(x), Number(y), "", "add", 1) === false) {
-        drawFigure(Number(figureType), Number(x), Number(y), "", "remove", 1);
-        console.log("cFDED1: FALSE");
+    if (drawFigure(Number(figureType), Number(x), Number(y), "", "check", 1) === false) {
+        //console.log("cFDED1: FALSE");
         return false;
     }
 
-    if (drawFigure(Number(figureType), Number(x), Number(y), "", "add", 2) === false) {
-        drawFigure(Number(figureType), Number(x), Number(y), "", "remove", 2);
-        console.log("cFDED2: FALSE");
+    if (drawFigure(Number(figureType), Number(x), Number(y), "", "check", 2) === false) {
+        //console.log("cFDED2: FALSE");
         return false;
     }
 
-    if (drawFigure(Number(figureType), Number(x), Number(y), "", "add", 3) === false) {
-        drawFigure(Number(figureType), Number(x), Number(y), "", "remove", 3);
-        console.log("cFDED3: FALSE");
+    if (drawFigure(Number(figureType), Number(x), Number(y), "", "check", 3) === false) {
+        //console.log("cFDED3: FALSE");
         return false;
     }
 
-    if (drawFigure(Number(figureType), Number(x), Number(y), "", "add", 4) === false) {
-        drawFigure(Number(figureType), Number(x), Number(y), "", "remove", 4);
-        console.log("cFDED4: FALSE");
+    if (drawFigure(Number(figureType), Number(x), Number(y), "", "check", 4) === false) {
+        //console.log("cFDED4: FALSE");
         return false;
     }
 
-    console.log("cFDED: TRUE");
+    //console.log("cFDED: TRUE");
     return true;
 }
