@@ -9,11 +9,11 @@
         <script src="../js/JavaScript.js?v=<?php echo $time; ?>" defer></script>
         <link rel="icon" href="../gfx/icon.jpg" />
     </head>
-    <body>
+    <body id="body">
+        <a id="home" href="../../">Zurück</a>
         <div id="content">
             <div id="pointCounter">0</div>
             <div id="gameField"></div>
-            <br /><br />
             <div id="blockChoice"></div>
         </div>
     </body>
