@@ -768,4 +768,26 @@ function checkForDeathDirection(figureType, x, y, direction) {
 
 function deathDedected() {
     console.log("DEATH DEDECTED");
+    redirectAndForm();
+}
+
+function redirectAndForm() {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "../namen-angeben.php";
+
+    const pointsToSafe = document.createElement("input");
+    pointsToSafe.type = "hidden";
+    pointsToSafe.name = "points";
+    pointsToSafe.value = pointCounter;
+    form.appendChild(pointsToSafe);
+
+    const difficultyToSafe = document.createElement("input");
+    difficultyToSafe.type = "hidden";
+    difficultyToSafe.name = "difficulty";
+    difficultyToSafe.value = fieldsPerX * fieldsPerY;
+    form.appendChild(difficultyToSafe);
+
+    document.body.appendChild(form);
+    form.submit();
 }
