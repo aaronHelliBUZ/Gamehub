@@ -3,8 +3,8 @@ const gameField = document.getElementById("gameField");
 const blockChoiceElm = document.getElementById("blockChoice");
 const pointCounterElm = document.getElementById("pointCounter");
 
-const fieldsPerX = 6;
-const fieldsPerY = 5;
+const fieldsPerX = 10;
+const fieldsPerY = 10;
 
 const countFigures = 7;
 
