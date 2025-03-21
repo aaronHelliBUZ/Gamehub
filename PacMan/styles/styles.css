@@ -1,0 +1,62 @@
+#feld{
+    width: 588px;
+    height: 756px;
+    background-color: red;
+    display: grid;
+    grid-template-columns: repeat(21, 28px);
+    grid-template-rows: repeat(27, 28px);
+    border-radius: 10%;
+}
+
+.wand{
+    background-color: black;
+}
+
+.gang{
+    background-color: rgb(132, 130, 238);
+}
+
+#spieler{
+    height: 26px;
+    width: 26px;
+    border-radius: 13px;
+    background-color: yellow;
+}
+
+#blinky{
+    height: 26px;
+    width: 26px;
+    background-color: red;
+}
+
+#clyde{
+    height: 26px;
+    width: 26px;
+    background-color: orange;
+}
+
+#pinky{
+    height: 26px;
+    width: 26px;
+    background-color: pink;
+}
+
+#inky{
+    height: 26px;
+    width: 26px;
+    background-color: lightblue;
+}
+
+.pellet{
+    height: 10px;
+    width: 10px;
+    border-radius: 5px;
+    background-color: yellow;
+}
+
+.superPellet{
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    background-color: yellow;
+}
