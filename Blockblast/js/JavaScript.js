@@ -3,8 +3,8 @@ const gameField = document.getElementById("gameField");
 const blockChoiceElm = document.getElementById("blockChoice");
 const pointCounterElm = document.getElementById("pointCounter");
 
-const fieldsPerX = 10;
-const fieldsPerY = 10;
+const fieldsPerX = 6;
+const fieldsPerY = 5;
 
 const countFigures = 7;
 
@@ -19,6 +19,7 @@ let blockToPlaceColor = "";
 let blockIdCounter = 0;
 
 let mouseDown = false;
+let isMouseOver = false;
 
 let clickedBlockElm;
 let blocksLeft = 3;
@@ -34,24 +35,34 @@ generateBlockInblockChoiceElm();
 
 document.addEventListener("mouseup", function (event) {
     event.preventDefault();
-    mouseDown = false;
-    oldMouseX = -3;
-    oldMouseY = -3;
 
-    drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "addSetted", Number(direction));
+    if (isMouseOver === true) {
+        mouseDown = false;
+        oldMouseX = -3;
+        oldMouseY = -3;
 
-    clickedFigureType = -3;
-    direction = -3;
-    blockToPlaceColor = "";
+        drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "addSetted", Number(direction));
 
-    blockChoiceElm.removeChild(clickedBlockElm);
-    blocksLeft--;
-    if (blocksLeft <= 0) {
-        generateBlockInblockChoiceElm();
+        mouseX = -3;
+        mouseY = -3;
+
+        clickedFigureType = -3;
+        direction = -3;
+        blockToPlaceColor = "";
+
+        blockChoiceElm.removeChild(clickedBlockElm);
+        blocksLeft--;
+        if (blocksLeft <= 0) {
+            generateBlockInblockChoiceElm();
+        }
+
+        checkForARow();
+        checkForAColumn();
+
+        checkForDeath();
+
+        isMouseOver = false;
     }
-
-    checkForARow();
-    checkForAColumn();
 });
 
 //Zentriert das Speilfeld und stellt die grösse ein
@@ -156,29 +167,32 @@ function generateInBlockFlex(newBlock) {
 }
 
 function mouseOver(mouseOverElm) {
-    if (mouseDown === true /* && mouseOverElm.classList.contains("setted") === false*/) {
-        oldMouseX = mouseX;
-        oldMouseY = mouseY;
+    if (mouseDown === true /*&& mouseOverElm.classList.contains("setted") === false*/) {
+        if (isValidToRenewMouse(mouseOverElm.id.split("Y")[0].split("X")[1], mouseOverElm.id.split("Y")[1]) === true) {
+            isMouseOver = true;
 
-        mouseX = mouseOverElm.id.split("Y")[0].split("X")[1];
-        mouseY = mouseOverElm.id.split("Y")[1];
-        setFieldToBlockWhileMouseOver();
-    }
-}
+            oldMouseX = mouseX;
+            oldMouseY = mouseY;
 
-function setFieldToBlockWhileMouseOver() {
-    if (blockToPlaceColor !== "") {
-        if (drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "remove", Number(direction)) === false) {
-            drawFigure(Number(clickedFigureType), oldMouseX, oldMouseY, "", "remove", Number(direction));
-            drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "add", Number(direction));
+            console.log("OX: " + oldMouseX + " OY: " + oldMouseY);
+            console.log("MX: " + mouseX + " MY: " + mouseY);
+
+            mouseX = mouseOverElm.id.split("Y")[0].split("X")[1];
+            mouseY = mouseOverElm.id.split("Y")[1];
         }
-    }
 
-    if (blockToPlaceColor !== "") {
+        if (blockToPlaceColor !== "") {
+            if (drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "remove", Number(direction)) === false) {
+                drawFigure(Number(clickedFigureType), oldMouseX, oldMouseY, "", "remove", Number(direction));
+                drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "add", Number(direction));
+            }
+        }
     }
 }
 
 function drawFigure(figureType, drawX, drawY, addition, removeOrAdd, direction) {
+    //console.log("dFigure fT:" + figureType + " rOA: " + removeOrAdd);
+
     switch (figureType) {
         case 1:
             return dreiUeberEcke(drawX, drawY, addition, removeOrAdd, Number(direction));
@@ -464,6 +478,8 @@ function kleinesT(drawX, drawY, addition, removeOrAdd, direction) {
 function grosserBalken(drawX, drawY, addition, removeOrAdd, direction) {
     let removeOrAddInverted;
 
+    //console.log("gBalken rOA: " + removeOrAdd);
+
     let calcedDrawXBlock1 = Number(drawX);
     let calcedDrawYBlock1 = Number(drawY);
     let calcedDrawXBlock2 = Number(drawX);
@@ -597,28 +613,32 @@ function zweiMalZwei(drawX, drawY, addition, removeOrAdd, direction) {
 function drawAtPosition(drawX, drawY, addition, removeOrAdd) {
     let elementToDraw = document.getElementById(addition + "X" + drawX + "Y" + drawY);
 
+    //console.log("rOA: " + removeOrAdd);
+
     if (elementToDraw !== null) {
-        if (removeOrAdd === "add") {
-            if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
-                elementToDraw.classList.add(blockToPlaceColor);
-                return false;
-            }
-        } else if (removeOrAdd === "remove") {
-            if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
-                elementToDraw.classList.remove(blockToPlaceColor);
-                return false;
-            }
-        } else if (removeOrAdd === "addSetted") {
-            if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
-                elementToDraw.classList.add(blockToPlaceColor);
-                elementToDraw.classList.add("setted");
-                return false;
-            }
-        } else if (removeOrAdd === "removeSetted") {
-            if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === true) {
-                elementToDraw.classList.remove(blockToPlaceColor);
-                elementToDraw.classList.remove("setted");
-                return false;
+        if (elementToDraw.classList.contains("setted") === false) {
+            if (removeOrAdd === "add") {
+                if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
+                    elementToDraw.classList.add(blockToPlaceColor);
+                    return false;
+                }
+            } else if (removeOrAdd === "remove") {
+                if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
+                    elementToDraw.classList.remove(blockToPlaceColor);
+                    return false;
+                }
+            } else if (removeOrAdd === "addSetted") {
+                if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === false) {
+                    elementToDraw.classList.add(blockToPlaceColor);
+                    elementToDraw.classList.add("setted");
+                    return false;
+                }
+            } else if (removeOrAdd === "removeSetted") {
+                if (blockToPlaceColor !== "" && elementToDraw.classList.contains("setted") === true) {
+                    elementToDraw.classList.remove(blockToPlaceColor);
+                    elementToDraw.classList.remove("setted");
+                    return false;
+                }
             }
         }
     }
@@ -682,4 +702,63 @@ function resetElement(elementToReset) {
 
 function updatePointCounterElm() {
     pointCounterElm.innerHTML = pointCounter;
+}
+
+function isValidToRenewMouse(checkX, checkY) {
+    if (drawFigure(Number(clickedFigureType), checkX, checkY, "", "remove", Number(direction)) === false) {
+        return true;
+    }
+
+    return false;
+}
+
+function checkForDeath() {
+    for (let i = 0; i < 3; i++) {
+        let figureGetElm = document.getElementById("B" + i);
+        if (figureGetElm !== null) {
+            let figureGetElmFigureType = figureGetElm.getAttribute("figuretype");
+            checkForDeathWithFigure(figureGetElmFigureType);
+        }
+    }
+}
+
+function checkForDeathWithFigure(figureType) {
+    for (let x = 0; x < fieldsPerX; x++) {
+        for (let y = 0; y < fieldsPerY; y++) {
+            if (checkForDeathEachDirection(figureType, x, y) === true) {
+                //console.log("DEATH DEDECTED");
+            }
+        }
+    }
+}
+
+function checkForDeathEachDirection(figureType, x, y) {
+    //console.log("fT: " + figureType + " X: " + x + " Y: " + y);
+
+    if (drawFigure(Number(figureType), Number(x), Number(y), "", "add", 1) === false) {
+        drawFigure(Number(figureType), Number(x), Number(y), "", "remove", 1);
+        console.log("cFDED1: FALSE");
+        return false;
+    }
+
+    if (drawFigure(Number(figureType), Number(x), Number(y), "", "add", 2) === false) {
+        drawFigure(Number(figureType), Number(x), Number(y), "", "remove", 2);
+        console.log("cFDED2: FALSE");
+        return false;
+    }
+
+    if (drawFigure(Number(figureType), Number(x), Number(y), "", "add", 3) === false) {
+        drawFigure(Number(figureType), Number(x), Number(y), "", "remove", 3);
+        console.log("cFDED3: FALSE");
+        return false;
+    }
+
+    if (drawFigure(Number(figureType), Number(x), Number(y), "", "add", 4) === false) {
+        drawFigure(Number(figureType), Number(x), Number(y), "", "remove", 4);
+        console.log("cFDED4: FALSE");
+        return false;
+    }
+
+    console.log("cFDED: TRUE");
+    return true;
 }
