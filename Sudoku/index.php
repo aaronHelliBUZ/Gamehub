@@ -158,74 +158,81 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="styles/styles.css?v=<? echo $time; ?>">
-        <title>Document</title>
+        <script src="./script/script.js?v=<? echo $time; ?>" defer></script>
+        <link rel="icon" href="../gfx/iconSudoku.png">
+        <title>Sudoku</title>
     </head>
 
-    <body>
-        <form method="POST" action="index.php">
-            <div id="spielfeld">
-                <?
-                    $feldString = serialize($feld);
-                    $loesungString = serialize($GLOBALS['loesung']);
-                    for($i = 0; $i < 9; $i++){
-                        echo "<div id='feld_$i' class='innereFelder'>";
-                        $spalte = 0;
-                        $reihe = 0;
+    <body id="body">
+        <div id="content">
+            <form method="POST" action="index.php">
+                <div id="spielfeld">
+                    <?
+                        $feldString = serialize($feld);
+                        $loesungString = serialize($GLOBALS['loesung']);
+                        for($i = 0; $i < 9; $i++){
+                            echo "<div id='feld_$i' class='innereFelder'>";
+                            $spalte = 0;
+                            $reihe = 0;
 
-                        switch($i){
-                            case 0:
-                            case 1:
-                            case 2:
-                                $reihe = 3;
-                                break;
-                            case 3:
-                            case 4:
-                            case 5:
-                                $reihe = 6;
-                                break;
-                            case 6:
-                            case 7:
-                            case 8:
-                                $reihe = 9;
-                                break;
-                        }
+                            switch($i){
+                                case 0:
+                                case 1:
+                                case 2:
+                                    $reihe = 3;
+                                    break;
+                                case 3:
+                                case 4:
+                                case 5:
+                                    $reihe = 6;
+                                    break;
+                                case 6:
+                                case 7:
+                                case 8:
+                                    $reihe = 9;
+                                    break;
+                            }
 
-                        switch($i){
-                            case 0:
-                            case 3:
-                            case 6:
-                                $spalte = 3;
-                                break;
-                            case 1:
-                            case 4:
-                            case 7:
-                                $spalte = 6;
-                                break;
-                            case 2:
-                            case 5:
-                            case 8:
-                                $spalte = 9;
-                                break;
-                        }
+                            switch($i){
+                                case 0:
+                                case 3:
+                                case 6:
+                                    $spalte = 3;
+                                    break;
+                                case 1:
+                                case 4:
+                                case 7:
+                                    $spalte = 6;
+                                    break;
+                                case 2:
+                                case 5:
+                                case 8:
+                                    $spalte = 9;
+                                    break;
+                            }
 
-                        for($j = $reihe - 3; $j < $reihe; $j++){
-                            for($k = $spalte - 3; $k < $spalte; $k++){
-                                if($feld[$j][$k] !== 0){
-                                    $zahl = $feld[$j][$k];
-                                    echo "<div class='zahlen'>$zahl</div>";
-                                }else{
-                                    echo "<input class='zahlen' type='number' name='feld$j" . "/" . "$k' min='1' max='9'>";
+                            for($j = $reihe - 3; $j < $reihe; $j++){
+                                for($k = $spalte - 3; $k < $spalte; $k++){
+                                    if($feld[$j][$k] !== 0){
+                                        $zahl = $feld[$j][$k];
+                                        echo "<div class='zahlen'>$zahl</div>";
+                                    }else{
+                                        echo "<input class='zahlen' type='number' name='feld$j" . "/" . "$k' min='1' max='9'>";
+                                    }
                                 }
                             }
+                            echo "</div>";
                         }
-                        echo "</div>";
-                    }
-                    echo "<input type='hidden' name='feldString' value=$feldString>";
-                    echo "<input type='hidden' name='loesungString' value=$loesungString>";
-                    echo "<input type='hidden' name='submitted' value=1>";
-                ?>
-            </div>
-            <input type="submit">
-        </form>
+                        echo "<input type='hidden' name='feldString' value=$feldString>";
+                        echo "<input type='hidden' name='loesungString' value=$loesungString>";
+                        echo "<input type='hidden' name='submitted' value=1>";
+                    ?>
+                </div>
+                <div id="submit">
+                    <input type="submit" value="Überprüfen">
+                    <a href="../index.php">Zurück</a>
+                </div>
+            </form>
+        </div>
     </body>
 </html>

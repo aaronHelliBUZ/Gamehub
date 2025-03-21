@@ -27,9 +27,9 @@ body{
 #playingField {
     width: var(--width);
     height: var(--height);
-    padding: 1%;
 
-    background-color: var(--wall-color);
+    border: 0.5em var(--wall-color) solid;
+    background-color: var(--text);
 }
 
 .fieldFlex {
@@ -78,4 +78,6 @@ a {
 
 .player {
     background-color: var(--primary);
+
+    border-radius: 100%;
 }

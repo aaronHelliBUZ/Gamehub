@@ -1,3 +1,4 @@
+<? $time = time() ?>
 <?php
     if($_POST == NULL){
 ?>
@@ -8,8 +9,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Laborinth</title>
-        <link rel="stylesheet" href="css/stylesIndex.css">
-    </head>
+        <link rel="stylesheet" href="css/stylesIndex.css?v=<? echo $time; ?>">
+        <link rel="icon" href="../gfx/iconLaborinth.jpg?v=<? echo $time; ?>">
+     </head>
     <body>
         <div id="content">
             <form action="index.php" method="post">

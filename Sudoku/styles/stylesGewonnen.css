@@ -1,0 +1,94 @@
+:root {
+    --primary:rgb(0, 160, 125);
+    --secondary:rgb(70, 130, 180);
+    --bgcolor:rgb(4, 63, 50);
+    --text:rgb(200, 235, 225);
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 98vh;
+    width: 98vw;
+
+    background-color: var(--bgcolor);
+    font-family: sans-serif;
+    color: var(--text);
+}
+
+#content{
+    display: grid;
+    grid-template-rows: 70% 30%;
+
+    height: 40%;
+    width: 40%;
+
+    background-color: var(--primary);
+    border: 0.5rem var(--primary) solid;
+    border-radius: 2%;
+}
+
+#submit{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 100%;
+}
+
+a{
+    text-decoration: none;
+    font-size: 4vh;
+
+    color: var(--text);
+    background-color: var(--secondary);
+    border: 1vh var(--secondary) solid;
+    border-radius: 5px;
+}
+
+a:hover{
+    cursor: pointer;
+
+    border-color: rgb(51, 108, 155);
+    background-color: rgb(51, 108, 155);
+}
+
+#winMsg {
+    font-size: 8vh;
+
+    justify-self: center;
+    align-self: center;
+
+    color: red;
+    background-color: blue;
+    border-radius: 10px;
+
+    animation-name:win;
+    animation-duration: 25s;
+}
+
+@keyframes win {
+    from {}
+    25% {
+        color: rgb(0,255,0);
+        background-color: rgb(255,0,0);
+        transform: rotateZ(360deg);
+    }
+    50%{
+        color: rgb(0,0,255);
+        background-color: rgb(0,255,0);
+        transform: rotateZ(0deg);
+    }
+    75% {
+        color: rgb(255,0,0);
+        background-color: rgb(0,0,255);
+        transform: rotateZ(360deg);
+    }
+    to{
+        color: rgb(0,255,0);
+        background-color: rgb(0,0,255);
+        transform: rotateZ(0deg);
+    }
+}

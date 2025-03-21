@@ -51,54 +51,62 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Bestenliste</title>
+        <title>Minesweeper</title>
         <link rel="stylesheet" href="./styles/stylesBestenliste.css?v=<? echo $time; ?>">
         <link rel="icon" href="./img/icon.jpg" />
     </head>
 
-    <body>
-        <h1>Deine Rekorde</h1>
-        <?php
-            $sql = "
-            SELECT Name, Punkte, Zeit FROM Rekorde
-            WHERE Name = '$Name'
-            ORDER BY Punkte DESC, Zeit ASC
-            LIMIT 3;
-            ";
-            $resultat = mysqli_query($conn, $sql);
-            $i = 1;
+    <body id="body">
+        <div id="content">
+            <section>
+                <h1>Deine Rekorde</h1>
+                <?php
+                    $sql = "
+                    SELECT Name, Punkte, Zeit FROM Rekorde
+                    WHERE Name = '$Name'
+                    ORDER BY Punkte DESC, Zeit ASC
+                    LIMIT 3;
+                    ";
+                    $resultat = mysqli_query($conn, $sql);
+                    $i = 1;
 
-            echo "<table>";
-            echo "<thead><td>Platzierung</td><td>Name</td><td>Spielfeldgrösse/Bomben</td><td>Zeit</td></thead><tbody>";
-            while($row = mysqli_fetch_assoc($resultat)){
-                echo "<tr>";
-                echo "<td>$i</td><td>" . $row["Name"] . "</td><td>" . $row["Punkte"] . "</td><td>" . $row["Zeit"] . "</td>";
-                $i++;
-                echo "</tr>";
-            }
-            echo "</tbody></table>";
-        ?>
-        <h1>Allzeit Rekorde</h1>
-        <?php
-            $sql = "
-            SELECT Name, Punkte, Zeit FROM Rekorde
-            ORDER BY Punkte DESC, Zeit ASC
-            LIMIT 3;
-            ";
-            $resultat = mysqli_query($conn, $sql);
-            $i = 1;
+                    echo "<table>";
+                    echo "<thead><td>Platzierung</td><td>Name</td><td>Spielfeldgrösse/Bomben</td><td>Zeit</td></thead><tbody>";
+                    while($row = mysqli_fetch_assoc($resultat)){
+                        echo "<tr>";
+                        echo "<td>$i</td><td>" . $row["Name"] . "</td><td>" . $row["Punkte"] . "</td><td>" . $row["Zeit"] . "</td>";
+                        $i++;
+                        echo "</tr>";
+                    }
+                    echo "</tbody></table>";
+                ?>
+            </section>
+            <section>
+                <h1>Allzeit Rekorde</h1>
+                <?php
+                    $sql = "
+                    SELECT Name, Punkte, Zeit FROM Rekorde
+                    ORDER BY Punkte DESC, Zeit ASC
+                    LIMIT 3;
+                    ";
+                    $resultat = mysqli_query($conn, $sql);
+                    $i = 1;
 
-            echo "<table>";
-            echo "<thead><td>Platzierung</td><td>Name</td><td>Spielfeldgrösse/Bomben</td><td>Zeit</td></thead><tbody>";
-            while($row = mysqli_fetch_assoc($resultat)){
-                echo "<tr>";
-                echo "<td>$i</td><td>" . $row["Name"] . "</td><td>" . $row["Punkte"] . "</td><td>" . $row["Zeit"] . "</td>";
-                $i++;
-                echo "</tr>";
-            }
-            echo "</tbody></table>";
-        ?>
-        <a href="index.php">Startseite</a>
-        <a href="kompletteListe.php">Komplette Liste</a>
+                    echo "<table>";
+                    echo "<thead><td>Platzierung</td><td>Name</td><td>Spielfeldgrösse/Bomben</td><td>Zeit</td></thead><tbody>";
+                    while($row = mysqli_fetch_assoc($resultat)){
+                        echo "<tr>";
+                        echo "<td>$i</td><td>" . $row["Name"] . "</td><td>" . $row["Punkte"] . "</td><td>" . $row["Zeit"] . "</td>";
+                        $i++;
+                        echo "</tr>";
+                    }
+                    echo "</tbody></table>";
+                ?>
+            </section>
+            <div id="links">
+                <a href="../index.php">Startseite</a>
+                <a href="kompletteListe.php">Komplette Liste</a>
+            </div>
+        </div>
     </body>
 </html>

@@ -113,7 +113,6 @@ function movePlayer(playerY, playerX) {
     player.classList.add("player");
 
     if (player === endElm) {
-        window.alert("Du hast gewonnen!");
         gameContinue = false;
         redirectAndForm();
     }

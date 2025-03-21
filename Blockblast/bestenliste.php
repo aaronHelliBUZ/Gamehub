@@ -4,7 +4,7 @@
     $username = "root";
     $password = "";
     $dbname = "bestenliste";
-    $tablename = "bestenlistelaborinth";
+    $tablename = "bestenlisteblockblast";
 ?>
 
 <!DOCTYPE html>
@@ -12,9 +12,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Laborinth</title>
+        <title>Blockblast</title>
         <link rel="stylesheet" href="css/stylesBestenliste.css?v=<? echo $time; ?>">
-        <link rel="icon" href="../gfx/iconLaborinth.jpg">
+        <link rel="icon" href="../gfx/!!!!@NICOLA!!!!.jpg"><!-- <============================= -->
     </head>
     <body id="body">
         <div id="content">
@@ -78,7 +78,7 @@
         $conn = tryConnection($dbname);
 
         echo "<table>";
-        echo "<tr><th>Name</th><th>Schwierigkeit</th><th>Zeit</th></tr>";
+        echo "<tr><th>Name</th><th>Schwierigkeit</th><th>Punktzahl</th></tr>";
 
         class TableRows extends RecursiveIteratorIterator {
             function __construct($it) {
@@ -99,7 +99,7 @@
         }
 
         try {
-            $stmt = $conn->prepare("SELECT Name, Schwierigkeit, Zeit FROM $tablename ORDER BY Schwierigkeit DESC, Zeit ASC");
+            $stmt = $conn->prepare("SELECT Name, Schwierigkeit, Punktzahl FROM $tablename ORDER BY Schwierigkeit DESC, Punktzahl ASC");
             $stmt->execute();
 
             // set the resulting array to associative

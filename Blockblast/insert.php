@@ -3,11 +3,11 @@
     $username = "root";
     $password = "";
     $dbname = "bestenliste";
-    $tablename = "bestenlistelaborinth";
+    $tablename = "bestenlisteblockblast";
 
     $usernameToSafe = $_POST["username"];
     $difficultyToSafe = $_POST["difficulty"];
-    $timeToSafe = (int)$_POST["time"];
+    $pointsToSafe = (int)$_POST["points"];
 
     insert();
 
@@ -30,14 +30,14 @@
     }
 
     function insert(){
-        global $servername, $username, $password, $dbname, $tablename, $usernameToSafe, $difficultyToSafe, $timeToSafe;
+        global $servername, $username, $password, $dbname, $tablename, $usernameToSafe, $difficultyToSafe, $pointsToSafe;
         // ===========================================================
         // ========================== INSERT =========================
         // ===========================================================
         $conn = tryConnection($dbname);
 
         try {
-            $sql = "INSERT INTO $tablename (Name, Schwierigkeit, Zeit) VALUES ('$usernameToSafe','$difficultyToSafe','$timeToSafe')";
+            $sql = "INSERT INTO $tablename (Name, Schwierigkeit, Punktzahl) VALUES ('$usernameToSafe','$difficultyToSafe','$pointsToSafe')";
 
             $conn->exec($sql);
 
