@@ -86,6 +86,7 @@ body {
 #gameField {
     justify-self: center;
     align-self: center;
+    background-color: var(--primary);
 }
 
 #blockChoice {
@@ -95,13 +96,13 @@ body {
 
     width: 100% !important;
     height: auto;
-
     width: calc(var(--field-size) * 6);
 }
 
 .blockFlex {
     display: flex;
     flex-direction: column;
+    background-color: var(--primary);
 }
 
 .blockFieldFlex {
@@ -120,29 +121,45 @@ body {
     border-radius: 0em;
 }
 
-.block:not(.noBColor){
+
+#blockChoice .bColor1 div .block:not(.noBColor){
+    border: 0.1px solid var(--block-color1);
     border-radius: 0.3em;
-    box-shadow: 0 0 1em rgba(0,0,0,0.5)
 }
 
-.bColor1 {
+#blockChoice .bColor2 div .block:not(.noBColor){
+    border: 0.1px solid var(--block-color2);
+    border-radius: 0.3em;
+}
+
+#blockChoice .bColor3 div .block:not(.noBColor){
+    border: 0.1px solid var(--block-color3);
+    border-radius: 0.3em;
+}
+
+#blockChoice .bColor4 div .block:not(.noBColor){
+    border: 0.1px solid var(--block-color4);
+    border-radius: 0.3em;
+}
+
+.bColor1{
     background-color: var(--block-color1);
 }
 
-.bColor2 {
+.bColor2{
     background-color: var(--block-color2);
 }
 
-.bColor3 {
+.bColor3{
     background-color: var(--block-color3);
 }
 
-.bColor4 {
+.bColor4{
     background-color: var(--block-color4);
 }
 
-.noBColor {
-    background-color: var(--primary);
+.noBColor{
+    background-color: var(--primary) !important;
 }
 
 .breaks {
