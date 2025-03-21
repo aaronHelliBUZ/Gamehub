@@ -585,28 +585,37 @@ function zweiMalEins(drawX, drawY, addition, removeOrAdd, direction) {
 function zweiMalZwei(drawX, drawY, addition, removeOrAdd, direction) {
     let removeOrAddInverted;
 
+    let calcedDrawXBlock1 = Number(drawX);
+    let calcedDrawYBlock1 = Number(drawY);
+    let calcedDrawXBlock2 = Number(drawX) + 1;
+    let calcedDrawYBlock2 = Number(drawY);
+    let calcedDrawXBlock3 = Number(drawX);
+    let calcedDrawYBlock3 = Number(drawY) + 1;
+    let calcedDrawXBlock4 = Number(drawX) + 1;
+    let calcedDrawYBlock4 = Number(drawY) + 1;
+
     if (removeOrAdd === "add") {
         removeOrAddInverted = "remove";
     } else if (removeOrAdd === "addSetted") {
         removeOrAddInverted = "removeSetted";
     }
 
-    if (drawAtPosition(drawX, drawY, addition, removeOrAdd) === false) {
-        if (drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAdd) === false) {
-            if (drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAdd) === false) {
-                if (drawAtPosition(Number(drawX) + 1, Number(drawY) + 1, addition, removeOrAdd) === false) {
+    if (drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAdd) === false) {
+        if (drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAdd) === false) {
+            if (drawAtPosition(calcedDrawXBlock3, calcedDrawYBlock3, addition, removeOrAdd) === false) {
+                if (drawAtPosition(calcedDrawXBlock4, calcedDrawYBlock4, addition, removeOrAdd) === false) {
                     return false;
                 } else {
-                    drawAtPosition(drawX, Number(drawY) + 1, addition, removeOrAddInverted);
-                    drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAddInverted);
-                    drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock3, calcedDrawYBlock4, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAddInverted);
+                    drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
                 }
             } else {
-                drawAtPosition(Number(drawX) + 1, drawY, addition, removeOrAddInverted);
-                drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+                drawAtPosition(calcedDrawXBlock2, calcedDrawYBlock2, addition, removeOrAddInverted);
+                drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
             }
         } else {
-            drawAtPosition(drawX, drawY, addition, removeOrAddInverted);
+            drawAtPosition(calcedDrawXBlock1, calcedDrawYBlock1, addition, removeOrAddInverted);
         }
     }
 
@@ -643,9 +652,7 @@ function drawAtPosition(drawX, drawY, addition, removeOrAdd) {
                     return false;
                 }
             } else if (removeOrAdd === "check") {
-                if (elementToDraw.classList.contains("setted") === false) {
-                    return false;
-                }
+                return false;
             }
         }
     }
@@ -725,17 +732,20 @@ function checkForDeath() {
         let figureGetElm = document.getElementById("B" + i);
         if (figureGetElm !== null) {
             let figureGetElmFigureType = figureGetElm.getAttribute("figuretype");
-            if (checkForDeathWithFigure(figureGetElmFigureType)) {
-                console.log("DEATH fT: " + figureGetElmFigureType);
+            let figureGetElmDirection = figureGetElm.getAttribute("direction");
+            if (checkForDeathWithFigure(figureGetElmFigureType, figureGetElmDirection) === false) {
+                return;
+            } else {
+                deathDedected();
             }
         }
     }
 }
 
-function checkForDeathWithFigure(figureType) {
+function checkForDeathWithFigure(figureType, direction) {
     for (let x = 0; x < fieldsPerX; x++) {
         for (let y = 0; y < fieldsPerY; y++) {
-            if (checkForDeathEachDirection(figureType, x, y) === false) {
+            if (checkForDeathDirection(figureType, x, y, direction) === false) {
                 return false;
             }
         }
@@ -744,29 +754,18 @@ function checkForDeathWithFigure(figureType) {
     return true;
 }
 
-function checkForDeathEachDirection(figureType, x, y) {
-    console.log("cFDED: fT:" + figureType);
+function checkForDeathDirection(figureType, x, y, direction) {
+    console.log("cFDED: fT:" + figureType + " d: " + direction);
 
-    if (drawFigure(Number(figureType), Number(x), Number(y), "", "check", 1) === false) {
-        //console.log("cFDED1: FALSE");
+    if (drawFigure(Number(figureType), Number(x), Number(y), "", "check", Number(direction)) === false) {
+        console.log("cFDED1: FALSE (gepasst) X: " + x + " Y:" + y);
         return false;
     }
 
-    if (drawFigure(Number(figureType), Number(x), Number(y), "", "check", 2) === false) {
-        //console.log("cFDED2: FALSE");
-        return false;
-    }
-
-    if (drawFigure(Number(figureType), Number(x), Number(y), "", "check", 3) === false) {
-        //console.log("cFDED3: FALSE");
-        return false;
-    }
-
-    if (drawFigure(Number(figureType), Number(x), Number(y), "", "check", 4) === false) {
-        //console.log("cFDED4: FALSE");
-        return false;
-    }
-
-    //console.log("cFDED: TRUE");
+    console.log("cFDED: TRUE (NICHT gepasst)");
     return true;
+}
+
+function deathDedected() {
+    console.log("DEATH DEDECTED");
 }
