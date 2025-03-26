@@ -10,7 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Blockblast</title>
         <link rel="stylesheet" href="css/stylesName.css?v=<? echo $time; ?>">
-        <link rel="icon" href="../../gfx/iconBlockblast.jpg?v=<?php echo $time; ?>" />
+        <link rel="icon" href="../gfx/iconBlockblast.jpg?v=<?php echo $time; ?>" />
     </head>
     <body>
         <div id="content">
