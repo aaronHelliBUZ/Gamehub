@@ -77,8 +77,6 @@ body {
     width: var(--field-size);
     height: var(--field-size);
 
-    z-index: 2;
-
     background-color: var(--field-color);
     border: 0.1px solid var(--bgcolor);
     border-radius: 0.3em;
@@ -95,8 +93,6 @@ body {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-
-    z-index: 0;
 
     width: 100% !important;
     height: auto;
@@ -127,39 +123,23 @@ body {
 
 
 #blockChoice .bColor1 div .block:not(.noBColor){
-    z-index: 5;
-    background-color: var(--block-color1) !important;
-    border: 0.1px solid var(--primary);
+    border: 0.1px solid var(--block-color1);
     border-radius: 0.3em;
-    box-shadow: 0 0 1em rgba(0,0,0,0.5);
 }
 
 #blockChoice .bColor2 div .block:not(.noBColor){
-    z-index: 5;
-    background-color: var(--block-color2) !important;
-    border: 0.1px solid var(--primary);
+    border: 0.1px solid var(--block-color2);
     border-radius: 0.3em;
-    box-shadow: 0 0 1em rgba(0,0,0,0.5);
 }
 
 #blockChoice .bColor3 div .block:not(.noBColor){
-    z-index: 5;
-    background-color: var(--block-color3) !important;
-    border: 0.1px solid var(--primary);
+    border: 0.1px solid var(--block-color3);
     border-radius: 0.3em;
-    box-shadow: 0 0 1em rgba(0,0,0,0.5);
 }
 
 #blockChoice .bColor4 div .block:not(.noBColor){
-    z-index: 5;
-    background-color: var(--block-color4) !important;
-    border: 0.1px solid var(--primary);
+    border: 0.1px solid var(--block-color4);
     border-radius: 0.3em;
-    box-shadow: 0 0 1em rgba(0,0,0,0.5);
-}
-
-#blockChoice [class*=bColor] div .block:not(.noBColor):hover{
-    cursor: pointer;
 }
 
 .bColor1{
@@ -182,32 +162,9 @@ body {
     background-color: var(--primary) !important;
 }
 
-.blockFlex.bColor1{
-    background-color: var(--primary);
-    box-shadow: 0 0 0 rgba(0,0,0,0);
-}
-
-.blockFlex.bColor2{
-    background-color: var(--primary);
-    box-shadow: 0 0 0 rgba(0,0,0,0);
-}
-
-.blockFlex.bColor3{
-    background-color: var(--primary);
-    box-shadow: 0 0 0 rgba(0,0,0,0);
-}
-
-.blockFlex.bColor4{
-    background-color: var(--primary);
-    box-shadow: 0 0 0 rgba(0,0,0,0);
-}
-
 .breaks {
     position: absolute;
     visibility: hidden;
-
-    z-index: 10;
-
     height: calc(var(--field-size)/2);
     width: calc(var(--field-size)/2);
 }
