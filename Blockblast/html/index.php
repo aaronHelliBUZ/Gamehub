@@ -7,7 +7,7 @@
         <title>Blockblast</title>
         <link rel="stylesheet" href="../css/styles.css?v=<?php echo $time; ?>" />
         <script src="../js/JavaScript.js?v=<?php echo $time; ?>" defer></script>
-        <link rel="icon" href="../gfx/icon.jpg" />
+        <link rel="icon" href="../../gfx/iconBlockblast.jpg?v=<?php echo $time; ?>" />
     </head>
     <body id="body">
         <a id="home" href="../../">Zurück</a>
