@@ -1,9 +1,9 @@
-let root = document.querySelector(':root');
+let root = document.querySelector(":root");
 let content = document.getElementById("content");
 
-root.style.setProperty('--size', (content.offsetHeight)+'px');
+root.style.setProperty("--size", content.offsetHeight + "px");
 
-console.log(content.offsetHeight)
+console.log(content.offsetHeight);
 
 //Häufig benutzte Elemente
 const gameField = document.getElementById("gameField");
@@ -40,38 +40,43 @@ generateField();
 
 generateBlockInblockChoiceElm();
 
-document.addEventListener("mouseup", function (event) {
-    event.preventDefault();
+document.addEventListener(
+    "mouseup",
+    /*async*/ function (event) {
+        event.preventDefault();
 
-    if (isMouseOver === true) {
-        mouseDown = false;
-        oldMouseX = -3;
-        oldMouseY = -3;
+        if (isMouseOver === true) {
+            mouseDown = false;
+            oldMouseX = -3;
+            oldMouseY = -3;
 
-        drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "addSetted", Number(direction));
+            drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "addSetted", Number(direction));
 
-        mouseX = -3;
-        mouseY = -3;
+            mouseX = -3;
+            mouseY = -3;
 
-        clickedFigureType = -3;
-        direction = -3;
-        blockToPlaceColor = "";
+            clickedFigureType = -3;
+            direction = -3;
+            blockToPlaceColor = "";
 
-        blockChoiceElm.removeChild(clickedBlockElm);
-        blocksLeft--;
+            blockChoiceElm.removeChild(clickedBlockElm);
+            blocksLeft--;
 
-        if (blocksLeft <= 0) {
-            generateBlockInblockChoiceElm();
+            if (blocksLeft <= 0) {
+                generateBlockInblockChoiceElm();
+            }
+
+            checkForARow();
+            checkForAColumn();
+
+            //await sleep(500);
+
+            checkForDeath();
+
+            isMouseOver = false;
         }
-
-        checkForARow();
-        checkForAColumn();
-
-        checkForDeath();
-
-        isMouseOver = false;
     }
-});
+);
 
 //Zentriert das Speilfeld und stellt die grösse ein
 /*{
@@ -711,7 +716,7 @@ async function checkForAColumn() {
                 let elementToReset = document.getElementById("X" + x + "Y" + y);
                 animation(elementToReset);
                 resetElement(elementToReset);
-                await sleep(200);  
+                await sleep(200);
             }
             await sleep(500);
             deleteBreaks();
@@ -722,47 +727,40 @@ async function checkForAColumn() {
 }
 
 async function animation(elementToReset) {
-    for(let i = 1; i <= 4; i++){
-        addBreak(i,elementToReset);
+    for (let i = 1; i <= 4; i++) {
+        addBreak(i, elementToReset);
     }
-    
 }
 
-function addBreak(numb, elementToReset){
-    let sizef = (elementToReset.offsetHeight)/2;
+function addBreak(numb, elementToReset) {
+    let sizef = elementToReset.offsetHeight / 2;
     let breakElm = document.createElement("div");
     breakElm.classList.add("breaks");
 
-    if(elementToReset.classList.contains("bColor1")){
+    if (elementToReset.classList.contains("bColor1")) {
         breakElm.classList.add("bColor1");
-    }
-    else if(elementToReset.classList.contains("bColor2")){
+    } else if (elementToReset.classList.contains("bColor2")) {
         breakElm.classList.add("bColor2");
-    }
-    else if(elementToReset.classList.contains("bColor3")){
+    } else if (elementToReset.classList.contains("bColor3")) {
         breakElm.classList.add("bColor3");
-    }
-    else if(elementToReset.classList.contains("bColor4")){
+    } else if (elementToReset.classList.contains("bColor4")) {
         breakElm.classList.add("bColor4");
     }
-    if(numb == 1){
-        breakElm.style.top = elementToReset.offsetTop+"px";
-        breakElm.style.left = elementToReset.offsetLeft+"px";
+    if (numb == 1) {
+        breakElm.style.top = elementToReset.offsetTop + "px";
+        breakElm.style.left = elementToReset.offsetLeft + "px";
         breakElm.classList.add("numb1");
-    }
-    else if (numb == 2){
-        breakElm.style.top = ((elementToReset.offsetTop)+sizef)+"px";
-        breakElm.style.left = elementToReset.offsetLeft+"px";
+    } else if (numb == 2) {
+        breakElm.style.top = elementToReset.offsetTop + sizef + "px";
+        breakElm.style.left = elementToReset.offsetLeft + "px";
         breakElm.classList.add("numb2");
-    }
-    else if (numb == 3){
-        breakElm.style.top = elementToReset.offsetTop+"px";
-        breakElm.style.left = ((elementToReset.offsetLeft)+sizef)+"px";
+    } else if (numb == 3) {
+        breakElm.style.top = elementToReset.offsetTop + "px";
+        breakElm.style.left = elementToReset.offsetLeft + sizef + "px";
         breakElm.classList.add("numb3");
-    }
-    else if (numb == 4){
-        breakElm.style.top = ((elementToReset.offsetTop)+sizef)+"px";
-        breakElm.style.left = ((elementToReset.offsetLeft)+sizef)+"px";
+    } else if (numb == 4) {
+        breakElm.style.top = elementToReset.offsetTop + sizef + "px";
+        breakElm.style.left = elementToReset.offsetLeft + sizef + "px";
         breakElm.classList.add("numb4");
     }
 
@@ -770,23 +768,22 @@ function addBreak(numb, elementToReset){
 }
 
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function deleteBreaks(){
-    let breaks = document.querySelectorAll('.breaks');
-    breaks.forEach(element => {
+function deleteBreaks() {
+    let breaks = document.querySelectorAll(".breaks");
+    breaks.forEach((element) => {
         element.remove();
     });
 }
-  
 
 function resetElement(elementToReset) {
-        elementToReset.classList.remove("setted");
-        elementToReset.classList.remove("bColor1");
-        elementToReset.classList.remove("bColor2");
-        elementToReset.classList.remove("bColor3");
-        elementToReset.classList.remove("bColor4");
+    elementToReset.classList.remove("setted");
+    elementToReset.classList.remove("bColor1");
+    elementToReset.classList.remove("bColor2");
+    elementToReset.classList.remove("bColor3");
+    elementToReset.classList.remove("bColor4");
 }
 
 function updatePointCounterElm() {
@@ -810,11 +807,10 @@ function checkForDeath() {
             let figureGetElmDirection = figureGetElm.getAttribute("direction");
             if (checkForDeathWithFigure(figureGetElmFigureType, figureGetElmDirection) === false) {
                 return;
-            } else {
-                deathDedected();
             }
         }
     }
+    deathDedected();
 }
 
 function checkForDeathWithFigure(figureType, direction) {
