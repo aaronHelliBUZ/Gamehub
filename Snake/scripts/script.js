@@ -216,7 +216,7 @@ function script(aepfel){
             neuerKopfElm.classList.add('Schlange');
             neuerSchwanzElm.id = 'Schwanz';
         }
-        setTimeout(bewegen, (500 / Math.pow(1.002, laenge)))
+        setTimeout(bewegen, (450 / Math.pow(1.002, laenge)))
     }
 
     bewegen();
