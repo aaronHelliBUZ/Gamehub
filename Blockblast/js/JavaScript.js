@@ -3,7 +3,7 @@ let content = document.getElementById("content");
 
 root.style.setProperty("--size", content.offsetHeight + "px");
 
-console.log(content.offsetHeight);
+//console.log(content.offsetHeight);
 
 //Häufig benutzte Elemente
 const gameField = document.getElementById("gameField");
@@ -40,43 +40,40 @@ generateField();
 
 generateBlockInblockChoiceElm();
 
-document.addEventListener(
-    "mouseup",
-    /*async*/ function (event) {
-        event.preventDefault();
+document.addEventListener("mouseup", async function (event) {
+    event.preventDefault();
 
-        if (isMouseOver === true) {
-            mouseDown = false;
-            oldMouseX = -3;
-            oldMouseY = -3;
+    if (isMouseOver === true) {
+        mouseDown = false;
+        oldMouseX = -3;
+        oldMouseY = -3;
 
-            drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "addSetted", Number(direction));
+        drawFigure(Number(clickedFigureType), mouseX, mouseY, "", "addSetted", Number(direction));
 
-            mouseX = -3;
-            mouseY = -3;
+        mouseX = -3;
+        mouseY = -3;
 
-            clickedFigureType = -3;
-            direction = -3;
-            blockToPlaceColor = "";
+        clickedFigureType = -3;
+        direction = -3;
+        blockToPlaceColor = "";
 
-            blockChoiceElm.removeChild(clickedBlockElm);
-            blocksLeft--;
+        blockChoiceElm.removeChild(clickedBlockElm);
+        blocksLeft--;
 
-            if (blocksLeft <= 0) {
-                generateBlockInblockChoiceElm();
-            }
-
-            checkForARow();
-            checkForAColumn();
-
-            //await sleep(500);
-
-            checkForDeath();
-
-            isMouseOver = false;
+        if (blocksLeft <= 0) {
+            generateBlockInblockChoiceElm();
         }
+
+        checkForARow();
+        checkForAColumn();
+
+        await sleep(1000);
+
+        checkForDeath();
+
+        isMouseOver = false;
     }
-);
+});
 
 //Zentriert das Speilfeld und stellt die grösse ein
 /*{
