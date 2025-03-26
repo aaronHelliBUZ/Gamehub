@@ -842,7 +842,7 @@ function deathDedected() {
     redirectAndForm();
 }
 
-/*function redirectAndForm() {
+function redirectAndForm() {
     const form = document.createElement("form");
     form.method = "POST";
     form.action = "../namen-angeben.php";
@@ -861,5 +861,4 @@ function deathDedected() {
 
     document.body.appendChild(form);
     form.submit();
-}*/
-// Muss dringed gefixt werden !!!!@NICO!!!!
+}
