@@ -23,7 +23,20 @@ let blinky = document.createElement('div');
 blinky.id = 'blinky';
 blinkyParent.appendChild(blinky);
 
+let pinkyParent = document.getElementById('12/9');
+let pinky = document.createElement('div');
+pinky.id = 'pinky';
+pinkyParent.appendChild(pinky);
 
+let inkyParent = document.getElementById('12/10');
+let inky = document.createElement('div');
+inky.id = 'inky';
+inkyParent.appendChild(inky);
+
+let clydeParent = document.getElementById('12/11');
+let clyde = document.createElement('div');
+clyde.id = 'clyde';
+clydeParent.appendChild(clyde);
 
 function bewegen(){
     let spielerElms = document.getElementsByClassName('spieler');
@@ -76,6 +89,15 @@ function bewegen(){
     let regexPattern = /.*inky/;
 
     if(regexPattern.test(neuerSpielerParent.className) || neuerSpielerParent.classList.contains('clyde')){
+        if(modus == 'frightened'){
+            let klasse = neuerSpielerParent.classList;
+            let geistName = klasse.item(klasse.length - 1);
+
+            switch(geistName){
+                case 'pinky':
+                    pinkyBewegung = false;
+            }
+        }
         alert('ded');
         location.reload();
     }
@@ -95,9 +117,14 @@ function bewegen(){
         neuerSpielerParent.classList.remove('superPelletParent');
         neuerSpielerParent.removeChild(neuerSpielerParent.firstChild);
         alterModus = modus;
-        modus = 'frightened'
+        modus = 'frightened';
 
+        let style = document.createElement('style');
+        style.textContent = '[id*="y"]{background-color: blue !important;}'
+        style.id = 'style';
+        document.head.appendChild(style)
         setTimeout(function(){
+            document.getElementById('style').remove();
             modus = alterModus;
         }, 6000)
     }
@@ -118,6 +145,7 @@ function bewegen(){
 }
 
 let blinkyStuck = false;
+let blinkyBewegung = true;
 
 function blinkyBewegen(istStuck){
     let blinkyElms = document.getElementsByClassName('blinky');
@@ -155,6 +183,18 @@ function blinkyBewegen(istStuck){
 
     if(modus == 'scatter'){
         richtung = 'Oben-Rechts';
+    }
+
+    if(modus == 'frightened'){
+        if(richtung == 'Oben-Rechts'){
+            richtung = 'Unten-Links';
+        }else if(richtung == 'Oben-Links'){
+            richtung = 'Unten-Links';
+        }else if(richtung == 'Unten-Links'){
+            richtung ='Oben-Rechts';
+        }else if(richtung == 'Unten-Rechts'){
+            richtung = 'Oben-Links';
+        }
     }
 
 
@@ -251,6 +291,7 @@ function blinkyBewegen(istStuck){
 
 let clydeStuck;
 let clydeModus;
+let clydeBewegung = true;
 
 function clydeBewegen(istStuck){
     let clydeElms = document.getElementsByClassName('clyde');
@@ -289,8 +330,17 @@ function clydeBewegen(istStuck){
     if(modus == 'scatter'){
         richtung = 'Unten-Links';
     }
-
-    if(Math.abs(spielerY - clydeY) < 8 && Math.abs(spielerX - clydeX) < 8){
+    if(modus == 'frightened'){
+        if(richtung == 'Oben-Rechts'){
+            richtung = 'Unten-Links';
+        }else if(richtung == 'Oben-Links'){
+            richtung = 'Unten-Links';
+        }else if(richtung == 'Unten-Links'){
+            richtung ='Oben-Rechts';
+        }else if(richtung == 'Unten-Rechts'){
+            richtung = 'Oben-Links';
+        }
+    }else if(Math.abs(spielerY - clydeY) < 8 && Math.abs(spielerX - clydeX) < 8){
         clydeModus = 'scatter';
     }
 
@@ -436,6 +486,7 @@ function clydeScatter(istStuck){
 }
 
 let pinkyStuck;
+let pinkyBewegung = true;
 
 function pinkyBewegen(istStuck){
     let pinkyElms = document.getElementsByClassName('pinky');
@@ -496,6 +547,18 @@ function pinkyBewegen(istStuck){
 
     if(modus == 'scatter'){
         richtung = 'Oben-Links';
+    }
+
+    if(modus == 'frightened'){
+        if(richtung == 'Oben-Rechts'){
+            richtung = 'Unten-Links';
+        }else if(richtung == 'Oben-Links'){
+            richtung = 'Unten-Links';
+        }else if(richtung == 'Unten-Links'){
+            richtung ='Oben-Rechts';
+        }else if(richtung == 'Unten-Rechts'){
+            richtung = 'Oben-Links';
+        }
     }
 
     let y = pinkyY;
@@ -589,6 +652,7 @@ function pinkyBewegen(istStuck){
 }
 
 let inkyStuck;
+let inkyBewegung = true;
 
 function inkyBewegen(istStuck){
     let inkyElms = document.getElementsByClassName('inky');
@@ -667,6 +731,18 @@ function inkyBewegen(istStuck){
 
     if(modus == 'scatter'){
         richtung = 'Unten-Rechts';
+    }
+
+    if(modus == 'frightened'){
+        if(richtung == 'Oben-Rechts'){
+            richtung = 'Unten-Links';
+        }else if(richtung == 'Oben-Links'){
+            richtung = 'Unten-Links';
+        }else if(richtung == 'Unten-Links'){
+            richtung ='Oben-Rechts';
+        }else if(richtung == 'Unten-Rechts'){
+            richtung = 'Oben-Links';
+        }
     }
 
     let y = inkyY;
@@ -807,6 +883,8 @@ setInterval(bewegen, 500);
 blinkyBewegen(blinkyStuck);
 
 setTimeout(function(){
+    document.getElementById('clyde').remove();
+
     let clydeParent = document.getElementById('10/10');
     clydeParent.classList.add('clyde');
     let clyde = document.createElement('div');
@@ -816,6 +894,8 @@ setTimeout(function(){
     clydeBewegen(clydeStuck);
 
     setTimeout(function(){
+        document.getElementById('pinky').remove();
+
         let pinkyParent = document.getElementById('10/10');
         pinkyParent.classList.add('pinky');
         let pinky = document.createElement('div');
@@ -825,6 +905,8 @@ setTimeout(function(){
         pinkyBewegen(pinkyStuck);
 
         setTimeout(function(){
+            document.getElementById('inky').remove();
+
             let inkyParent = document.getElementById('10/10');
             inkyParent.classList.add('inky');
             let inky = document.createElement('div');
