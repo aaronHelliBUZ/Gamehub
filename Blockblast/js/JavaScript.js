@@ -729,12 +729,6 @@ async function animation(elementToReset) {
 }
 
 function addBreak(numb, elementToReset){
-    
-    console.log(elementToReset.offsetLeft);
-    console.log(elementToReset.offsetTop);
-
-    console.log(elementToReset.offsetHeight+"hh");
-
     let sizef = (elementToReset.offsetHeight)/2;
     let breakElm = document.createElement("div");
     breakElm.classList.add("breaks");
@@ -771,7 +765,6 @@ function addBreak(numb, elementToReset){
         breakElm.style.left = ((elementToReset.offsetLeft)+sizef)+"px";
         breakElm.classList.add("numb4");
     }
-    console.log(sizef+"h");
 
     content.appendChild(breakElm);
 }

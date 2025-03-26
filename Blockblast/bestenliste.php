@@ -99,7 +99,7 @@
         }
 
         try {
-            $stmt = $conn->prepare("SELECT Name, Schwierigkeit, Punktzahl FROM $tablename ORDER BY Schwierigkeit DESC, Punktzahl ASC");
+            $stmt = $conn->prepare("SELECT Name, Schwierigkeit, Punktzahl FROM $tablename ORDER BY Schwierigkeit DESC, Punktzahl DESC");
             $stmt->execute();
 
             // set the resulting array to associative
