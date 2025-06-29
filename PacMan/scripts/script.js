@@ -23,7 +23,20 @@ let blinky = document.createElement('div');
 blinky.id = 'blinky';
 blinkyParent.appendChild(blinky);
 
+let pinkyParent = document.getElementById('12/9');
+let pinky = document.createElement('div');
+pinky.id = 'pinky';
+pinkyParent.appendChild(pinky);
 
+let inkyParent = document.getElementById('12/10');
+let inky = document.createElement('div');
+inky.id = 'inky';
+inkyParent.appendChild(inky);
+
+let clydeParent = document.getElementById('12/11');
+let clyde = document.createElement('div');
+clyde.id = 'clyde';
+clydeParent.appendChild(clyde);
 
 function bewegen(){
     let spielerElms = document.getElementsByClassName('spieler');
@@ -76,8 +89,36 @@ function bewegen(){
     let regexPattern = /.*inky/;
 
     if(regexPattern.test(neuerSpielerParent.className) || neuerSpielerParent.classList.contains('clyde')){
-        alert('ded');
-        location.reload();
+        if(modus == 'frightened'){
+            let klasse = neuerSpielerParent.classList;
+            let geistName = klasse.item(klasse.length - 1);
+            document.getElementById(geistName).remove();
+            neuerSpielerParent.classList.remove(geistName);
+
+            switch(geistName){
+                case 'blinky':
+                    blinkyBewegung = false;
+                    break;
+                case 'pinky':
+                    pinkyBewegung = false;
+                    break;
+                case 'inky':
+                    inkyBewegung = false;
+                    break;
+                case 'clyde':
+                    clydeBewegung = false;
+                    break;
+            }
+
+            let parentContainer = document.getElementById('12/9');
+            let geist = document.createElement('div');
+            geist.id = geistName;
+            parentContainer.appendChild(geist);
+
+        }else{
+            alert('ded');
+            location.reload();
+        }
     }
 
     if(neuerSpielerParent.classList.contains('wand')){
@@ -95,9 +136,14 @@ function bewegen(){
         neuerSpielerParent.classList.remove('superPelletParent');
         neuerSpielerParent.removeChild(neuerSpielerParent.firstChild);
         alterModus = modus;
-        modus = 'frightened'
+        modus = 'frightened';
 
+        let style = document.createElement('style');
+        style.textContent = '[id*="y"]{background-color: blue !important;}'
+        style.id = 'style';
+        document.head.appendChild(style)
         setTimeout(function(){
+            document.getElementById('style').remove();
             modus = alterModus;
         }, 6000)
     }
@@ -118,273 +164,322 @@ function bewegen(){
 }
 
 let blinkyStuck = false;
+let blinkyBewegung = true;
 
 function blinkyBewegen(istStuck){
-    let blinkyElms = document.getElementsByClassName('blinky');
-    let blinkyElm = blinkyElms.item(0);
-    blinkyElm.classList.remove('blinky');
-    blinkyStuck = false;
-
-    let neuerBlinkyParent;
-
-    let [blinkyY, blinkyX] = blinkyElm.id.split('/')
-    blinkyX = parseInt(blinkyX);
-    blinkyY = parseInt(blinkyY);
-
-    let spielerElms = document.getElementsByClassName('spieler');
-    let spielerElm = spielerElms.item(0);
-
-    let [spielerY, spielerX] = spielerElm.id.split('/');
-    spielerX = parseInt(spielerX);
-    spielerY = parseInt(spielerY);
-
-    let vertikal = '';
-    let richtung = '';
-
-    if(spielerY < blinkyY){
-        vertikal = 'Oben';
-    }else if(spielerY > blinkyY){
-        vertikal = 'Unten';
-    }
-
-    if(spielerX < blinkyX){
-        richtung = vertikal + '-Links';
+    if(blinkyBewegung){
+        let blinkyElms = document.getElementsByClassName('blinky');
+        let blinkyElm = blinkyElms.item(0);
+        blinkyElm.classList.remove('blinky');
+        blinkyStuck = false;
+    
+        let neuerBlinkyParent;
+    
+        let [blinkyY, blinkyX] = blinkyElm.id.split('/')
+        blinkyX = parseInt(blinkyX);
+        blinkyY = parseInt(blinkyY);
+    
+        let spielerElms = document.getElementsByClassName('spieler');
+        let spielerElm = spielerElms.item(0);
+    
+        let [spielerY, spielerX] = spielerElm.id.split('/');
+        spielerX = parseInt(spielerX);
+        spielerY = parseInt(spielerY);
+    
+        let vertikal = '';
+        let richtung = '';
+    
+        if(spielerY < blinkyY){
+            vertikal = 'Oben';
+        }else if(spielerY > blinkyY){
+            vertikal = 'Unten';
+        }
+    
+        if(spielerX < blinkyX){
+            richtung = vertikal + '-Links';
+        }else{
+            richtung = vertikal + '-Rechts';
+        }
+    
+        if(modus == 'scatter'){
+            richtung = 'Oben-Rechts';
+        }
+    
+        if(modus == 'frightened'){
+            if(richtung == 'Oben-Rechts'){
+                richtung = 'Unten-Links';
+            }else if(richtung == 'Oben-Links'){
+                richtung = 'Unten-Links';
+            }else if(richtung == 'Unten-Links'){
+                richtung ='Oben-Rechts';
+            }else if(richtung == 'Unten-Rechts'){
+                richtung = 'Oben-Links';
+            }
+        }
+    
+    
+        let y = blinkyY;
+        let x = blinkyX;
+    
+        if(richtung == 'Oben-Rechts'){
+            if(!istStuck){
+                neuerBlinkyParent = document.getElementById(`${y - 1}/${x}`);
+                if(neuerBlinkyParent.classList.contains('wand')){
+                    neuerBlinkyParent = document.getElementById(`${y}/${x + 1}`);
+                }
+                if(neuerBlinkyParent.classList.contains('wand')){
+                    neuerBlinkyParent = document.getElementById(`${y}/${x - 1}`);
+                    blinkyStuck = true;
+                }
+            }else{
+                neuerBlinkyParent = document.getElementById(`${y}/${x - 1}`);
+            }
+        }else if(richtung == 'Unten-Rechts'){
+            if(!istStuck){
+                neuerBlinkyParent = document.getElementById(`${y + 1}/${x}`);
+                if(neuerBlinkyParent.classList.contains('wand')){
+                    neuerBlinkyParent = document.getElementById(`${y}/${x + 1}`);
+                }
+                if(neuerBlinkyParent.classList.contains('wand')){
+                    neuerBlinkyParent = document.getElementById(`${y}/${x - 1}`);
+                    blinkyStuck = true;
+                }
+            }else{
+                neuerBlinkyParent = document.getElementById(`${y}/${x - 1}`);
+            }
+        }else if(richtung == 'Unten-Links'){
+            if(!istStuck){
+                neuerBlinkyParent = document.getElementById(`${y + 1}/${x}`);
+                if(neuerBlinkyParent.classList.contains('wand')){
+                    neuerBlinkyParent = document.getElementById(`${y}/${x - 1}`);
+                }
+                if(neuerBlinkyParent.classList.contains('wand')){
+                    neuerBlinkyParent = document.getElementById(`${y}/${x + 1}`);
+                    blinkyStuck = true;
+                }
+            }else{
+                neuerBlinkyParent = document.getElementById(`${y}/${x + 1}`);
+            }
+        }else if(richtung == 'Oben-Links'){
+            if(!istStuck){
+                neuerBlinkyParent = document.getElementById(`${y - 1}/${x}`);
+                if(neuerBlinkyParent.classList.contains('wand')){
+                    neuerBlinkyParent = document.getElementById(`${y}/${x - 1}`);
+                }
+                if(neuerBlinkyParent.classList.contains('wand')){
+                    neuerBlinkyParent = document.getElementById(`${y}/${x + 1}`);
+                    blinkyStuck = true;
+                }
+            }else{
+                neuerBlinkyParent = document.getElementById(`${y}/${x + 1}`);
+            }
+        }else if(richtung == '-Links'){
+            neuerBlinkyParent = document.getElementById(`${y}/${x - 1}`);
+            if(neuerBlinkyParent.classList.contains('wand')){
+                neuerBlinkyParent = document.getElementById(`${y - 1}/${x}`);
+            }
+            if(neuerBlinkyParent.classList.contains('wand')){
+                neuerBlinkyParent = document.getElementById(`${y + 1}/${x}`);
+                blinkyStuck = true;
+            }
+        }else if(richtung == '-Rechts'){
+            neuerBlinkyParent = document.getElementById(`${y}/${x + 1}`);
+            if(neuerBlinkyParent.classList.contains('wand')){
+                neuerBlinkyParent = document.getElementById(`${y + 1}/${x}`);
+            }
+            if(neuerBlinkyParent.classList.contains('wand')){
+                neuerBlinkyParent = document.getElementById(`${y - 1}/${x}`);
+                blinkyStuck = true;
+            }
+        }
+    
+        document.getElementById('blinky').remove();
+    
+        neuerBlinkyParent.classList.add('blinky')
+    
+        let neuerBlinkyElm = document.createElement('div');
+        neuerBlinkyElm.id = 'blinky';
+    
+        neuerBlinkyParent.appendChild(neuerBlinkyElm);
+    
+        setTimeout(function(){
+            blinkyStuck = blinkyBewegen(blinkyStuck);
+        }, 500);  
     }else{
-        richtung = vertikal + '-Rechts';
+        setTimeout(function(){
+            document.getElementById('blinky').remove;
+            blinkyBewegung = true;
+            let blinkyParent = document.getElementById('10/10');
+            blinkyParent.classList.add('blinky');
+            let blinky = document.createElement('div');
+            blinky.id = 'blinky';
+            blinkyParent.appendChild(blinky);
+            blinkyStuck = blinkyBewegen(blinkyStuck)
+        }, 3000);
     }
-
-    if(modus == 'scatter'){
-        richtung = 'Oben-Rechts';
-    }
-
-
-    let y = blinkyY;
-    let x = blinkyX;
-
-    if(richtung == 'Oben-Rechts'){
-        if(!istStuck){
-            neuerBlinkyParent = document.getElementById(`${y - 1}/${x}`);
-            if(neuerBlinkyParent.classList.contains('wand')){
-                neuerBlinkyParent = document.getElementById(`${y}/${x + 1}`);
-            }
-            if(neuerBlinkyParent.classList.contains('wand')){
-                neuerBlinkyParent = document.getElementById(`${y}/${x - 1}`);
-                blinkyStuck = true;
-            }
-        }else{
-            neuerBlinkyParent = document.getElementById(`${y}/${x - 1}`);
-        }
-    }else if(richtung == 'Unten-Rechts'){
-        if(!istStuck){
-            neuerBlinkyParent = document.getElementById(`${y + 1}/${x}`);
-            if(neuerBlinkyParent.classList.contains('wand')){
-                neuerBlinkyParent = document.getElementById(`${y}/${x + 1}`);
-            }
-            if(neuerBlinkyParent.classList.contains('wand')){
-                neuerBlinkyParent = document.getElementById(`${y}/${x - 1}`);
-                blinkyStuck = true;
-            }
-        }else{
-            neuerBlinkyParent = document.getElementById(`${y}/${x - 1}`);
-        }
-    }else if(richtung == 'Unten-Links'){
-        if(!istStuck){
-            neuerBlinkyParent = document.getElementById(`${y + 1}/${x}`);
-            if(neuerBlinkyParent.classList.contains('wand')){
-                neuerBlinkyParent = document.getElementById(`${y}/${x - 1}`);
-            }
-            if(neuerBlinkyParent.classList.contains('wand')){
-                neuerBlinkyParent = document.getElementById(`${y}/${x + 1}`);
-                blinkyStuck = true;
-            }
-        }else{
-            neuerBlinkyParent = document.getElementById(`${y}/${x + 1}`);
-        }
-    }else if(richtung == 'Oben-Links'){
-        if(!istStuck){
-            neuerBlinkyParent = document.getElementById(`${y - 1}/${x}`);
-            if(neuerBlinkyParent.classList.contains('wand')){
-                neuerBlinkyParent = document.getElementById(`${y}/${x - 1}`);
-            }
-            if(neuerBlinkyParent.classList.contains('wand')){
-                neuerBlinkyParent = document.getElementById(`${y}/${x + 1}`);
-                blinkyStuck = true;
-            }
-        }else{
-            neuerBlinkyParent = document.getElementById(`${y}/${x + 1}`);
-        }
-    }else if(richtung == '-Links'){
-        neuerBlinkyParent = document.getElementById(`${y}/${x - 1}`);
-        if(neuerBlinkyParent.classList.contains('wand')){
-            neuerBlinkyParent = document.getElementById(`${y - 1}/${x}`);
-        }
-        if(neuerBlinkyParent.classList.contains('wand')){
-            neuerBlinkyParent = document.getElementById(`${y + 1}/${x}`);
-            blinkyStuck = true;
-        }
-    }else if(richtung == '-Rechts'){
-        neuerBlinkyParent = document.getElementById(`${y}/${x + 1}`);
-        if(neuerBlinkyParent.classList.contains('wand')){
-            neuerBlinkyParent = document.getElementById(`${y + 1}/${x}`);
-        }
-        if(neuerBlinkyParent.classList.contains('wand')){
-            neuerBlinkyParent = document.getElementById(`${y - 1}/${x}`);
-            blinkyStuck = true;
-        }
-    }
-
-    document.getElementById('blinky').remove();
-
-    neuerBlinkyParent.classList.add('blinky')
-
-    let neuerBlinkyElm = document.createElement('div');
-    neuerBlinkyElm.id = 'blinky';
-
-    neuerBlinkyParent.appendChild(neuerBlinkyElm);
-
-    setTimeout(function(){
-        blinkyStuck = blinkyBewegen(blinkyStuck);
-    }, 500);
-
+    
     return blinkyStuck;
 }
 
 let clydeStuck;
 let clydeModus;
+let clydeBewegung = true;
 
 function clydeBewegen(istStuck){
-    let clydeElms = document.getElementsByClassName('clyde');
-    let clydeElm = clydeElms.item(0);
-    clydeElm.classList.remove('clyde');
-    clydeStuck = false;
-
-    let neuerclydeParent;
-
-    let [clydeY, clydeX] = clydeElm.id.split('/')
-    clydeX = parseInt(clydeX);
-    clydeY = parseInt(clydeY);
-
-    let spielerElms = document.getElementsByClassName('spieler');
-    let spielerElm = spielerElms.item(0);
-
-    let [spielerY, spielerX] = spielerElm.id.split('/');
-    spielerX = parseInt(spielerX);
-    spielerY = parseInt(spielerY);
-
-    let vertikal = '';
-    let richtung = '';
-
-    if(spielerY < clydeY){
-        vertikal = 'Oben';
-    }else if(spielerY > clydeY){
-        vertikal = 'Unten';
-    }
-
-    if(spielerX < clydeX){
-        richtung = vertikal + '-Links';
+    if(clydeBewegung){
+        let clydeElms = document.getElementsByClassName('clyde');
+        let clydeElm = clydeElms.item(0);
+        clydeElm.classList.remove('clyde');
+        clydeStuck = false;
+    
+        let neuerclydeParent;
+    
+        let [clydeY, clydeX] = clydeElm.id.split('/')
+        clydeX = parseInt(clydeX);
+        clydeY = parseInt(clydeY);
+    
+        let spielerElms = document.getElementsByClassName('spieler');
+        let spielerElm = spielerElms.item(0);
+    
+        let [spielerY, spielerX] = spielerElm.id.split('/');
+        spielerX = parseInt(spielerX);
+        spielerY = parseInt(spielerY);
+    
+        let vertikal = '';
+        let richtung = '';
+    
+        if(spielerY < clydeY){
+            vertikal = 'Oben';
+        }else if(spielerY > clydeY){
+            vertikal = 'Unten';
+        }
+    
+        if(spielerX < clydeX){
+            richtung = vertikal + '-Links';
+        }else{
+            richtung = vertikal + '-Rechts';
+        }
+    
+        if(modus == 'scatter'){
+            richtung = 'Unten-Links';
+        }
+        if(modus == 'frightened'){
+            if(richtung == 'Oben-Rechts'){
+                richtung = 'Unten-Links';
+            }else if(richtung == 'Oben-Links'){
+                richtung = 'Unten-Links';
+            }else if(richtung == 'Unten-Links'){
+                richtung ='Oben-Rechts';
+            }else if(richtung == 'Unten-Rechts'){
+                richtung = 'Oben-Links';
+            }
+        }else if(Math.abs(spielerY - clydeY) < 8 && Math.abs(spielerX - clydeX) < 8){
+            clydeModus = 'scatter';
+        }
+    
+    
+        let y = clydeY;
+        let x = clydeX;
+        if(richtung == 'Oben-Rechts'){
+            if(!istStuck){
+                neuerclydeParent = document.getElementById(`${y - 1}/${x}`);
+                if(neuerclydeParent.classList.contains('wand')){
+                    neuerclydeParent = document.getElementById(`${y}/${x + 1}`);
+                }
+                if(neuerclydeParent.classList.contains('wand')){
+                    neuerclydeParent = document.getElementById(`${y}/${x - 1}`);
+                    clydeStuck = true;
+                }
+            }else{
+                neuerclydeParent = document.getElementById(`${y}/${x - 1}`);
+            }
+        }else if(richtung == 'Unten-Rechts'){
+            if(!istStuck){
+                neuerclydeParent = document.getElementById(`${y + 1}/${x}`);
+                if(neuerclydeParent.classList.contains('wand')){
+                    neuerclydeParent = document.getElementById(`${y}/${x + 1}`);
+                }
+                if(neuerclydeParent.classList.contains('wand')){
+                    neuerclydeParent = document.getElementById(`${y}/${x - 1}`);
+                    clydeStuck = true;
+                }
+            }else{
+                neuerclydeParent = document.getElementById(`${y}/${x - 1}`);
+            }
+        }else if(richtung == 'Unten-Links'){
+            if(!istStuck){
+                neuerclydeParent = document.getElementById(`${y + 1}/${x}`);
+                if(neuerclydeParent.classList.contains('wand')){
+                    neuerclydeParent = document.getElementById(`${y}/${x - 1}`);
+                }
+                if(neuerclydeParent.classList.contains('wand')){
+                    neuerclydeParent = document.getElementById(`${y}/${x + 1}`);
+                    clydeStuck = true;
+                }
+            }else{
+                neuerclydeParent = document.getElementById(`${y}/${x + 1}`);
+            }
+        }else if(richtung == 'Oben-Links'){
+            if(!istStuck){
+                neuerclydeParent = document.getElementById(`${y - 1}/${x}`);
+                if(neuerclydeParent.classList.contains('wand')){
+                    neuerclydeParent = document.getElementById(`${y}/${x - 1}`);
+                }
+                if(neuerclydeParent.classList.contains('wand')){
+                    neuerclydeParent = document.getElementById(`${y}/${x + 1}`);
+                    clydeStuck = true;
+                }
+            }else{
+                neuerclydeParent = document.getElementById(`${y}/${x + 1}`);
+            }
+        }else if(richtung == '-Links'){
+            neuerclydeParent = document.getElementById(`${y}/${x - 1}`);
+            if(neuerclydeParent.classList.contains('wand')){
+                neuerclydeParent = document.getElementById(`${y - 1}/${x}`);
+            }
+            if(neuerclydeParent.classList.contains('wand')){
+                neuerclydeParent = document.getElementById(`${y + 1}/${x}`);
+                clydeStuck = true;
+            }
+        }else if(richtung == '-Rechts'){
+            neuerclydeParent = document.getElementById(`${y}/${x + 1}`);
+            if(neuerclydeParent.classList.contains('wand')){
+                neuerclydeParent = document.getElementById(`${y + 1}/${x}`);
+            }
+            if(neuerclydeParent.classList.contains('wand')){
+                neuerclydeParent = document.getElementById(`${y - 1}/${x}`);
+                clydeStuck = true;
+            }
+        }
+    
+        document.getElementById('clyde').remove();
+    
+        neuerclydeParent.classList.add('clyde')
+    
+        let neuerclydeElm = document.createElement('div');
+        neuerclydeElm.id = 'clyde';
+    
+        neuerclydeParent.appendChild(neuerclydeElm);
+        
+        setTimeout(function(){
+            if(clydeModus == 'scatter'){
+                clydeStuck = clydeScatter(clydeStuck);
+            }else{
+                clydeStuck = clydeBewegen(clydeStuck);
+            }
+        }, 500); 
     }else{
-        richtung = vertikal + '-Rechts';
-    }
-
-    if(modus == 'scatter'){
-        richtung = 'Unten-Links';
-    }
-
-    if(Math.abs(spielerY - clydeY) < 8 && Math.abs(spielerX - clydeX) < 8){
-        clydeModus = 'scatter';
-    }
-
-
-    let y = clydeY;
-    let x = clydeX;
-    if(richtung == 'Oben-Rechts'){
-        if(!istStuck){
-            neuerclydeParent = document.getElementById(`${y - 1}/${x}`);
-            if(neuerclydeParent.classList.contains('wand')){
-                neuerclydeParent = document.getElementById(`${y}/${x + 1}`);
-            }
-            if(neuerclydeParent.classList.contains('wand')){
-                neuerclydeParent = document.getElementById(`${y}/${x - 1}`);
-                clydeStuck = true;
-            }
-        }else{
-            neuerclydeParent = document.getElementById(`${y}/${x - 1}`);
-        }
-    }else if(richtung == 'Unten-Rechts'){
-        if(!istStuck){
-            neuerclydeParent = document.getElementById(`${y + 1}/${x}`);
-            if(neuerclydeParent.classList.contains('wand')){
-                neuerclydeParent = document.getElementById(`${y}/${x + 1}`);
-            }
-            if(neuerclydeParent.classList.contains('wand')){
-                neuerclydeParent = document.getElementById(`${y}/${x - 1}`);
-                clydeStuck = true;
-            }
-        }else{
-            neuerclydeParent = document.getElementById(`${y}/${x - 1}`);
-        }
-    }else if(richtung == 'Unten-Links'){
-        if(!istStuck){
-            neuerclydeParent = document.getElementById(`${y + 1}/${x}`);
-            if(neuerclydeParent.classList.contains('wand')){
-                neuerclydeParent = document.getElementById(`${y}/${x - 1}`);
-            }
-            if(neuerclydeParent.classList.contains('wand')){
-                neuerclydeParent = document.getElementById(`${y}/${x + 1}`);
-                clydeStuck = true;
-            }
-        }else{
-            neuerclydeParent = document.getElementById(`${y}/${x + 1}`);
-        }
-    }else if(richtung == 'Oben-Links'){
-        if(!istStuck){
-            neuerclydeParent = document.getElementById(`${y - 1}/${x}`);
-            if(neuerclydeParent.classList.contains('wand')){
-                neuerclydeParent = document.getElementById(`${y}/${x - 1}`);
-            }
-            if(neuerclydeParent.classList.contains('wand')){
-                neuerclydeParent = document.getElementById(`${y}/${x + 1}`);
-                clydeStuck = true;
-            }
-        }else{
-            neuerclydeParent = document.getElementById(`${y}/${x + 1}`);
-        }
-    }else if(richtung == '-Links'){
-        neuerclydeParent = document.getElementById(`${y}/${x - 1}`);
-        if(neuerclydeParent.classList.contains('wand')){
-            neuerclydeParent = document.getElementById(`${y - 1}/${x}`);
-        }
-        if(neuerclydeParent.classList.contains('wand')){
-            neuerclydeParent = document.getElementById(`${y + 1}/${x}`);
-            clydeStuck = true;
-        }
-    }else if(richtung == '-Rechts'){
-        neuerclydeParent = document.getElementById(`${y}/${x + 1}`);
-        if(neuerclydeParent.classList.contains('wand')){
-            neuerclydeParent = document.getElementById(`${y + 1}/${x}`);
-        }
-        if(neuerclydeParent.classList.contains('wand')){
-            neuerclydeParent = document.getElementById(`${y - 1}/${x}`);
-            clydeStuck = true;
-        }
-    }
-
-    document.getElementById('clyde').remove();
-
-    neuerclydeParent.classList.add('clyde')
-
-    let neuerclydeElm = document.createElement('div');
-    neuerclydeElm.id = 'clyde';
-
-    neuerclydeParent.appendChild(neuerclydeElm);
-
-    setTimeout(function(){
-        if(clydeModus == 'scatter'){
-            clydeStuck = clydeScatter(clydeStuck);
-        }else{
+        setTimeout(function(){
+            document.getElementById('clyde').remove;
+            clydeBewegung = true;
+            let clydeParent = document.getElementById('10/10');
+            clydeParent.classList.add('clyde');
+            let clyde = document.createElement('div');
+            clyde.id = 'clyde';
+            clydeParent.appendChild(clyde);
             clydeStuck = clydeBewegen(clydeStuck);
-        }
-    }, 500);
+        }, 3000);
+    }
 
     return clydeStuck;
 }
@@ -436,162 +531,190 @@ function clydeScatter(istStuck){
 }
 
 let pinkyStuck;
+let pinkyBewegung = true;
 
 function pinkyBewegen(istStuck){
-    let pinkyElms = document.getElementsByClassName('pinky');
-    let pinkyElm = pinkyElms.item(0);
-    pinkyElm.classList.remove('pinky');
-    pinkyStuck = false;
-
-    let neuerPinkyParent;
-
-    let [pinkyY, pinkyX] = pinkyElm.id.split('/')
-    pinkyX = parseInt(pinkyX);
-    pinkyY = parseInt(pinkyY);
-
-    let spielerElms = document.getElementsByClassName('spieler');
-    let spielerElm = spielerElms.item(0);
-
-    let [zielY, zielX] = spielerElm.id.split('/');
-    zielX = parseInt(zielX);
-    zielY = parseInt(zielY);
-
-    switch(richtungen[(richtungen.length) - 1]){
-        case 'W':
-            if(zielY > 1){
-                zielY -= 2;
+    if(pinkyBewegung){
+        let pinkyElms = document.getElementsByClassName('pinky');
+        let pinkyElm = pinkyElms.item(0);
+        pinkyElm.classList.remove('pinky');
+        pinkyStuck = false;
+    
+        let neuerPinkyParent;
+    
+        let [pinkyY, pinkyX] = pinkyElm.id.split('/')
+        pinkyX = parseInt(pinkyX);
+        pinkyY = parseInt(pinkyY);
+    
+        let spielerElms = document.getElementsByClassName('spieler');
+        let spielerElm = spielerElms.item(0);
+    
+        let [zielY, zielX] = spielerElm.id.split('/');
+        zielX = parseInt(zielX);
+        zielY = parseInt(zielY);
+    
+        switch(richtungen[(richtungen.length) - 1]){
+            case 'W':
+                if(zielY > 1){
+                    zielY -= 2;
+                }
+                break;
+            case 'D':
+                if(zielX < 19){
+                    zielX += 2;
+                }
+                break;
+            case 'S':
+                if(zielY < 25){
+                    zielY += 2;
+                }
+                break;
+            case 'A':
+                if(zielX > 1){
+                    zielX += 2;
+                }
+                break;
+        }
+    
+        let vertikal = '';
+        let richtung = '';
+    
+        if(zielY < pinkyY){
+            vertikal = 'Oben';
+        }else if(zielY > pinkyY){
+            vertikal = 'Unten';
+        }
+    
+        if(zielX < pinkyX){
+            richtung = vertikal + '-Links';
+        }else{
+            richtung = vertikal + '-Rechts';
+        }
+    
+        if(modus == 'scatter'){
+            richtung = 'Oben-Links';
+        }
+    
+        if(modus == 'frightened'){
+            if(richtung == 'Oben-Rechts'){
+                richtung = 'Unten-Links';
+            }else if(richtung == 'Oben-Links'){
+                richtung = 'Unten-Links';
+            }else if(richtung == 'Unten-Links'){
+                richtung ='Oben-Rechts';
+            }else if(richtung == 'Unten-Rechts'){
+                richtung = 'Oben-Links';
             }
-            break;
-        case 'D':
-            if(zielX < 19){
-                zielX += 2;
+        }
+    
+        let y = pinkyY;
+        let x = pinkyX;
+        if(richtung == 'Oben-Rechts'){
+            if(!istStuck){
+                neuerPinkyParent = document.getElementById(`${y - 1}/${x}`);
+                if(neuerPinkyParent.classList.contains('wand')){
+                    neuerPinkyParent = document.getElementById(`${y}/${x + 1}`);
+                }
+                if(neuerPinkyParent.classList.contains('wand')){
+                    neuerPinkyParent = document.getElementById(`${y}/${x - 1}`);
+                    pinkyStuck = true;
+                }
+            }else{
+                neuerPinkyParent = document.getElementById(`${y}/${x - 1}`);
             }
-            break;
-        case 'S':
-            if(zielY < 25){
-                zielY += 2;
+        }else if(richtung == 'Unten-Rechts'){
+            if(!istStuck){
+                neuerPinkyParent = document.getElementById(`${y + 1}/${x}`);
+                if(neuerPinkyParent.classList.contains('wand')){
+                    neuerPinkyParent = document.getElementById(`${y}/${x + 1}`);
+                }
+                if(neuerPinkyParent.classList.contains('wand')){
+                    neuerPinkyParent = document.getElementById(`${y}/${x - 1}`);
+                    pinkyStuck = true;
+                }
+            }else{
+                neuerPinkyParent = document.getElementById(`${y}/${x - 1}`);
             }
-            break;
-        case 'A':
-            if(zielX > 1){
-                zielX += 2;
+        }else if(richtung == 'Unten-Links'){
+            if(!istStuck){
+                neuerPinkyParent = document.getElementById(`${y + 1}/${x}`);
+                if(neuerPinkyParent.classList.contains('wand')){
+                    neuerPinkyParent = document.getElementById(`${y}/${x - 1}`);
+                }
+                if(neuerPinkyParent.classList.contains('wand')){
+                    neuerPinkyParent = document.getElementById(`${y}/${x + 1}`);
+                    pinkyStuck = true;
+                }
+            }else{
+                neuerPinkyParent = document.getElementById(`${y}/${x + 1}`);
             }
-            break;
-    }
-
-    let vertikal = '';
-    let richtung = '';
-
-    if(zielY < pinkyY){
-        vertikal = 'Oben';
-    }else if(zielY > pinkyY){
-        vertikal = 'Unten';
-    }
-
-    if(zielX < pinkyX){
-        richtung = vertikal + '-Links';
+        }else if(richtung == 'Oben-Links'){
+            if(!istStuck){
+                neuerPinkyParent = document.getElementById(`${y - 1}/${x}`);
+                if(neuerPinkyParent.classList.contains('wand')){
+                    neuerPinkyParent = document.getElementById(`${y}/${x - 1}`);
+                }
+                if(neuerPinkyParent.classList.contains('wand')){
+                    neuerPinkyParent = document.getElementById(`${y}/${x + 1}`);
+                    pinkyStuck = true;
+                }
+            }else{
+                neuerPinkyParent = document.getElementById(`${y}/${x + 1}`);
+            }
+        }else if(richtung == '-Links'){
+            neuerPinkyParent = document.getElementById(`${y}/${x - 1}`);
+            if(neuerPinkyParent.classList.contains('wand')){
+                neuerPinkyParent = document.getElementById(`${y - 1}/${x}`);
+            }
+            if(neuerPinkyParent.classList.contains('wand')){
+                neuerPinkyParent = document.getElementById(`${y + 1}/${x}`);
+                pinkyStuck = true;
+            }
+        }else if(richtung == '-Rechts'){
+            neuerPinkyParent = document.getElementById(`${y}/${x + 1}`);
+            if(neuerPinkyParent.classList.contains('wand')){
+                neuerPinkyParent = document.getElementById(`${y + 1}/${x}`);
+            }
+            if(neuerPinkyParent.classList.contains('wand')){
+                neuerPinkyParent = document.getElementById(`${y - 1}/${x}`);
+                pinkyStuck = true;
+            }
+        }
+    
+        document.getElementById('pinky').remove();
+    
+        neuerPinkyParent.classList.add('pinky')
+    
+        let neuerPinkyElm = document.createElement('div');
+        neuerPinkyElm.id = 'pinky';
+    
+        neuerPinkyParent.appendChild(neuerPinkyElm);
+        
+        setTimeout(function(){
+                pinkyStuck = pinkyBewegen(pinkyStuck);
+            }, 500); 
     }else{
-        richtung = vertikal + '-Rechts';
+        setTimeout(function(){
+            document.getElementById('pinky').remove;
+            pinkyBewegung = true;
+            let pinkyParent = document.getElementById('10/10');
+            pinkyParent.classList.add('pinky');
+            let pinky = document.createElement('div');
+            pinky.id = 'pinky';
+            pinkyParent.appendChild(pinky);
+            pinkyStuck = pinkyBewegen(pinkyStuck)
+        }, 3000);
     }
-
-    if(modus == 'scatter'){
-        richtung = 'Oben-Links';
-    }
-
-    let y = pinkyY;
-    let x = pinkyX;
-    if(richtung == 'Oben-Rechts'){
-        if(!istStuck){
-            neuerPinkyParent = document.getElementById(`${y - 1}/${x}`);
-            if(neuerPinkyParent.classList.contains('wand')){
-                neuerPinkyParent = document.getElementById(`${y}/${x + 1}`);
-            }
-            if(neuerPinkyParent.classList.contains('wand')){
-                neuerPinkyParent = document.getElementById(`${y}/${x - 1}`);
-                pinkyStuck = true;
-            }
-        }else{
-            neuerPinkyParent = document.getElementById(`${y}/${x - 1}`);
-        }
-    }else if(richtung == 'Unten-Rechts'){
-        if(!istStuck){
-            neuerPinkyParent = document.getElementById(`${y + 1}/${x}`);
-            if(neuerPinkyParent.classList.contains('wand')){
-                neuerPinkyParent = document.getElementById(`${y}/${x + 1}`);
-            }
-            if(neuerPinkyParent.classList.contains('wand')){
-                neuerPinkyParent = document.getElementById(`${y}/${x - 1}`);
-                pinkyStuck = true;
-            }
-        }else{
-            neuerPinkyParent = document.getElementById(`${y}/${x - 1}`);
-        }
-    }else if(richtung == 'Unten-Links'){
-        if(!istStuck){
-            neuerPinkyParent = document.getElementById(`${y + 1}/${x}`);
-            if(neuerPinkyParent.classList.contains('wand')){
-                neuerPinkyParent = document.getElementById(`${y}/${x - 1}`);
-            }
-            if(neuerPinkyParent.classList.contains('wand')){
-                neuerPinkyParent = document.getElementById(`${y}/${x + 1}`);
-                pinkyStuck = true;
-            }
-        }else{
-            neuerPinkyParent = document.getElementById(`${y}/${x + 1}`);
-        }
-    }else if(richtung == 'Oben-Links'){
-        if(!istStuck){
-            neuerPinkyParent = document.getElementById(`${y - 1}/${x}`);
-            if(neuerPinkyParent.classList.contains('wand')){
-                neuerPinkyParent = document.getElementById(`${y}/${x - 1}`);
-            }
-            if(neuerPinkyParent.classList.contains('wand')){
-                neuerPinkyParent = document.getElementById(`${y}/${x + 1}`);
-                pinkyStuck = true;
-            }
-        }else{
-            neuerPinkyParent = document.getElementById(`${y}/${x + 1}`);
-        }
-    }else if(richtung == '-Links'){
-        neuerPinkyParent = document.getElementById(`${y}/${x - 1}`);
-        if(neuerPinkyParent.classList.contains('wand')){
-            neuerPinkyParent = document.getElementById(`${y - 1}/${x}`);
-        }
-        if(neuerPinkyParent.classList.contains('wand')){
-            neuerPinkyParent = document.getElementById(`${y + 1}/${x}`);
-            pinkyStuck = true;
-        }
-    }else if(richtung == '-Rechts'){
-        neuerPinkyParent = document.getElementById(`${y}/${x + 1}`);
-        if(neuerPinkyParent.classList.contains('wand')){
-            neuerPinkyParent = document.getElementById(`${y + 1}/${x}`);
-        }
-        if(neuerPinkyParent.classList.contains('wand')){
-            neuerPinkyParent = document.getElementById(`${y - 1}/${x}`);
-            pinkyStuck = true;
-        }
-    }
-
-    document.getElementById('pinky').remove();
-
-    neuerPinkyParent.classList.add('pinky')
-
-    let neuerPinkyElm = document.createElement('div');
-    neuerPinkyElm.id = 'pinky';
-
-    neuerPinkyParent.appendChild(neuerPinkyElm);
-
-    setTimeout(function(){
-    pinkyStuck = pinkyBewegen(pinkyStuck);
-    }, 500);
 
     return pinkyStuck;
 }
 
 let inkyStuck;
+let inkyBewegung = true;
 
 function inkyBewegen(istStuck){
-    let inkyElms = document.getElementsByClassName('inky');
+    if(inkyBewegung){ 
+        let inkyElms = document.getElementsByClassName('inky');
     let inkyElm = inkyElms.item(0);
     inkyElm.classList.remove('inky');
     inkyStuck = false;
@@ -667,6 +790,18 @@ function inkyBewegen(istStuck){
 
     if(modus == 'scatter'){
         richtung = 'Unten-Rechts';
+    }
+
+    if(modus == 'frightened'){
+        if(richtung == 'Oben-Rechts'){
+            richtung = 'Unten-Links';
+        }else if(richtung == 'Oben-Links'){
+            richtung = 'Unten-Links';
+        }else if(richtung == 'Unten-Links'){
+            richtung ='Oben-Rechts';
+        }else if(richtung == 'Unten-Rechts'){
+            richtung = 'Oben-Links';
+        }
     }
 
     let y = inkyY;
@@ -751,10 +886,22 @@ function inkyBewegen(istStuck){
     neuerInkyElm.id = 'inky';
 
     neuerInkyParent.appendChild(neuerInkyElm);
-
+    
     setTimeout(function(){
-        inkyStuck = inkyBewegen(pinkyStuck);
-    }, 500);
+        inkyStuck = blinkyBewegen(inkyStuck);
+    }, 500);   
+    }else{
+        setTimeout(function(){
+            document.getElementById('inky').remove;
+            inkyBewegung = true;
+            let inkyParent = document.getElementById('10/10');
+            inkyParent.classList.add('inky');
+            let inky = document.createElement('div');
+            inky.id = 'inky';
+            inkyParent.appendChild(inky);
+            inkyStuck = inkyBewegen(inkyStuck)
+        }, 3000);
+    }
 
     return inkyStuck;
 }
@@ -787,8 +934,36 @@ function ded(){
         for(let j = 1; j < 20; j++){
             let elm = document.getElementById(`${i}/${j}`);
             if((regexPattern.test(elm.className) || elm.classList.contains('clyde')) && elm.classList.contains('spieler')){
-                alert('ded');
-                location.reload();
+                if(modus == 'frightened'){
+                    let klasse = elm.classList;
+                    let geistName = klasse.item(klasse.length - 1);
+                    document.getElementById(geistName).remove();
+                    elm.classList.remove(geistName);
+        
+                    switch(geistName){
+                        case 'blinky':
+                            blinkyBewegung = false;
+                            break;
+                        case 'pinky':
+                            pinkyBewegung = false;
+                            break;
+                        case 'inky':
+                            inkyBewegung = false;
+                            break;
+                        case 'clyde':
+                            clydeBewegung = false;
+                            break;
+                    }
+        
+                    let parentContainer = document.getElementById('12/9');
+                    let geist = document.createElement('div');
+                    geist.id = geistName;
+                    parentContainer.appendChild(geist);
+        
+                }else{
+                    alert('ded');
+                    location.reload();
+                }
             }
         }
     }
@@ -807,6 +982,8 @@ setInterval(bewegen, 500);
 blinkyBewegen(blinkyStuck);
 
 setTimeout(function(){
+    document.getElementById('clyde').remove();
+
     let clydeParent = document.getElementById('10/10');
     clydeParent.classList.add('clyde');
     let clyde = document.createElement('div');
@@ -816,6 +993,8 @@ setTimeout(function(){
     clydeBewegen(clydeStuck);
 
     setTimeout(function(){
+        document.getElementById('pinky').remove();
+
         let pinkyParent = document.getElementById('10/10');
         pinkyParent.classList.add('pinky');
         let pinky = document.createElement('div');
@@ -825,6 +1004,8 @@ setTimeout(function(){
         pinkyBewegen(pinkyStuck);
 
         setTimeout(function(){
+            document.getElementById('inky').remove();
+
             let inkyParent = document.getElementById('10/10');
             inkyParent.classList.add('inky');
             let inky = document.createElement('div');
