@@ -9,7 +9,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-.game-board {
+.gameBoard {
   display: grid;
   grid-template-columns: repeat(4, 100px);
   grid-gap: 15px;
